@@ -12,7 +12,7 @@ import site from '../data/site.json';
       <li class="reveal" style={`--delay:${(i % 3) * 80}ms`}>
         <article class="card card-hover edu-card" data-glow>
           <div class="edu-top">
-            <span class="year">{e.period}</span>
+            <span class={`year ${/^\d{4}$/.test(e.period) ? '' : 'long'}`}>{e.period}</span>
             <span class="cap" aria-hidden="true">
               <Icon name="graduation" size={18} />
             </span>
@@ -65,6 +65,10 @@ import site from '../data/site.json';
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+  .year.long {
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
   }
   .cap {
     width: 2.3rem;

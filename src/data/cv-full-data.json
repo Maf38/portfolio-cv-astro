@@ -10,9 +10,9 @@
       "driverLicense": "Driving license B and vehicle"
     },
     "about": [
-      "Currently working as a .NET Developer on a multi-application maintenance team managing 70+ applications, I split my time between build and run operations across a web-focused application portfolio. My daily environment revolves around Microsoft technologies: Windows Server, IIS, Azure DevOps for CI/CD pipelines, and SQL Server 2014/2019 for database management.",
-      "I'm a versatile developer who has experimented with various technologies throughout my career. I have a real passion for web technologies and I'm thrilled to have made a professional shift that allows me to practice them daily. However, I remain fundamentally a backend-oriented developer. My industrial background naturally exposed me to Lean concepts, and I deeply appreciate Agile work organization. Over time, I've also been increasingly drawn to Linux systems, containerization, and Node.js ecosystem, as these perfectly align with the projects I build on a daily basis. My goal is naturally to evolve professionally within these technologies to further enhance my skills.",
-      "My objective is to build robust, maintainable, and automated software systems, anticipating the evolution of development practices toward more artificial intelligence and automation. I don't just aim to write code that works, but to create professional architectures that will stand the test of time and team changes."
+      "Currently working as a .NET Developer at Inetum, on a maintenance mission for the ANR (Agence Nationale de la Recherche) on the SIM platform — a legacy ASP.NET WebForms application used to manage national research grant calls (appels à projets). The stack itself is intentionally conservative, but the way I work on it isn't: GitHub Copilot and AI coding assistants are now part of my daily workflow, and that's reshaping the job itself.",
+      "I'm increasingly acting as an orchestrator rather than a line-by-line coder: framing the problem, reviewing and steering AI-generated code, enforcing architecture and quality standards, and making the calls that still require judgment and business context. I explore the same agentic approach in my personal projects with Claude Code, which keeps this practice sharp outside of legacy-stack constraints.",
+      "To broaden this profile, I started an Expert DevOps training (OpenClassrooms, RNCP Level 7) at the end of June 2026, covering Docker, Kubernetes, CI/CD, and Infrastructure-as-Code (Terraform, Ansible) — building on my exposure to the Azure DevOps and SonarQube tooling used during my previous mission at CEA. My industrial background (13 years at ST Microelectronics) keeps me grounded in Lean and quality discipline, and I'm currently open to new opportunities where this AI-augmented, DevOps-oriented profile can add value."
     ],
     "experience": [
       {
@@ -159,6 +159,12 @@
     ],
     "education": [
       {
+        "year": "2026 — Present",
+        "title": "Expert DevOps (RNCP Level 7, in progress)",
+        "institution": "OpenClassrooms",
+        "description": "Certifying program covering CI/CD, Docker, Kubernetes, Infrastructure-as-Code (Terraform, Ansible), cloud (AWS/Azure), ELK, SonarQube. Started June 2026."
+      },
+      {
         "year": "2019",
         "title": "Professional certification in Software Development",
         "institution": "AFPA, Grenoble",
@@ -207,9 +213,9 @@
       "driverLicense": "Permis B et véhicule"
     },
     "about": [
-      "Actuellement Développeur .NET au sein d'une équipe de maintenance multi-applications gérant plus de 70 applications, je partage mon temps entre les opérations de build et de run sur un portefeuille applicatif orienté web. Mon environnement quotidien s'articule autour des technologies Microsoft : Windows Server, IIS, Azure DevOps pour les pipelines CI/CD, et SQL Server 2014/2019 pour la gestion des bases de données.",
-      "Je suis un développeur polyvalent qui a expérimenté diverses technologies tout au long de ma carrière. J'ai une réelle passion pour les technologies web et je suis ravi d'avoir effectué une transition professionnelle qui me permet de les pratiquer quotidiennement. Cependant, je reste fondamentalement un développeur orienté backend. Mon parcours industriel m'a naturellement exposé aux concepts Lean, et j'apprécie profondément l'organisation de travail Agile. Au fil du temps, je me suis également de plus en plus tourné vers les systèmes Linux, la conteneurisation et l'écosystème Node.js, car ces technologies s'alignent parfaitement avec les projets que je construis au quotidien.",
-      "Je m'efforce de construire des systèmes logiciels robustes, maintenables et automatisés, en anticipant l'évolution des pratiques de développement vers plus d'intelligence artificielle et d'automatisation. Au-delà d'écrire du code qui fonctionne, je cherche à créer des architectures professionnelles qui résisteront à l'épreuve du temps et aux changements d'équipes — tout en continuant à progresser au sein de ces technologies qui me passionnent."
+      "Actuellement Développeur .NET chez Inetum, en mission pour l'ANR (Agence Nationale de la Recherche) sur la plateforme SIM — une application legacy ASP.NET WebForms utilisée pour gérer les appels à projets de recherche nationaux. La stack technique est volontairement ancienne, mais ma façon de travailler dessus ne l'est pas : GitHub Copilot et les assistants IA font désormais partie intégrante de mon quotidien, et cela change la nature même du métier.",
+      "Je deviens de plus en plus un orchestrateur plutôt qu'un développeur ligne à ligne : cadrer le besoin, relire et piloter le code généré par l'IA, garantir l'architecture et la qualité, et prendre les décisions qui nécessitent encore du jugement et du contexte métier. J'approfondis cette même approche agentique sur mes projets personnels avec Claude Code, ce qui me permet de garder cette pratique affûtée en dehors des contraintes de la stack legacy.",
+      "Pour élargir ce profil, j'ai débuté fin juin 2026 une formation Expert DevOps (OpenClassrooms, titre RNCP niveau 7), couvrant Docker, Kubernetes, CI/CD et l'Infrastructure-as-Code (Terraform, Ansible) — en complément de mon exposition aux outils Azure DevOps et SonarQube utilisés lors de ma précédente mission au CEA. Mon parcours industriel (13 ans chez ST Microelectronics) m'a apporté une rigueur Lean et un vrai sens de la qualité, et je suis aujourd'hui ouvert à de nouvelles opportunités où ce profil hybride IA/DevOps peut apporter de la valeur."
     ],
     "experience": [
       {
@@ -355,6 +361,12 @@
       }
     ],
     "education": [
+      {
+        "year": "2026 — Aujourd'hui",
+        "title": "Expert DevOps (titre RNCP niveau 7, en cours)",
+        "institution": "OpenClassrooms",
+        "description": "Formation certifiante : CI/CD, Docker, Kubernetes, Infrastructure-as-Code (Terraform, Ansible), cloud (AWS/Azure), ELK, SonarQube. Débutée en juin 2026."
+      },
       {
         "year": "2019",
         "title": "Titre professionnel Concepteur Développeur Informatique",

@@ -55,7 +55,7 @@ const resume = site.ui.resumeLink;
 
     <h1 class="name reveal" style="--delay:80ms">
       {header.name.split(' ').map((w, i) => (
-        <span class={i === 1 ? 'grad-text' : 'first'}>{w}</span>
+        <span class={i === 0 ? 'first' : ''}>{w}</span>
       ))}
     </h1>
 
@@ -111,8 +111,7 @@ const resume = site.ui.resumeLink;
       <defs>
         <linearGradient id="loop-grad" x1={-A} x2={A} y1="0" y2="0" gradientUnits="userSpaceOnUse">
           <stop offset="0" stop-color="var(--primary)"></stop>
-          <stop offset="0.55" stop-color="var(--secondary)"></stop>
-          <stop offset="1" stop-color="var(--tertiary)"></stop>
+          <stop offset="1" stop-color="var(--secondary)"></stop>
         </linearGradient>
         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="4" result="b"></feGaussianBlur>

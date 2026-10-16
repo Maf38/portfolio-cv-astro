@@ -1,27 +1,29 @@
 {
   "_notes": [
     "Site content is English only (html lang=en). No i18n/language switch on the page; the only FR/EN switch is the two CV download buttons, which generate a PDF client-side (pdfMake via PdfExportService) from cv-full-data.json (.fr / .en). The 'View Full Résumé' button triggers the EN PDF. Astro must reimplement or replace this (e.g. pre-generated PDFs).",
-    "Experience and education are rendered by @for loops over cv-data.json (experience: 10 entries, education: 6) in JSON order; values here are copied verbatim from that file. Displayed: period (=duration), position + company, description, technologies. Fields via/location/type/startDate/endDate/current are in the data but NOT displayed on the page.",
+    "Experience and education are rendered by @for loops over cv-data.json (experience: 10 entries, education: 7) in JSON order; values here are copied verbatim from that file. Displayed: period (=duration), position + company, description, technologies. Fields via/location/type/startDate/endDate/current are in the data but NOT displayed on the page.",
     "Experience title: if companyUrl is set, position+company are wrapped in a link to companyUrl (company span text is ' '+company); otherwise plain text. Company strings already include a leading '· ' for some entries (Cerberis, ST Microelectronics, Canalog, 68ème RAA) but not for Inetum/Capgemini ones — inconsistent separator, rendered as-is.",
     "Experience logos are chosen in app.html by exact company string match. Three entries share company 'Capgemini - EDF' (exp-2..4) so all three show Capgemini+EDF logos. 'Capgemini (EDF / Rio Tinto)' uses a stacked layout (row 1: Capgemini; row 2: EDF + Rio Tinto). '· Cerberis' has no logo. Logo 'size' is the CSS class (large/small/medium/x-small/null=default).",
     "Education subtitle is displayed as '· {school}, {location}' (see displayedSubtitle); level/grade/dates are not displayed.",
-    "Projects section is hard-coded in app.html (NOT from cv-data.json, whose 'projects' array has 5 different entries partly in French and is unused on the page). Order: 1 featured (IFTTT-Trading with 6 sub-projects) then 8 project cards. The featured card has no icon links of its own; its title links to Notion.",
-    "Project 'private' = uses github-private-mono icon with title 'Private Repository'. Status badge 'In Progress' shown on Ivey Poker Bot, Oter IPTV, Claude Visual Code. Note GitHub org differs: Maf38 vs MafLabs38.",
+    "Projects section is hard-coded in app.html (NOT from cv-data.json, whose 'projects' array has 5 different entries partly in French and is unused on the page). Order: 1 featured (IFTTT-Trading with 6 sub-projects) then 10 project cards in display order.",
+    "Project 'private' = uses github-private-mono icon with title 'Private Repository'. Status badge 'Paused' shown on Ivey Poker Bot only (v1.2.0 removed the 'In Progress' badges). Note GitHub org differs: Maf38 vs MafLabs38.",
     "Header version line is computed: 'v{VERSION_INFO.version} • {buildDate | date:'MMM d, y'}' from src/environments/version.ts (auto-generated at build; currently 1.0.0 / 2025-11-30, while package.json is 1.1.0).",
     "Header social icons for GitHub, LinkedIn, Contact (phone) and JIRA are inline SVG paths in header.component.html (not files); SonarQube uses an <img>. Contact icon opens the contact modal (no href).",
     "There is no footer in the Angular site (footer: null).",
     "Hidden off-screen <app-cv-printable> component exists only for PDF export; its content comes from cv-full-data.json (copied alongside). Not user-visible on the page.",
     "Mouse-following spotlight radial gradient on desktop (>=1024px) is a visual effect only (ui.spotlight).",
-    "meta.og.description differs from meta.description and contains typos (kept verbatim). jsonLd jobTitle 'Senior Full-Stack Developer' differs from the header title 'Senior Software Engineer'.",
+    "meta.og.description is longer than meta.description (kept verbatim). jsonLd jobTitle '.NET Developer' / worksFor 'Inetum' differs from the header title 'AI-Augmented .NET Developer'.",
     "sitemap.xml lists https://mafalgai.com/cv, which is not an actual separate page in the current app.",
     "Images in public/assets/images/ifttt-trading/*.png and non-mono logo variants are present but not referenced by the page (listed in assets.unusedImages). src/assets/images (photo-profile.jpg, pdf-file-type.svg) is not served by Angular (only public/ is) and was not copied.",
-    "Inline links in text are written as markdown [text](url) (only in the Portfolio CV project description). '@' entities (&#64;) in setup items decoded to '@'."
+    "Inline links in text are written as markdown [text](url) (only in the Portfolio CV project description). '@' entities (&#64;) in setup items decoded to '@'.",
+    "Source: origin/main v1.2.0 export (cv-data meta.lastUpdated 2026-09-13). version.ts in that export is still 1.0.0 / 2025-11-30 (auto-generated at build), so header.versionInfo.version stays 1.0.0 while packageVersion is set to 1.2.0 (per coordinator; package.json was not in the export).",
+    "Education edu-0 'Expert DevOps (in progress)' has period 'Since June 2026' (not a year) and location 'Remote'."
   ],
   "meta": {
     "lang": "en",
     "title": "Mafal Gai - Full-Stack Developer | Angular, .NET, TypeScript",
     "metaTitle": "Mafal Gai - Full-Stack Developer",
-    "description": "Full-Stack Developer with 6 years of experience. Expertise in Angular, .NET Core, TypeScript, Azure and Docker. Open to new opportunities.",
+    "description": "Full-Stack .NET Developer with 7 years of experience, currently at Inetum. Expertise in Angular, .NET Core, TypeScript, Azure and Docker, with a growing focus on AI-augmented development (GitHub Copilot, Claude Code). Open to new opportunities.",
     "keywords": "Mafal Gai, full-stack developer, Angular, .NET, TypeScript, Azure, Docker, Grenoble",
     "author": "Mafal Gai",
     "robots": "index, follow",
@@ -31,7 +33,7 @@
       "type": "website",
       "url": "https://mafalgai.com/",
       "title": "Mafal Gai - Full-Stack Developer",
-      "description": "Full-Stack Developer with 6 years of experience. Expertise .NET, .NET Core, TypeScript,and SQL.I also train my vibe coding skill during my free time exploring many stacks with Claude Code in an agnostic mindset. My objective is to build solid integration infrastructure to create quality code with 0% code produce by myself (use of template,context memory, rules of code, linting, sonarqube audit, unit testing, UI testing with playwright,retro control agentic workflow with pupetter etc...)",
+      "description": "Full-Stack .NET Developer with 7 years of experience, currently at Inetum. Expertise in Angular, .NET Core, TypeScript, Azure, Docker and SQL Server, with day-to-day use of GitHub Copilot and Claude Code that pushes my role toward orchestrating and reviewing AI-assisted code (testing, linting, SonarQube quality gates) rather than writing every line by hand. Open to new opportunities.",
       "image": "https://mafalgai.com/assets/images/og-image.png",
       "locale": "en_US"
     },
@@ -39,7 +41,7 @@
       "card": "summary_large_image",
       "url": "https://mafalgai.com/",
       "title": "Mafal Gai - Full-Stack Developer",
-      "description": "Full-Stack Developer with 6 years of experience. Expertise in Angular, .NET Core, TypeScript, Azure and Docker.",
+      "description": "Full-Stack .NET Developer with 7 years of experience, currently at Inetum. Expertise in Angular, .NET Core, TypeScript, Azure and Docker.",
       "image": "https://mafalgai.com/assets/images/og-image.png"
     },
     "favicon": "/favicon.svg",
@@ -49,10 +51,10 @@
       "name": "Mafal Gai",
       "url": "https://mafalgai.com",
       "image": "https://mafalgai.com/assets/images/cv/photo-cv.png",
-      "jobTitle": "Senior Full-Stack Developer",
+      "jobTitle": ".NET Developer",
       "worksFor": {
         "@type": "Organization",
-        "name": "Open to opportunities"
+        "name": "Inetum"
       },
       "sameAs": [
         "https://www.linkedin.com/in/mafal-gai-7a456817a/",
@@ -87,7 +89,7 @@
   "header": {
     "name": "Mafal Gai",
     "nameHref": "/",
-    "title": "Senior Software Engineer",
+    "title": "AI-Augmented .NET Developer",
     "tagline": "I build automated and robust digital experiences with a lean mindset and modern web technologies.",
     "navAriaLabel": "In-page jump links",
     "nav": [
@@ -180,7 +182,7 @@
     "versionInfo": {
       "template": "v{version} • {buildDate:MMM d, y}",
       "version": "1.0.0",
-      "packageVersion": "1.1.0",
+      "packageVersion": "1.2.0",
       "buildDate": "2025-11-30T00:00:00.000Z",
       "renderedExample": "v1.0.0 • Nov 30, 2025"
     }
@@ -188,9 +190,9 @@
   "about": {
     "heading": "About",
     "paragraphs": [
-      "Currently working as a .NET Developer on a multi-application maintenance team managing 70+ applications, I split my time between build and run operations across a web-focused application portfolio. My daily environment revolves around Microsoft technologies: Windows Server, IIS, Azure DevOps for CI/CD pipelines, and SQL Server 2014/2019 for database management.",
-      "I'm a versatile developer who has experimented with various technologies throughout my career. I have a real passion for web technologies and I'm thrilled to have made a professional shift that allows me to practice them daily. However, I remain fundamentally a backend-oriented developer. My industrial background naturally exposed me to Lean concepts, and I deeply appreciate Agile work organization. Over time, I've also been increasingly drawn to Linux systems, containerization, and Node.js ecosystem, as these perfectly align with the projects I build on a daily basis. My goal is naturally to evolve professionally within these technologies to further enhance my skills.",
-      "My objective is to build robust, maintainable, and automated software systems, anticipating the evolution of development practices toward more artificial intelligence and automation. I don't just aim to write code that works, but to create professional architectures that will stand the test of time and team changes."
+      "Currently working as a .NET Developer at Inetum, on a maintenance mission for the ANR (Agence Nationale de la Recherche) on the SIM platform — a legacy ASP.NET WebForms application used to manage national research grant calls (appels à projets). The stack itself is intentionally conservative, but the way I work on it isn't: GitHub Copilot and AI coding assistants are now part of my daily workflow, and that's reshaping the job itself.",
+      "I'm increasingly acting as an orchestrator rather than a line-by-line coder: framing the problem, reviewing and steering AI-generated code, enforcing architecture and quality standards, and making the calls that still require judgment and business context. I explore the same agentic approach in my personal projects with Claude Code, which keeps this practice sharp outside of legacy-stack constraints.",
+      "To broaden this profile, I started an Expert DevOps training (OpenClassrooms, RNCP Level 7) at the end of June 2026, covering Docker, Kubernetes, CI/CD, and Infrastructure-as-Code (Terraform, Ansible) — building on my exposure to the Azure DevOps and SonarQube tooling used during my previous mission at CEA. My industrial background (13 years at ST Microelectronics) keeps me grounded in Lean and quality discipline, and I'm currently open to new opportunities where this AI-augmented, DevOps-oriented profile can add value."
     ]
   },
   "experience": [
@@ -736,6 +738,148 @@
     ],
     "others": [
       {
+        "id": "dictee-universelle",
+        "name": "Dictée universelle",
+        "titleHref": "https://github.com/MafLabs38/voice-to-text-dev",
+        "statusBadge": null,
+        "private": false,
+        "links": [
+          {
+            "icon": "github-mono",
+            "iconSrc": "/assets/images/logos/github-mono.svg",
+            "href": "https://github.com/MafLabs38/voice-to-text-dev",
+            "ariaLabel": "GitHub",
+            "alt": "GitHub"
+          }
+        ],
+        "description": "System-wide voice dictation for Windows: a global hotkey or mouse button starts recording from any application, transcribes via the OpenAI API, and auto-pastes the text into the focused field. Encrypted API key storage (DPAPI), floating overlay, MIT licensed with signed GitHub releases.",
+        "technologies": [
+          ".NET 10",
+          "WPF",
+          "NAudio",
+          "OpenAI API",
+          "Inno Setup",
+          "GitHub Actions"
+        ],
+        "images": []
+      },
+      {
+        "id": "bioroutine",
+        "name": "BioRoutine",
+        "titleHref": "https://github.com/MafLabs38/bio-routine",
+        "statusBadge": null,
+        "private": true,
+        "links": [
+          {
+            "icon": "github-private-mono",
+            "iconSrc": "/assets/images/logos/github-private-mono.svg",
+            "href": "https://github.com/MafLabs38/bio-routine",
+            "ariaLabel": "GitHub (Private)",
+            "title": "Private Repository",
+            "alt": "GitHub Private"
+          }
+        ],
+        "description": "Personal health and wellness tracker used daily, centralizing Huawei Health and Strava data with manual nutrition logging into a unified dashboard, augmented by a voice-driven AI assistant (Claude) for managing routines and a calendar. Includes a companion Android app (HC Webhook, published on Google Play) bridging Health Connect sources to the backend via webhooks, and n8n workflows for OAuth2 token refresh and automated syncs.",
+        "technologies": [
+          "React Native",
+          "Next.js",
+          "Fastify",
+          "Kotlin / Jetpack Compose",
+          "n8n",
+          "Claude API",
+          "OAuth2"
+        ],
+        "images": []
+      },
+      {
+        "id": "claude-visual-code",
+        "name": "Claude Visual Code",
+        "titleHref": "https://github.com/MafLabs38/claude-visual-code",
+        "statusBadge": null,
+        "private": true,
+        "links": [
+          {
+            "icon": "github-private-mono",
+            "iconSrc": "/assets/images/logos/github-private-mono.svg",
+            "href": "https://github.com/MafLabs38/claude-visual-code",
+            "ariaLabel": "GitHub (Private)",
+            "title": "Private Repository",
+            "alt": "GitHub Private"
+          }
+        ],
+        "description": "Voice-first mobile client for Claude Code. Dictate your intent from your Android phone, watch Claude work in real-time, browse files, and use the terminal. Includes a companion VS Code extension (CVC Voice Injector) for bridging voice input to Claude Code in code-server.",
+        "technologies": [
+          "Flutter",
+          "Dart",
+          "code-server",
+          "WebView",
+          "STT",
+          "VS Code API",
+          "JavaScript",
+          "SSH"
+        ],
+        "images": []
+      },
+      {
+        "id": "oter-iptv",
+        "name": "Oter IPTV",
+        "titleHref": "https://github.com/MafLabs38/oter-iptv",
+        "statusBadge": null,
+        "private": true,
+        "links": [
+          {
+            "icon": "github-private-mono",
+            "iconSrc": "/assets/images/logos/github-private-mono.svg",
+            "href": "https://github.com/MafLabs38/oter-iptv",
+            "ariaLabel": "GitHub (Private)",
+            "title": "Private Repository",
+            "alt": "GitHub Private"
+          }
+        ],
+        "description": "Modern IPTV player for Windows with Fluent Design. Supports M3U and Xtream Codes API, automatic metadata enrichment via TMDb, smart playback resume, offline downloads, and adaptive buffering for optimal streaming performance.",
+        "technologies": [
+          "C# 12",
+          "WinUI 3",
+          ".NET 9",
+          "MVVM",
+          "SQLite",
+          "EF Core",
+          "LibVLCSharp",
+          "TMDb API",
+          "MSIX"
+        ],
+        "images": []
+      },
+      {
+        "id": "ivey-poker-bot",
+        "name": "Ivey Poker Bot",
+        "titleHref": "https://github.com/MafLabs38/ivey-poker-bot",
+        "statusBadge": "Paused",
+        "private": true,
+        "links": [
+          {
+            "icon": "github-private-mono",
+            "iconSrc": "/assets/images/logos/github-private-mono.svg",
+            "href": "https://github.com/MafLabs38/ivey-poker-bot",
+            "ariaLabel": "GitHub (Private)",
+            "title": "Private Repository",
+            "alt": "GitHub Private"
+          }
+        ],
+        "description": "AI-powered autonomous poker bot with universal vision (OCR/YOLO). Captures the screen, detects cards via YOLOv8, calculates probabilities and recommends (or executes) optimal actions. Three modes: observer (HUD), semi-auto, and fully autonomous. Built-in player tracker with VPIP/PFR/AF/3Bet stats.",
+        "technologies": [
+          "Python",
+          "YOLOv8",
+          "Tesseract OCR",
+          "FastAPI",
+          "SQLite",
+          "Docker",
+          "Tkinter HUD",
+          "uv"
+        ],
+        "images": []
+      },
+      {
         "id": "portfolio-cv",
         "name": "Portfolio CV",
         "titleHref": "https://github.com/Maf38/portfolio-cv",
@@ -869,98 +1013,23 @@
           "MVVM"
         ],
         "images": []
-      },
-      {
-        "id": "ivey-poker-bot",
-        "name": "Ivey Poker Bot",
-        "titleHref": "https://github.com/MafLabs38/ivey-poker-bot",
-        "statusBadge": "In Progress",
-        "private": true,
-        "links": [
-          {
-            "icon": "github-private-mono",
-            "iconSrc": "/assets/images/logos/github-private-mono.svg",
-            "href": "https://github.com/MafLabs38/ivey-poker-bot",
-            "ariaLabel": "GitHub (Private)",
-            "title": "Private Repository",
-            "alt": "GitHub Private"
-          }
-        ],
-        "description": "AI-powered autonomous poker bot with universal vision (OCR/YOLO). Captures the screen, detects cards via YOLOv8, calculates probabilities and recommends (or executes) optimal actions. Three modes: observer (HUD), semi-auto, and fully autonomous. Built-in player tracker with VPIP/PFR/AF/3Bet stats.",
-        "technologies": [
-          "Python",
-          "YOLOv8",
-          "Tesseract OCR",
-          "FastAPI",
-          "SQLite",
-          "Docker",
-          "Tkinter HUD",
-          "uv"
-        ],
-        "images": []
-      },
-      {
-        "id": "oter-iptv",
-        "name": "Oter IPTV",
-        "titleHref": "https://github.com/MafLabs38/oter-iptv",
-        "statusBadge": "In Progress",
-        "private": true,
-        "links": [
-          {
-            "icon": "github-private-mono",
-            "iconSrc": "/assets/images/logos/github-private-mono.svg",
-            "href": "https://github.com/MafLabs38/oter-iptv",
-            "ariaLabel": "GitHub (Private)",
-            "title": "Private Repository",
-            "alt": "GitHub Private"
-          }
-        ],
-        "description": "Modern IPTV player for Windows with Fluent Design. Supports M3U and Xtream Codes API, automatic metadata enrichment via TMDb, smart playback resume, offline downloads, and adaptive buffering for optimal streaming performance.",
-        "technologies": [
-          "C# 12",
-          "WinUI 3",
-          ".NET 9",
-          "MVVM",
-          "SQLite",
-          "EF Core",
-          "LibVLCSharp",
-          "TMDb API",
-          "MSIX"
-        ],
-        "images": []
-      },
-      {
-        "id": "claude-visual-code",
-        "name": "Claude Visual Code",
-        "titleHref": "https://github.com/MafLabs38/claude-visual-code",
-        "statusBadge": "In Progress",
-        "private": true,
-        "links": [
-          {
-            "icon": "github-private-mono",
-            "iconSrc": "/assets/images/logos/github-private-mono.svg",
-            "href": "https://github.com/MafLabs38/claude-visual-code",
-            "ariaLabel": "GitHub (Private)",
-            "title": "Private Repository",
-            "alt": "GitHub Private"
-          }
-        ],
-        "description": "Voice-first mobile client for Claude Code. Dictate your intent from your Android phone, watch Claude work in real-time, browse files, and use the terminal. Includes a companion VS Code extension (CVC Voice Injector) for bridging voice input to Claude Code in code-server.",
-        "technologies": [
-          "Flutter",
-          "Dart",
-          "code-server",
-          "WebView",
-          "STT",
-          "VS Code API",
-          "JavaScript",
-          "SSH"
-        ],
-        "images": []
       }
     ]
   },
   "education": [
+    {
+      "id": "edu-0",
+      "period": "Since June 2026",
+      "degree": "Expert DevOps (in progress)",
+      "school": "OpenClassrooms",
+      "location": "Remote",
+      "displayedSubtitle": "· OpenClassrooms, Remote",
+      "description": "RNCP Level 7 certifying training (Expert en développement logiciel): CI/CD, Docker, Kubernetes, Infrastructure-as-Code (Terraform, Ansible), cloud (AWS/Azure), ELK, SonarQube.",
+      "level": "Bac+5 / RNCP Level 7",
+      "grade": null,
+      "startDate": "2026-06",
+      "endDate": null
+    },
     {
       "id": "edu-1",
       "period": "2019",
@@ -1139,7 +1208,7 @@
     },
     "subProjectsTitle": "Sub-projects:",
     "statusBadges": [
-      "In Progress"
+      "Paused"
     ],
     "privateRepoTitle": "Private Repository",
     "spotlight": {

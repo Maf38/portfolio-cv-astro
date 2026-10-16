@@ -3,8 +3,8 @@
     "firstName": "Mafal",
     "lastName": "GAI",
     "fullName": "Mafal GAI",
-    "title": "Développeur .NET",
-    "subtitle": "6 ans d'expérience",
+    "title": ".NET Developer",
+    "subtitle": "7 years of experience",
     "birthDate": "1978-03-11",
     "email": "gaimafal@gmail.com",
     "phone": "+33 6 XX XX XX X7",
@@ -14,9 +14,9 @@
       "country": "France",
       "address": "rue Pierre Semard"
     },
-    "summary": "Développeur .NET avec 6 ans d'expérience dans le développement d'applications industrielles critiques pour EDF et CEA. Spécialisé en .NET, SQL Server, et technologies Microsoft. Parcours atypique : 15 ans d'expérience industrielle (ST Microelectronics) suivis d'une reconversion réussie dans le développement logiciel. Cette double compétence apporte une rigueur industrielle et un sens aigu de la qualité au développement d'applications métier.",
-    "tagline": "Développeur Full-Stack .NET spécialisé en applications industrielles critiques",
-    "availability": "Disponible pour nouvelles opportunités",
+    "summary": ".NET Developer with 7 years of experience, currently on a mission at Inetum for the ANR on a legacy ASP.NET WebForms application, with daily use of GitHub Copilot and AI assistants shifting my role toward more orchestration (framing, reviewing, and steering generated code) than line-by-line development. Enrolled in an Expert DevOps training (OpenClassrooms, RNCP Level 7) since June 2026. Atypical background: 15 years of industrial experience (ST Microelectronics) followed by a successful transition into software development, bringing industrial rigor and a strong sense of quality.",
+    "tagline": "Full-Stack .NET Developer specialized in critical industrial applications",
+    "availability": "Available for new opportunities",
     "social": {
       "github": "https://github.com/mafalgai",
       "linkedin": "https://linkedin.com/in/mafal-gai",
@@ -24,18 +24,18 @@
     },
     "languages": [
       {
-        "name": "Français",
-        "level": "Langue maternelle",
+        "name": "French",
+        "level": "Native",
         "code": "fr-FR"
       },
       {
-        "name": "Anglais",
-        "level": "Intermédiaire/Avancé (B2)",
+        "name": "English",
+        "level": "Intermediate/Advanced (B2)",
         "code": "en-US"
       }
     ],
     "driving": {
-      "license": "Permis B",
+      "license": "Driving license B",
       "vehicle": true
     }
   },
@@ -263,6 +263,19 @@
     }
   ],
   "education": [
+    {
+      "id": "edu-0",
+      "degree": "Expert DevOps (in progress)",
+      "level": "Bac+5 / RNCP Level 7",
+      "school": "OpenClassrooms",
+      "location": "Remote",
+      "startDate": "2026-06",
+      "endDate": null,
+      "duration": "Since June 2026",
+      "description": "RNCP Level 7 certifying training (Expert en développement logiciel): CI/CD, Docker, Kubernetes, Infrastructure-as-Code (Terraform, Ansible), cloud (AWS/Azure), ELK, SonarQube.",
+      "courses": [],
+      "grade": null
+    },
     {
       "id": "edu-1",
       "degree": "Titre professionnel Concepteur Développeur Informatique",
@@ -813,66 +826,66 @@
   "certifications": [],
   "hobbies": [
     {
-      "name": "Ski",
+      "name": "Skiing",
       "category": "Sport",
       "icon": "ski"
     },
     {
-      "name": "VTT Descente & Enduro",
+      "name": "Downhill & Enduro MTB",
       "category": "Sport",
       "icon": "bike"
     },
     {
-      "name": "Randonnée",
+      "name": "Hiking",
       "category": "Sport",
       "icon": "hiking"
     },
     {
-      "name": "Jeux Vidéo FPS",
-      "category": "Loisir",
+      "name": "FPS Video Games",
+      "category": "Leisure",
       "icon": "gaming"
     }
   ],
   "softSkills": [
     {
-      "name": "Rigueur",
+      "name": "Rigor",
       "level": 5,
-      "description": "15 ans d'expérience industrielle appliquée au développement"
+      "description": "15 years of industrial experience applied to software development"
     },
     {
-      "name": "Travail en équipe",
+      "name": "Teamwork",
       "level": 5,
-      "description": "Collaboration Scrum, code review, partage de connaissances"
+      "description": "Scrum collaboration, code reviews, knowledge sharing"
     },
     {
-      "name": "Capacité d'apprentissage",
+      "name": "Learning agility",
       "level": 5,
-      "description": "Reconversion réussie, montée en compétence rapide sur nouvelles technologies"
+      "description": "Successful career change, fast upskilling on new technologies"
     },
     {
-      "name": "Autonomie",
+      "name": "Autonomy",
       "level": 4,
-      "description": "Référent technique, prise de décisions, gestion de projets"
+      "description": "Technical referent, decision-making, project management"
     },
     {
       "name": "Communication",
       "level": 4,
-      "description": "Rédaction technique, documentation, échanges avec éditeurs"
+      "description": "Technical writing, documentation, vendor liaison"
     },
     {
-      "name": "Résolution de problèmes",
+      "name": "Problem solving",
       "level": 5,
-      "description": "Debugging, optimisation, analyse de performance"
+      "description": "Debugging, optimization, performance analysis"
     }
   ],
   "meta": {
     "version": "2.0.0",
-    "lastUpdated": "2026-03-07",
+    "lastUpdated": "2026-09-13",
     "source": "Extraction exacte de app.html",
     "totalExperience": {
       "industry": 13,
-      "development": 6,
-      "total": 19
+      "development": 7,
+      "total": 20
     }
   }
 }

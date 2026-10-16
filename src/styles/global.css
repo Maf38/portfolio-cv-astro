@@ -27,21 +27,21 @@
   --text-muted: #4a5873;
   --text-faint: #7b88a1;
   --primary: #0e8fa8;
-  --secondary: #6d4ae6;
-  --tertiary: #d9467a;
+  --secondary: #0f9f6e;
+  --tertiary: #d98a06;
   --ok: #12a26b;
   --on-primary: #ffffff;
   --logo: #6b7a94;
   --logo-hover: var(--primary);
   --orbit: rgb(14 143 168 / 0.16);
-  --orbit-2: rgb(109 74 230 / 0.12);
+  --orbit-2: rgb(15 159 110 / 0.12);
   --grid-dot: rgb(15 23 42 / 0.07);
   --spotlight: rgb(14 143 168 / 0.1);
   --shadow-1: 0 1px 2px rgb(15 23 42 / 0.06), 0 1px 3px rgb(15 23 42 / 0.05);
   --shadow-2: 0 2px 6px rgb(15 23 42 / 0.06), 0 10px 30px -8px rgb(15 23 42 / 0.14);
   --shadow-3: 0 6px 16px rgb(15 23 42 / 0.08), 0 24px 60px -12px rgb(14 143 168 / 0.25);
   --glass: rgb(255 255 255 / 0.72);
-  --grad: linear-gradient(110deg, var(--primary), var(--secondary) 55%, var(--tertiary));
+  --grad: linear-gradient(110deg, var(--primary), var(--secondary));
 }
 
 [data-theme='dark'] {
@@ -57,13 +57,13 @@
   --text-muted: #9aa9c2;
   --text-faint: #64748b;
   --primary: #4fd8eb;
-  --secondary: #a48bff;
-  --tertiary: #ff7aa8;
+  --secondary: #3ddc97;
+  --tertiary: #f5b445;
   --ok: #3ee59a;
   --on-primary: #03141a;
   --logo: #94a3b8;
   --orbit: rgb(79 216 235 / 0.14);
-  --orbit-2: rgb(164 139 255 / 0.12);
+  --orbit-2: rgb(61 220 151 / 0.1);
   --grid-dot: rgb(148 163 184 / 0.08);
   --spotlight: rgb(79 216 235 / 0.07);
   --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
