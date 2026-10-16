@@ -1,8 +1,11 @@
 name: Deploy to GitHub Pages
 
+# Publishes two design variants side by side:
+#   main               → /portfolio-cv-astro/
+#   design/machinerie  → /portfolio-cv-astro/machinerie/
 on:
   push:
-    branches: [main]
+    branches: [main, 'design/**']
   workflow_dispatch:
 
 permissions:
@@ -19,17 +22,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main
+      - uses: actions/checkout@v4
+        with:
+          ref: design/machinerie
+          path: machinerie
+        continue-on-error: true
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npx playwright install --with-deps chromium
-      - run: npm run check
-      - run: npm run build
+      - name: Install Chromium (résumé PDF generation)
+        working-directory: main
+        run: npm ci && npx playwright install --with-deps chromium
+      - name: Build main
+        working-directory: main
+        run: npm run check && npm run build
+      - name: Build design/machinerie
+        if: hashFiles('machinerie/package.json') != ''
+        working-directory: machinerie
+        env:
+          BASE_PATH: /portfolio-cv-astro/machinerie
+        run: npm ci && npm run check && npm run build
+      - name: Assemble site
+        run: |
+          mkdir -p site
+          cp -r main/dist/. site/
+          if [ -d machinerie/dist ]; then mkdir -p site/machinerie && cp -r machinerie/dist/. site/machinerie/; fi
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: site
 
   deploy:
     needs: build
