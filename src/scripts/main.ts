@@ -170,3 +170,14 @@ if (finePointer && !reduceMotion && innerWidth >= 1024) {
     { passive: true },
   );
 }
+
+/* ---------- Close the CV menu on outside click / Escape ---------- */
+const cvMenu = document.querySelector<HTMLDetailsElement>('.cv-menu');
+if (cvMenu) {
+  document.addEventListener('click', (e) => {
+    if (cvMenu.open && !cvMenu.contains(e.target as Node)) cvMenu.open = false;
+  });
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') cvMenu.open = false;
+  });
+}

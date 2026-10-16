@@ -26,5 +26,10 @@ Company logos are monochrome SVGs in `public/assets/images/logos/*-mono.svg`. Th
 npm install
 npm run dev      # http://<host>:4321/portfolio-cv-astro/ (listens on 0.0.0.0)
 npm run check    # type-check
-npm run build    # static build in dist/
+npm run build    # static build in dist/ + résumé PDFs (dist/cv/*.pdf)
+npm run cv       # same, and copies the PDFs to public/cv/ so the dev server serves them
 ```
+
+## Résumé (CV)
+
+The résumé is an Astro page (`src/pages/cv/[lang].astro`, content in `src/data/cv-modern.ts`). After the build, `scripts/generate-cv.mjs` renders it to A4 PDFs with Chromium. The result is real vector text: selectable and readable by ATS tools. Locally you can set `CHROME_PATH` to reuse an installed Chromium.

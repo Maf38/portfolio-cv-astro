@@ -6,6 +6,14 @@ import site from '../data/site.json';
 
 const loop = lemniscatePath(17, 1.15, 120);
 const links = site.header.nav;
+const cvFiles = [
+  { code: 'FR', label: 'Français', aria: 'Download résumé in French (PDF)' },
+  { code: 'EN', label: 'English', aria: 'Download résumé in English (PDF)' },
+].map((f) => ({
+  ...f,
+  href: asset(`/cv/mafal-gai-cv-${f.code.toLowerCase()}.pdf`),
+  file: `CV_Mafal_Gai_${f.code}.pdf`,
+}));
 ---
 
 <header class="nav-wrap">
@@ -50,20 +58,26 @@ const links = site.header.nav;
     </ul>
 
     <div class="actions">
-      <div class="cv-group" role="group" aria-label={site.header.cvButtonsAriaLabel}>
-        <Icon name="download" size={16} />
-        {site.header.cvButtons.map((b) => (
-          <a
-            href={asset(`/cv/mafal-gai-cv-${b.lang}.pdf`)}
-            class="cv-btn"
-            aria-label={b.ariaLabel}
-            title={b.title}
-            download
-          >
-            {b.lang.toUpperCase()}
-          </a>
-        ))}
-      </div>
+      <details class="cv-menu">
+        <summary class="cv-trigger" aria-label="Download my résumé (PDF)">
+          <Icon name="download" size={16} />
+          <span>CV</span>
+          <span class="pdf">PDF</span>
+        </summary>
+        <div class="cv-pop" role="menu">
+          <p class="cv-pop-title">Download my résumé</p>
+          {cvFiles.map((f) => (
+            <a href={f.href} class="cv-item" role="menuitem" download={f.file} aria-label={f.aria}>
+              <span class="cv-flag">{f.code}</span>
+              <span class="cv-item-t">
+                <b>{f.label}</b>
+                <small>PDF · 2 pages</small>
+              </span>
+              <Icon name="download" size={16} />
+            </a>
+          ))}
+        </div>
+      </details>
 
       <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark / light theme">
         <span class="sun">
@@ -95,15 +109,10 @@ const links = site.header.nav;
       </li>
     </ul>
     <div class="sheet-cv" style={`--i:${links.length + 1}`}>
-      {site.header.cvButtons.map((b) => (
-        <a
-          href={asset(`/cv/mafal-gai-cv-${b.lang}.pdf`)}
-          class="btn btn-tonal"
-          aria-label={b.ariaLabel}
-          download
-        >
+      {cvFiles.map((f) => (
+        <a href={f.href} class="btn btn-tonal" aria-label={f.aria} download={f.file}>
           <Icon name="download" size={16} />
-          CV {b.lang.toUpperCase()}
+          CV {f.label}
         </a>
       ))}
     </div>
@@ -227,36 +236,108 @@ const links = site.header.nav;
     }
   }
 
-  .cv-group {
-    display: none;
-    align-items: center;
-    gap: 0.15rem;
-    padding: 0.2rem 0.2rem 0.2rem 0.65rem;
-    border-radius: 999px;
-    background: var(--surface-2);
-    border: 1px solid var(--outline);
-    color: var(--text-muted);
+  .cv-menu {
+    position: relative;
   }
-  @media (min-width: 560px) {
-    .cv-group {
-      display: inline-flex;
+  .cv-trigger {
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    height: 2.4rem;
+    padding: 0 0.55rem 0 0.85rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.86rem;
+    color: var(--on-primary);
+    background: var(--grad);
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 6px 18px -8px color-mix(in oklab, var(--primary) 70%, transparent);
+    transition: transform 0.2s ease;
+  }
+  .cv-trigger::-webkit-details-marker {
+    display: none;
+  }
+  .cv-trigger:active {
+    transform: scale(0.96);
+  }
+  .cv-trigger .pdf {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    padding: 0.15rem 0.35rem;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.22);
+  }
+  .cv-pop {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.6rem);
+    width: 15rem;
+    padding: 0.5rem;
+    border-radius: 1.2rem;
+    background: var(--surface);
+    border: 1px solid var(--outline);
+    box-shadow: var(--shadow-3);
+    animation: pop 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform-origin: top right;
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: scale(0.94) translateY(-4px);
     }
   }
-  .cv-btn {
+  .cv-pop-title {
+    padding: 0.35rem 0.6rem 0.45rem;
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.38rem 0.6rem;
-    border-radius: 999px;
-    text-decoration: none;
-    color: var(--text);
-    transition:
-      background-color 0.25s ease,
-      color 0.25s ease;
+    font-size: 0.7rem;
+    color: var(--text-faint);
   }
-  .cv-btn:hover {
-    background: var(--grad);
-    color: var(--on-primary);
+  .cv-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.6rem;
+    border-radius: 0.8rem;
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: background-color 0.2s ease;
+  }
+  .cv-item:hover {
+    background: var(--surface-2);
+    color: var(--primary);
+  }
+  .cv-flag {
+    width: 2.1rem;
+    height: 2.1rem;
+    display: grid;
+    place-items: center;
+    border-radius: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--primary);
+    background: color-mix(in oklab, var(--primary) 12%, transparent);
+  }
+  .cv-item-t {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+  }
+  .cv-item-t b {
+    color: var(--text);
+    font-size: 0.9rem;
+  }
+  .cv-item-t small {
+    font-size: 0.72rem;
+    color: var(--text-faint);
+  }
+  @media (max-width: 559px) {
+    .cv-menu {
+      display: none;
+    }
   }
 
   .icon-btn {
