@@ -20,7 +20,7 @@ const resume = site.ui.resumeLink;
 const BELT_Y = 372; // top surface of the belt
 const BELT_X0 = 64;
 const BELT_X1 = 690;
-const ST = { code: 112, build: 372, test: 532, deploy: 650 };
+const ST = { spec: -112, code: 112, build: 372, test: 532, deploy: 650 };
 const CRATES = 6;
 const gears = train(
   [
@@ -35,11 +35,22 @@ const [g1, g2, g3] = gears;
 const midRollers = [190, 300, 440, 590];
 const marks = ['.NET', 'SQL', 'API', 'UI', 'IaC', 'CI'];
 const callouts = [
-  { n: 1, x: ST.code, y: 222, label: 'code' },
-  { n: 2, x: ST.build, y: 156, label: 'build' },
-  { n: 3, x: ST.test + 74, y: 250, label: 'test' },
-  { n: 4, x: ST.deploy + 10, y: 296, label: 'deploy' },
+  { n: 1, x: ST.spec + 4, y: 150, label: 'spec' },
+  { n: 2, x: ST.code, y: 222, label: 'code' },
+  { n: 3, x: ST.build, y: 156, label: 'build' },
+  { n: 4, x: ST.test + 74, y: 250, label: 'test' },
+  { n: 5, x: ST.deploy + 10, y: 296, label: 'deploy' },
 ];
+// ① SPEC: drafting board (local coords, rotated) and the path a finished
+// spec sheet follows into the ② CODE hopper.
+const SPEC_LINES = [
+  { y: -10, w: 52 },
+  { y: -1, w: 60 },
+  { y: 8, w: 44 },
+  { y: 17, w: 58 },
+  { y: 26, w: 36 },
+];
+const SHEET_PATH = `M${ST.spec} 222 C ${ST.spec + 40} 120, ${ST.code - 70} 120, ${ST.code} 232`;
 const dialTicks = Array.from({ length: 9 }, (_, k) => {
   const a = ((-210 + k * 30) * Math.PI) / 180;
   return {
@@ -117,13 +128,14 @@ const dialTicks = Array.from({ length: 9 }, (_, k) => {
 
   <figure class="hero-visual reveal" style="--delay:200ms" aria-hidden="true">
     <svg
-      viewBox="0 0 720 470"
+      viewBox="-200 0 920 470"
       class="machine"
       data-machine
       data-x0={BELT_X0}
       data-x1={BELT_X1}
       data-build={ST.build}
       data-test={ST.test}
+      data-crates={CRATES}
     >
       <defs>
         <linearGradient id="iron" x1="0" y1="0" x2="0" y2="1">
@@ -154,7 +166,7 @@ const dialTicks = Array.from({ length: 9 }, (_, k) => {
             />
           </g>
         ))}
-        <path d={`M30 ${BELT_Y + 14} H705`} class="axis"></path>
+        <path d={`M-190 ${BELT_Y + 14} H705`} class="axis"></path>
         <path
           d={`M${g1.x} 14 L${g2.x} 14`}
           class="dimline"
@@ -176,7 +188,36 @@ const dialTicks = Array.from({ length: 9 }, (_, k) => {
         </text>
       </g>
 
-      <!-- ① CODE: hopper fed with source -->
+      <!-- ① SPEC: the drafting board where each spec is written first -->
+      <g class="spec-station">
+        <path
+          d={`M${ST.spec - 46} 258 L${ST.spec - 58} 452 M${ST.spec + 46} 246 L${ST.spec + 58} 452 M${ST.spec - 52} 360 H${ST.spec + 52}`}
+          class="iron-line legs"
+        ></path>
+        <g transform={`translate(${ST.spec} 228) rotate(-12)`}>
+          <rect x="-66" y="-36" width="132" height="76" rx="3" class="board"></rect>
+          <rect x="-66" y="34" width="132" height="6" class="board-lip"></rect>
+          <rect x="-40" y="-30" width="80" height="66" class="paper"></rect>
+          <text x="-34" y="-19" class="paper-title">
+            SPEC.md
+          </text>
+          {SPEC_LINES.map((l) => (
+            <path d={`M-34 ${l.y} h${l.w}`} pathLength="1" class="spec-line" data-spec-line />
+          ))}
+          <g data-pencil class="pencil-mini">
+            <path d="M0 0 L5 -16 L9 -15 L4 1 Z" />
+            <path d="M0 0 L1.4 -4.4 L3.6 -3.8 Z" class="tip" />
+          </g>
+        </g>
+        <!-- travelling spec sheet -->
+        <path d={SHEET_PATH} class="sheet-path" data-sheet-path></path>
+        <g data-sheet class="flying-sheet">
+          <rect x="-11" y="-14" width="22" height="28" rx="1" />
+          <path d="M-7 -8 h12 M-7 -3 h14 M-7 2 h10 M-7 7 h13" />
+        </g>
+      </g>
+
+      <!-- ② CODE: hopper fed by the spec -->
       <g class="hopper">
         <path
           d={`M${ST.code - 54} 238 H${ST.code + 54} L${ST.code + 22} 318 H${ST.code - 22} Z`}
@@ -233,7 +274,7 @@ const dialTicks = Array.from({ length: 9 }, (_, k) => {
         d={`M${BELT_X0 + 30} ${BELT_Y + 28} L${BELT_X0 + 10} 452 M${BELT_X1 - 30} ${BELT_Y + 28} L${BELT_X1 - 10} 452 M${(BELT_X0 + BELT_X1) / 2} ${BELT_Y + 28} V452`}
         class="iron-line legs"
       ></path>
-      <path d="M30 452 H705" class="ground"></path>
+      <path d="M-190 452 H705" class="ground"></path>
 
       <!-- crates (artifacts) — positioned every frame by the machine script -->
       {marks.map((m, i) => (
@@ -323,7 +364,7 @@ const dialTicks = Array.from({ length: 9 }, (_, k) => {
       ))}
     </svg>
     <figcaption class="caption">
-      <span>General assembly — delivery pipeline</span>
+      <span>General assembly — spec-driven delivery pipeline</span>
       <span>scale 1:1 · rev. C</span>
     </figcaption>
   </figure>
@@ -348,7 +389,7 @@ const dialTicks = Array.from({ length: 9 }, (_, k) => {
   }
   @media (min-width: 1024px) {
     .hero {
-      grid-template-columns: 0.9fr 1.1fr;
+      grid-template-columns: 0.82fr 1.18fr;
       padding-top: 6rem;
       gap: 1.5rem;
     }
@@ -490,7 +531,7 @@ const dialTicks = Array.from({ length: 9 }, (_, k) => {
   .hero-visual {
     margin: 0;
     width: 100%;
-    max-width: 720px;
+    max-width: 860px;
     justify-self: center;
   }
   .machine {
@@ -817,5 +858,58 @@ const dialTicks = Array.from({ length: 9 }, (_, k) => {
       opacity: 0;
       transform: translateY(10px);
     }
+  }
+
+  /* ① SPEC station */
+  .board {
+    fill: url(#iron);
+    stroke: var(--ink);
+  }
+  .board-lip {
+    fill: url(#brass-fill);
+    stroke: var(--ink);
+    stroke-width: 0.6;
+  }
+  .paper {
+    fill: #fbf6ea;
+    stroke: rgb(0 0 0 / 0.2);
+  }
+  .paper-title {
+    font-family: var(--font-mono);
+    font-size: 6.5px;
+    font-weight: 600;
+    fill: #9a6a22;
+  }
+  .spec-line {
+    fill: none;
+    stroke: #3b2a14;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  .pencil-mini path {
+    fill: #d9a441;
+    stroke: #5a3a10;
+    stroke-width: 0.5;
+  }
+  .pencil-mini .tip {
+    fill: #3b2a14;
+  }
+  .sheet-path {
+    fill: none;
+    stroke: var(--ink-faint);
+    stroke-dasharray: 3 5;
+  }
+  .flying-sheet {
+    opacity: 0;
+  }
+  .flying-sheet rect {
+    fill: #fbf6ea;
+    stroke: #9a6a22;
+  }
+  .flying-sheet path {
+    stroke: #3b2a14;
+    stroke-width: 1;
   }
 </style>
