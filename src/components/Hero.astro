@@ -1,0 +1,486 @@
+---
+import Icon from './Icon.astro';
+import { lemniscatePoint, lemniscatePath, outward, STAGES } from '../lib/loop';
+import { asset } from '../lib/utils';
+import site from '../data/site.json';
+
+const A = 300;
+const SQ = 1.25;
+const STEPS = 360;
+const d = lemniscatePath(A, SQ, STEPS);
+const LOOP_DUR = 12;
+
+// Arc-length fraction of each stage along the path (path starts at t = π),
+// so node pulses line up with the packets travelling at constant speed.
+const pts = Array.from({ length: STEPS + 1 }, (_, i) =>
+  lemniscatePoint(Math.PI + (i / STEPS) * Math.PI * 2, A, SQ),
+);
+const cum = [0];
+for (let i = 1; i < pts.length; i++)
+  cum.push(cum[i - 1] + Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y));
+const total = cum[cum.length - 1];
+const fractionOf = (t: number) => {
+  const norm = (((t - Math.PI) % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+  return cum[Math.round((norm / (Math.PI * 2)) * STEPS)] / total;
+};
+
+const stages = STAGES.map((s) => {
+  const p = lemniscatePoint(s.t, A, SQ);
+  // Near the crossing, labels go straight above/below the curve to avoid colliding.
+  const inner = Math.abs(p.x) < A * 0.4;
+  const l = inner ? { x: p.x, y: p.y + Math.sign(p.y) * 30 } : outward(p, A, 34);
+  return {
+    ...s,
+    p,
+    l,
+    anchor: inner ? 'middle' : l.x < p.x ? 'end' : 'start',
+    delay: fractionOf(s.t) * LOOP_DUR,
+  };
+});
+
+const packets = [0, 0.25, 0.5, 0.75];
+const { header } = site;
+const resume = site.ui.resumeLink;
+---
+
+<section id="top" class="hero">
+  <div class="hero-text">
+    <p class="status reveal">
+      <span class="pulse"></span>
+      <span class="mono">pipeline</span>
+      <span class="mono ok">● running</span>
+      <span class="sep">/</span>
+      <span class="mono muted">v2.0</span>
+    </p>
+
+    <h1 class="name reveal" style="--delay:80ms">
+      {header.name.split(' ').map((w, i) => (
+        <span class={i === 1 ? 'grad-text' : 'first'}>{w}</span>
+      ))}
+    </h1>
+
+    <p class="title reveal" style="--delay:160ms">
+      <span class="prompt">&gt;</span>
+      {header.title}
+      <span class="caret"></span>
+    </p>
+
+    <p class="tagline reveal" style="--delay:240ms">
+      {header.tagline}
+    </p>
+
+    <div class="ctas reveal" style="--delay:320ms">
+      <a href="#experience" class="btn btn-filled" data-ripple>
+        {site.ui.sectionHeadings.experience}
+        <Icon name="arrowDown" size={16} />
+      </a>
+      <a
+        href={asset('/cv/mafal-gai-cv-en.pdf')}
+        class="btn btn-tonal"
+        aria-label={resume.ariaLabel}
+        data-ripple
+        download
+      >
+        {resume.label}
+        <Icon name="arrowUpRight" size={16} />
+      </a>
+    </div>
+
+    <ul class="socials reveal" style="--delay:400ms" aria-label={header.socialsAriaLabel}>
+      {header.socials.map((s) => (
+        <li>
+          <a
+            href={s.action === 'openContactModal' ? '#contact' : s.href}
+            aria-label={s.ariaLabel}
+            title={s.label}
+            {...(s.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
+            {s.iconType === 'img' && s.iconSrc ? (
+              <span class="logo-mask social-mask" style={`--src:url('${asset(s.iconSrc)}')`} />
+            ) : (
+              <Icon name={s.icon} size={19} />
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="hero-visual reveal" style="--delay:200ms" aria-hidden="true">
+    <svg viewBox="-375 -175 750 350" class="loop">
+      <defs>
+        <linearGradient id="loop-grad" x1={-A} x2={A} y1="0" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="var(--primary)"></stop>
+          <stop offset="0.55" stop-color="var(--secondary)"></stop>
+          <stop offset="1" stop-color="var(--tertiary)"></stop>
+        </linearGradient>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="4" result="b"></feGaussianBlur>
+          <feMerge>
+            <feMergeNode in="b"></feMergeNode>
+            <feMergeNode in="SourceGraphic"></feMergeNode>
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- lobe labels -->
+      <text x={-A * 0.56} y="10" class="lobe">
+        DEV
+      </text>
+      <text x={A * 0.56} y="10" class="lobe">
+        OPS
+      </text>
+
+      <!-- concentric rings around each lobe centre -->
+      {[-1, 1].map((side) => (
+        <g class={`rings ${side < 0 ? 'rev' : ''}`}>
+          <ellipse cx={side * A * 0.56} cy="0" rx="62" ry="62" />
+          <ellipse cx={side * A * 0.56} cy="0" rx="92" ry="92" class="dashed" />
+        </g>
+      ))}
+
+      <path d={d} class="track"></path>
+      <path d={d} class="line" pathLength="1"></path>
+
+      {packets.map((offset, i) => (
+        <circle r={i === 0 ? 6 : 4} class={`packet p${i}`} filter="url(#glow)">
+          <animateMotion
+            dur={`${LOOP_DUR}s`}
+            repeatCount="indefinite"
+            path={d}
+            begin={`${-offset * LOOP_DUR}s`}
+          />
+        </circle>
+      ))}
+
+      {stages.map((s) => (
+        <g class={`stage ${s.side}`} style={`--d:${s.delay.toFixed(2)}s; --dur:${LOOP_DUR / 4}s`}>
+          <circle cx={s.p.x} cy={s.p.y} r="13" class="halo" />
+          <circle cx={s.p.x} cy={s.p.y} r="5.5" class="node" />
+          <text x={s.l.x} y={s.l.y + 4} text-anchor={s.anchor} class="label">
+            {s.key}
+          </text>
+        </g>
+      ))}
+    </svg>
+  </div>
+
+  <a href="#about" class="scroll-hint" aria-label="Scroll to content">
+    <span class="mouse">
+      <span></span>
+    </span>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 7.5rem 1rem 5rem;
+    display: grid;
+    align-items: center;
+    gap: 2.5rem;
+  }
+  @media (min-width: 1024px) {
+    .hero {
+      grid-template-columns: 1.05fr 1fr;
+      padding-top: 6rem;
+      gap: 1rem;
+    }
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.4rem 0.85rem 0.4rem 0.65rem;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--outline);
+    box-shadow: var(--shadow-1);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+  .mono {
+    font-family: var(--font-mono);
+  }
+  .ok {
+    color: var(--ok);
+  }
+  .muted,
+  .sep {
+    color: var(--text-faint);
+  }
+  .pulse {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--ok);
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--ok) 60%, transparent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    70% {
+      box-shadow: 0 0 0 9px transparent;
+    }
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+
+  .name {
+    margin: 1.4rem 0 0.6rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(3rem, 9vw, 6.2rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+  }
+  .name span {
+    display: inline-block;
+  }
+  .name .first {
+    margin-right: 0.22em;
+  }
+
+  .title {
+    font-family: var(--font-mono);
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .prompt {
+    color: var(--primary);
+  }
+  .caret {
+    display: inline-block;
+    width: 0.55em;
+    height: 1.1em;
+    margin-left: 0.15rem;
+    background: var(--primary);
+    animation: blink 1.1s steps(1) infinite;
+    border-radius: 1px;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .tagline {
+    margin-top: 1.1rem;
+    max-width: 30rem;
+    font-size: 1.08rem;
+    color: var(--text-muted);
+  }
+
+  .ctas {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .socials {
+    margin-top: 2rem;
+    display: flex;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+  }
+  .socials a {
+    width: 2.6rem;
+    height: 2.6rem;
+    display: grid;
+    place-items: center;
+    border-radius: 0.9rem;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+    transition:
+      color 0.25s ease,
+      background-color 0.25s ease,
+      transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+      border-color 0.25s ease;
+  }
+  .socials a:hover {
+    color: var(--primary);
+    background: var(--surface);
+    border-color: var(--outline);
+    transform: translateY(-3px);
+  }
+  .social-mask {
+    width: 19px;
+    height: 19px;
+    background-color: currentColor;
+  }
+
+  /* ---------- the loop ---------- */
+  .hero-visual {
+    width: 100%;
+    max-width: 680px;
+    justify-self: center;
+  }
+  .loop {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .track {
+    fill: none;
+    stroke: var(--outline-strong);
+    stroke-width: 14;
+    stroke-linejoin: round;
+    opacity: 0.55;
+  }
+  .line {
+    fill: none;
+    stroke: url(#loop-grad);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw 2.4s cubic-bezier(0.65, 0, 0.35, 1) 0.3s forwards;
+  }
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  .packet {
+    fill: var(--text);
+  }
+  .packet.p0 {
+    fill: var(--primary);
+  }
+  .packet.p2 {
+    fill: var(--secondary);
+  }
+
+  .lobe {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: 0.2em;
+    text-anchor: middle;
+    fill: var(--text);
+    opacity: 0.08;
+  }
+  .rings ellipse {
+    fill: none;
+    stroke: var(--orbit);
+    stroke-width: 1;
+  }
+  .rings .dashed {
+    stroke-dasharray: 2 6;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: spin 40s linear infinite;
+  }
+  .rings.rev .dashed {
+    animation-direction: reverse;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .stage .node {
+    fill: var(--surface);
+    stroke: var(--primary);
+    stroke-width: 2;
+  }
+  .stage.ops .node {
+    stroke: var(--secondary);
+  }
+  .stage .halo {
+    fill: var(--primary);
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: hit calc(var(--dur) * 4) linear infinite;
+    animation-delay: var(--d);
+  }
+  .stage.ops .halo {
+    fill: var(--secondary);
+  }
+  .stage .label {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    fill: var(--text-muted);
+    animation: label-hit calc(var(--dur) * 4) linear infinite;
+    animation-delay: var(--d);
+  }
+  @keyframes hit {
+    0% {
+      opacity: 0.45;
+      transform: scale(0.5);
+    }
+    10% {
+      opacity: 0;
+      transform: scale(1.6);
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes label-hit {
+    0%,
+    6% {
+      fill: var(--text);
+    }
+    14%,
+    100% {
+      fill: var(--text-muted);
+    }
+  }
+
+  .scroll-hint {
+    position: absolute;
+    left: 50%;
+    bottom: 1.8rem;
+    translate: -50% 0;
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .scroll-hint {
+      display: block;
+    }
+  }
+  .mouse {
+    display: block;
+    width: 22px;
+    height: 34px;
+    border: 1.6px solid var(--text-faint);
+    border-radius: 12px;
+    position: relative;
+  }
+  .mouse span {
+    position: absolute;
+    left: 50%;
+    top: 7px;
+    width: 3px;
+    height: 7px;
+    margin-left: -1.5px;
+    border-radius: 2px;
+    background: var(--primary);
+    animation: wheel 1.8s ease-in-out infinite;
+  }
+  @keyframes wheel {
+    0% {
+      opacity: 0;
+      transform: translateY(0);
+    }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+</style>

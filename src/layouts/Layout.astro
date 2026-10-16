@@ -1,0 +1,103 @@
+---
+import '../styles/global.css';
+import Background from '../components/Background.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { asset } from '../lib/utils';
+import site from '../data/site.json';
+
+const { meta } = site;
+const canonical = new URL(import.meta.env.BASE_URL, Astro.site).href;
+const ogImage = new URL(asset(site.assets.ogImage), Astro.site).href;
+---
+
+<!doctype html>
+<html lang={meta.lang} data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <meta name="keywords" content={meta.keywords} />
+    <meta name="author" content={meta.author} />
+    <meta name="robots" content={meta.robots} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={asset('/favicon.svg')} />
+    <meta name="theme-color" content="#060a13" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4f6fb" media="(prefers-color-scheme: light)" />
+
+    <meta property="og:type" content={meta.og.type} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={meta.og.title} />
+    <meta property="og:description" content={meta.og.description} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content={meta.twitter.card} />
+    <meta name="twitter:title" content={meta.twitter.title} />
+    <meta name="twitter:description" content={meta.twitter.description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(meta.jsonLd)} />
+    <!-- Theme before first paint: saved choice, else OS preference -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        var t = null;
+        try {
+          t = localStorage.getItem('theme');
+        } catch (e) {}
+        if (t !== 'light' && t !== 'dark') {
+          t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        d.setAttribute('data-theme', t);
+      })();
+    </script>
+  </head>
+  <body>
+    <a href="#about" class="skip">
+      Skip to content
+    </a>
+    <Background />
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      import '../scripts/main';
+    </script>
+    <style is:global>
+      .skip {
+        position: fixed;
+        left: 1rem;
+        top: -4rem;
+        z-index: 100;
+        padding: 0.6rem 1rem;
+        border-radius: 999px;
+        background: var(--primary);
+        color: var(--on-primary);
+        font-weight: 600;
+        transition: top 0.2s ease;
+      }
+      .skip:focus {
+        top: 1rem;
+      }
+      .section {
+        max-width: 72rem;
+        margin: 0 auto;
+        padding: 6rem 1rem;
+      }
+      @media (min-width: 768px) {
+        .section {
+          padding: 8rem 1.5rem;
+        }
+      }
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation: none;
+        mix-blend-mode: normal;
+      }
+    </style>
+  </body>
+</html>

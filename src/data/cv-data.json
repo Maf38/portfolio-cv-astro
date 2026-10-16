@@ -1,0 +1,878 @@
+{
+  "profile": {
+    "firstName": "Mafal",
+    "lastName": "GAI",
+    "fullName": "Mafal GAI",
+    "title": "Développeur .NET",
+    "subtitle": "6 ans d'expérience",
+    "birthDate": "1978-03-11",
+    "email": "gaimafal@gmail.com",
+    "phone": "+33 6 XX XX XX X7",
+    "location": {
+      "city": "Grenoble",
+      "postalCode": "38000",
+      "country": "France",
+      "address": "rue Pierre Semard"
+    },
+    "summary": "Développeur .NET avec 6 ans d'expérience dans le développement d'applications industrielles critiques pour EDF et CEA. Spécialisé en .NET, SQL Server, et technologies Microsoft. Parcours atypique : 15 ans d'expérience industrielle (ST Microelectronics) suivis d'une reconversion réussie dans le développement logiciel. Cette double compétence apporte une rigueur industrielle et un sens aigu de la qualité au développement d'applications métier.",
+    "tagline": "Développeur Full-Stack .NET spécialisé en applications industrielles critiques",
+    "availability": "Disponible pour nouvelles opportunités",
+    "social": {
+      "github": "https://github.com/mafalgai",
+      "linkedin": "https://linkedin.com/in/mafal-gai",
+      "email": "gaimafal@gmail.com"
+    },
+    "languages": [
+      {
+        "name": "Français",
+        "level": "Langue maternelle",
+        "code": "fr-FR"
+      },
+      {
+        "name": "Anglais",
+        "level": "Intermédiaire/Avancé (B2)",
+        "code": "en-US"
+      }
+    ],
+    "driving": {
+      "license": "Permis B",
+      "vehicle": true
+    }
+  },
+  "experience": [
+    {
+      "id": "exp-0",
+      "company": "Inetum - ANR",
+      "companyUrl": "https://anr.fr",
+      "via": "Inetum",
+      "position": ".NET Developer",
+      "location": "Lille",
+      "startDate": "2026-01",
+      "endDate": null,
+      "current": true,
+      "duration": "Jan 2026 — Present",
+      "type": "Mission",
+      "description": "Application maintenance (TMA) on the SIM platform, a tool for managing calls for proposals (appels à projets). Performing evolution and corrective maintenance on a legacy ASP.NET WebForms application within the Microsoft ecosystem.",
+      "technologies": [
+        "ASP.NET WebForms",
+        ".NET Framework",
+        "SharePoint",
+        "JavaScript",
+        "SQL Server",
+        "Dapper",
+        "GitHub Copilot",
+        "Jira"
+      ]
+    },
+    {
+      "id": "exp-1",
+      "company": "Inetum - CEA",
+      "companyUrl": "https://www.cea.fr",
+      "via": "Inetum",
+      "position": ".NET Developer",
+      "location": "Grenoble",
+      "startDate": "2023-04",
+      "endDate": "2025-12",
+      "current": false,
+      "duration": "Apr 2023 — Dec 2025",
+      "type": "CDI via ESN",
+      "description": "Managing a multi-application maintenance portfolio of 70+ applications, balancing build and run operations across a web-focused Microsoft ecosystem. Working in a modern development environment using CI/CD with Azure DevOps, SonarQube quality gates, and comprehensive unit testing. Working with both legacy (.NET 4.8, Razor, Kendo UI) and modern (.NET 8) stacks. Participating in the SI modernization: SQL Server migration from 2014 to 2019 Cluster, SeriLog/ELK.",
+      "technologies": [
+        ".NET 4.8 / .NET 8",
+        "C#",
+        "LINQ",
+        "Entity Framework",
+        "ADO.NET",
+        "VB.NET",
+        "Azure DevOps",
+        "SQL Server 2014/2019",
+        "Windows Server",
+        "IIS",
+        "SonarQube",
+        "Keycloak",
+        "Serilog",
+        "ELK",
+        "Razor",
+        "Kendo UI"
+      ]
+    },
+    {
+      "id": "exp-2",
+      "company": "Capgemini - EDF",
+      "companyUrl": "https://www.edf.fr",
+      "via": "Capgemini",
+      "position": "Backend Developer",
+      "location": "Lyon",
+      "startDate": "2022-04",
+      "endDate": "2023-03",
+      "current": false,
+      "duration": "Apr 2022 — Mar 2023",
+      "type": "Mission via ESN",
+      "description": "Developed backend solutions for the GEMODO project using Java and KornShell scripting on RedHat Linux. Implemented ETL processes with Informatica for data integration workflows, and maintained SharePoint collaboration systems. Focused on automation and data processing pipelines in an enterprise Linux environment.",
+      "technologies": [
+        "Java",
+        "KornShell",
+        "ETL Informatica",
+        "Oracle DB",
+        "Jenkins",
+        "SAFe",
+        "RedHat Linux",
+        "SharePoint"
+      ]
+    },
+    {
+      "id": "exp-3",
+      "company": "Capgemini - EDF",
+      "companyUrl": "https://www.edf.fr",
+      "via": "Capgemini",
+      "position": "PL/SQL Developer & Test Automation",
+      "location": "Lyon",
+      "startDate": "2021-06",
+      "endDate": "2023-03",
+      "current": false,
+      "duration": "Jun 2021 — Mar 2023",
+      "type": "Mission via ESN",
+      "description": "Developed and maintained services for the GEMODO application. Repurposed UFT (Unified Functional Testing), an end-to-end testing tool, to automate data injection through VBScript-based form filling. Developed PL/SQL queries and procedures to validate syntactic and semantic data conformity against business rules, ensuring data quality and integrity. Maintained ETL processes through Informatica on Linux infrastructure.",
+      "technologies": [
+        "PL/SQL",
+        "Oracle Database",
+        "UFT (Unified Functional Testing)",
+        "VBScript",
+        "Informatica",
+        "Control-M",
+        "Linux",
+        "SharePoint"
+      ]
+    },
+    {
+      "id": "exp-4",
+      "company": "Capgemini - EDF",
+      "companyUrl": "https://www.edf.fr",
+      "via": "Capgemini",
+      "position": "Architecture Migration, Performance Testing & End-to-End Testing — DPA",
+      "location": "Montbonnot",
+      "startDate": "2020-06",
+      "endDate": "2021-06",
+      "current": false,
+      "duration": "Jun 2020 — Jun 2021",
+      "type": "Mission via ESN",
+      "description": "Led the architecture upgrade of the DPA application, a MES system using data models to prevent SPC (Statistical Process Control) drifts. Managed the migration from a 4-server to a 5-server architecture, and orchestrated the data source transition from legacy ODBC connections to a modern MES managing Hadoop Espadon. Conducted comprehensive load testing to validate system performance with the new technology stack and NRT (Near Real-Time) mode.",
+      "technologies": [
+        "Hadoop",
+        "Espadon API",
+        "Windows Server",
+        "SQL Server",
+        "PowerShell",
+        "HP ALM",
+        "eDNA",
+        "Aspentech"
+      ]
+    },
+    {
+      "id": "exp-5",
+      "company": "Capgemini (EDF / Rio Tinto)",
+      "companyUrl": "https://www.capgemini.com",
+      "via": "Capgemini",
+      "position": "Software Developer",
+      "location": "Montbonnot",
+      "startDate": "2019-11",
+      "endDate": "2020-05",
+      "current": false,
+      "duration": "Nov 2019 — May 2020",
+      "type": "Intégration ESN",
+      "description": "Contributed to proof-of-concept development for Manufacturing Execution Systems (MES) team working on EDF and Rio Tinto projects. Refreshed the Rio Tinto interface using Angular 6 and Ionic 3 for mobile development. Gained hands-on experience managing the Rio Tinto MES. Implemented CI/CD test automation pipelines (GitLab, Jenkins, Selenium) on hybrid Linux/Windows Server environments. First professional experience with enterprise consulting and cross-platform development.",
+      "technologies": [
+        "Angular 6",
+        "Ionic 3",
+        "Linux",
+        "Windows Server",
+        "GitLab",
+        "Jenkins",
+        "Selenium",
+        "MES Management"
+      ]
+    },
+    {
+      "id": "exp-6",
+      "company": "· Cerberis",
+      "companyUrl": null,
+      "via": null,
+      "position": "Software Developer Intern",
+      "location": "Grenoble",
+      "startDate": "2019-04",
+      "endDate": "2019-09",
+      "current": false,
+      "duration": "Apr 2019 — Sep 2019",
+      "type": "Stage de fin d'étude",
+      "description": "Developed a SaaS daemon service for Microsoft Exchange integration as first professional software development experience. Built .NET applications interfacing with Office 365 APIs and deployed on Azure cloud infrastructure. Learned modern software engineering practices and cloud-based architecture.",
+      "technologies": [
+        ".NET Framework",
+        "Entity Framework",
+        "Office 365 API",
+        "OpenID Connect",
+        "OAuth 2.0",
+        "Azure",
+        "Cosmos DB",
+        "Exchange"
+      ]
+    },
+    {
+      "id": "exp-7",
+      "company": "· ST Microelectronics",
+      "companyUrl": "https://www.st.com",
+      "via": null,
+      "position": "Maintenance Technician",
+      "location": "Crolles",
+      "startDate": "2005-01",
+      "endDate": "2018-12",
+      "current": false,
+      "duration": "2005 — 2018",
+      "type": "CDI",
+      "description": "Started as Process Technician (quality technician) and evolved to Maintenance Technician role. Specialized in dry etching machines (oxide and metal) from LAM Research and TEL equipment suppliers. Worked within TPM (Total Productive Maintenance) framework developed by Toyota, with strong acculturation to Lean methodology. During the 2008 crisis, contributed to productivity improvements to maintain competitiveness in the 200mm wafer fabrication environment.",
+      "technologies": ["TPM", "Lean", "Lam Research", "TEL", "Etch 200mm"]
+    },
+    {
+      "id": "exp-8",
+      "company": "· Canalog",
+      "companyUrl": null,
+      "via": null,
+      "position": "Wiring Assembler",
+      "location": "France",
+      "startDate": "2005-01",
+      "endDate": "2005-12",
+      "current": false,
+      "duration": "2005",
+      "type": "Contract",
+      "description": "Worked as a wiring assembler (monteur câbleur) for machines manufacturing glass syringes. Assembled and wired precision equipment components for pharmaceutical manufacturing industry.",
+      "technologies": ["Wiring Assembly", "Manufacturing", "Medical Equipment"]
+    },
+    {
+      "id": "exp-9",
+      "company": "· 68ème Régiment d'Artillerie d'Afrique",
+      "companyUrl": null,
+      "via": null,
+      "position": "IT Support Specialist",
+      "location": "La Valbonne",
+      "startDate": "2001-01",
+      "endDate": "2001-12",
+      "current": false,
+      "duration": "2001",
+      "type": "Service Militaire",
+      "description": "Military service in the Command and Logistics Battery. Digitized vehicle maintenance logbooks and developed VBA macros to format these records according to military standards. Contributed to the modernization of administrative processes through office automation.",
+      "technologies": ["VBA", "Excel", "Office Automation", "Data Entry", "Military Service"]
+    }
+  ],
+  "education": [
+    {
+      "id": "edu-1",
+      "degree": "Titre professionnel Concepteur Développeur Informatique",
+      "level": "Bac+3/4 (Niveau 6)",
+      "school": "AFPA",
+      "location": "Grenoble",
+      "startDate": "2018-09",
+      "endDate": "2019-06",
+      "duration": "2019",
+      "description": "Professional certification in software development and design.",
+      "courses": [],
+      "grade": null
+    },
+    {
+      "id": "edu-2",
+      "degree": "DUT GEII (Génie Électrique et Informatique Industrielle)",
+      "level": "Bac+2",
+      "school": "Université Joseph Fourier",
+      "location": "Grenoble",
+      "startDate": "2002-09",
+      "endDate": "2003-06",
+      "duration": "2003",
+      "description": "Two-year technical degree in Electrical Engineering and Industrial Computer Science.",
+      "courses": [],
+      "grade": null
+    },
+    {
+      "id": "edu-3",
+      "degree": "IUP MAI (Mathématiques Appliquées et Industrielles)",
+      "level": "Bac+3 (Licence)",
+      "school": "Université Joseph Fourier",
+      "location": "Grenoble",
+      "startDate": "1998-09",
+      "endDate": "1999-06",
+      "duration": "1999",
+      "description": "University Institute of Engineering - Applied and Industrial Mathematics.",
+      "courses": [],
+      "grade": null
+    },
+    {
+      "id": "edu-4",
+      "degree": "DEUG SMb (Sciences de la Matière)",
+      "level": "Bac+2",
+      "school": "Université Joseph Fourier",
+      "location": "Grenoble",
+      "startDate": "1997-09",
+      "endDate": "1998-06",
+      "duration": "1998",
+      "description": "Two-year undergraduate degree in Material Sciences with focus on Biology, Chemistry, and Physics.",
+      "courses": [],
+      "grade": null
+    },
+    {
+      "id": "edu-5",
+      "degree": "Math Sup PC-SI",
+      "level": "Classe préparatoire",
+      "school": "Lycée Berthollet",
+      "location": "Annecy",
+      "startDate": "1996-09",
+      "endDate": "1997-06",
+      "duration": "1997",
+      "description": "Preparatory class for engineering schools (Physics, Chemistry, and Engineering Sciences).",
+      "courses": [],
+      "grade": null
+    },
+    {
+      "id": "edu-6",
+      "degree": "BAC S mention bien (Scientific Baccalaureate)",
+      "level": "Bac",
+      "school": "Lycée Sainte Marie",
+      "location": "La Roche-sur-Foron",
+      "startDate": "1995-09",
+      "endDate": "1996-06",
+      "duration": "1996",
+      "description": "French high school diploma in Sciences with honors.",
+      "courses": [],
+      "grade": "Mention Bien"
+    }
+  ],
+  "skills": {
+    "backend": [
+      {
+        "name": "C# / .NET",
+        "level": "Expert",
+        "years": 6,
+        "category": "backend",
+        "rating": 5
+      },
+      {
+        "name": "SQL Server",
+        "level": "Expert",
+        "years": 6,
+        "category": "backend",
+        "rating": 5
+      },
+      {
+        "name": "Entity Framework",
+        "level": "Expert",
+        "years": 6,
+        "category": "backend",
+        "rating": 5
+      },
+      {
+        "name": "PL/SQL",
+        "level": "Avancé",
+        "years": 3,
+        "category": "backend",
+        "rating": 4
+      },
+      {
+        "name": "Java",
+        "level": "Intermédiaire",
+        "years": 2,
+        "category": "backend",
+        "rating": 3
+      },
+      {
+        "name": "Oracle Database",
+        "level": "Avancé",
+        "years": 3,
+        "category": "backend",
+        "rating": 4
+      }
+    ],
+    "frontend": [
+      {
+        "name": "JavaScript",
+        "level": "Avancé",
+        "years": 6,
+        "category": "frontend",
+        "rating": 4
+      },
+      {
+        "name": "TypeScript",
+        "level": "Avancé",
+        "years": 4,
+        "category": "frontend",
+        "rating": 4
+      },
+      {
+        "name": "Angular",
+        "level": "Avancé",
+        "years": 4,
+        "category": "frontend",
+        "rating": 4
+      },
+      {
+        "name": "jQuery",
+        "level": "Avancé",
+        "years": 6,
+        "category": "frontend",
+        "rating": 4
+      },
+      {
+        "name": "Kendo UI",
+        "level": "Avancé",
+        "years": 3,
+        "category": "frontend",
+        "rating": 4
+      },
+      {
+        "name": "Bootstrap",
+        "level": "Avancé",
+        "years": 5,
+        "category": "frontend",
+        "rating": 4
+      },
+      {
+        "name": "React",
+        "level": "Débutant",
+        "years": 1,
+        "category": "frontend",
+        "rating": 2
+      }
+    ],
+    "devops": [
+      {
+        "name": "Azure DevOps",
+        "level": "Avancé",
+        "years": 6,
+        "category": "devops",
+        "rating": 4
+      },
+      {
+        "name": "Git",
+        "level": "Avancé",
+        "years": 6,
+        "category": "devops",
+        "rating": 5
+      },
+      {
+        "name": "Jenkins",
+        "level": "Intermédiaire",
+        "years": 2,
+        "category": "devops",
+        "rating": 3
+      },
+      {
+        "name": "Ansible",
+        "level": "Débutant",
+        "years": 1,
+        "category": "devops",
+        "rating": 2
+      },
+      {
+        "name": "SonarQube",
+        "level": "Avancé",
+        "years": 3,
+        "category": "devops",
+        "rating": 4
+      },
+      {
+        "name": "RabbitMQ",
+        "level": "Intermédiaire",
+        "years": 1,
+        "category": "devops",
+        "rating": 3
+      }
+    ],
+    "cloud": [
+      {
+        "name": "Microsoft Azure",
+        "level": "Avancé",
+        "years": 4,
+        "category": "cloud",
+        "rating": 4
+      },
+      {
+        "name": "Azure AD",
+        "level": "Avancé",
+        "years": 3,
+        "category": "cloud",
+        "rating": 4
+      },
+      {
+        "name": "Azure Cosmos DB",
+        "level": "Intermédiaire",
+        "years": 1,
+        "category": "cloud",
+        "rating": 3
+      }
+    ],
+    "testing": [
+      {
+        "name": "Selenium",
+        "level": "Intermédiaire",
+        "years": 2,
+        "category": "testing",
+        "rating": 3
+      },
+      {
+        "name": "HP ALM",
+        "level": "Avancé",
+        "years": 2,
+        "category": "testing",
+        "rating": 4
+      },
+      {
+        "name": "Tests de Performance",
+        "level": "Avancé",
+        "years": 2,
+        "category": "testing",
+        "rating": 4
+      }
+    ],
+    "tools": [
+      {
+        "name": "Visual Studio",
+        "level": "Expert",
+        "years": 6,
+        "category": "tools",
+        "rating": 5
+      },
+      {
+        "name": "Visual Studio Code",
+        "level": "Avancé",
+        "years": 4,
+        "category": "tools",
+        "rating": 4
+      },
+      {
+        "name": "JIRA",
+        "level": "Avancé",
+        "years": 6,
+        "category": "tools",
+        "rating": 4
+      },
+      {
+        "name": "Postman",
+        "level": "Avancé",
+        "years": 5,
+        "category": "tools",
+        "rating": 4
+      }
+    ],
+    "methodologies": [
+      {
+        "name": "Agile / Scrum",
+        "level": "Avancé",
+        "years": 6,
+        "category": "methodologies",
+        "rating": 5
+      },
+      {
+        "name": "UML",
+        "level": "Intermédiaire",
+        "years": 4,
+        "category": "methodologies",
+        "rating": 3
+      },
+      {
+        "name": "Merise",
+        "level": "Intermédiaire",
+        "years": 3,
+        "category": "methodologies",
+        "rating": 3
+      }
+    ]
+  },
+  "projects": [
+    {
+      "id": "project-iftt",
+      "name": "IFTT Trading Platform",
+      "type": "Projet personnel",
+      "status": "En développement",
+      "startDate": "2024-11",
+      "endDate": null,
+      "description": "Plateforme complète de trading automatisé sur blockchain Solana permettant de créer des ordres d'achat/vente conditionnels basés sur des indicateurs techniques (RSI, EMA, prix).",
+      "role": "Architecte & Développeur Full-Stack",
+      "team": "Solo",
+      "achievements": [
+        "Architecture microservices avec 5 services orchestrés par N8N",
+        "Collecte et agrégation de prix Solana toutes les 5s avec InfluxDB",
+        "Gestion sécurisée des clés privées avec HashiCorp Vault",
+        "Infrastructure DevOps complète (Docker, GitLab CI, Ansible, Monitoring)"
+      ],
+      "challenges": [
+        "Architecture microservices avec API Gateway centralisée",
+        "Time-series haute fréquence (5s) avec InfluxDB",
+        "Sécurité blockchain (gestion clés privées, signatures)",
+        "Orchestration 5 services Docker avec monitoring"
+      ],
+      "technologies": [
+        "Angular 18.2",
+        "TypeScript",
+        "NestJS 10.3",
+        "PostgreSQL 15",
+        "Solana",
+        "@solana/web3.js",
+        "Jupiter API",
+        "InfluxDB 2.7",
+        "HashiCorp Vault",
+        "Docker Compose",
+        "GitLab CI",
+        "Prometheus",
+        "Grafana"
+      ],
+      "metrics": {
+        "uptime": "99.9% sur 2 mois",
+        "latency": "<100ms pour récupération OHLCV",
+        "services": 5,
+        "linesOfCode": "~15000"
+      },
+      "links": {
+        "github": "https://github.com/mafalgai/iftt-trading",
+        "demo": null,
+        "documentation": "/workspace-amsterdam/devops-iftt-trading"
+      },
+      "images": [
+        "/assets/images/projects/iftt-trading-1.png",
+        "/assets/images/projects/iftt-trading-2.png"
+      ],
+      "featured": true,
+      "tags": ["Blockchain", "Solana", "Angular", "NestJS", "DevOps", "Microservices"]
+    },
+    {
+      "id": "project-ivey-poker-bot",
+      "name": "Ivey Poker Bot",
+      "type": "Projet personnel",
+      "status": "En développement",
+      "startDate": "2025-12",
+      "endDate": null,
+      "description": "Bot de poker autonome piloté par IA avec vision universelle (OCR/YOLO). Fonctionne sur n'importe quelle table de poker visible à l'écran : capture d'écran, détection des cartes via YOLOv8, calcul des probabilités et recommandation (ou exécution) des actions optimales. Trois modes : observateur (HUD), semi-automatique et autonome.",
+      "role": "Architecte & Développeur",
+      "team": "Solo",
+      "achievements": [
+        "Vision universelle via YOLOv8 (GPU) + Tesseract OCR pour les montants",
+        "Tracker de joueurs avec statistiques VPIP/PFR/AF/3Bet en SQLite",
+        "HUD overlay transparent avec recommandations en temps réel",
+        "Architecture Docker complète avec Xvfb + Chromium + VNC",
+        "Calcul d'équité Monte Carlo via eval7 (Cython)"
+      ],
+      "challenges": [
+        "Détection fiable des cartes sur n'importe quelle interface poker",
+        "Latence minimale pour les décisions en temps réel",
+        "Sécurité et intégration GPU distant (Unraid RTX 2070)",
+        "Override manuel instantané via F12 pour garder le contrôle"
+      ],
+      "technologies": [
+        "Python 3.11+",
+        "YOLOv8 (ultralytics)",
+        "Tesseract 5 (pytesseract)",
+        "FastAPI",
+        "eval7 (Monte Carlo)",
+        "SQLite3",
+        "Tkinter",
+        "Docker",
+        "Xvfb",
+        "uv"
+      ],
+      "metrics": null,
+      "links": {
+        "github": "https://github.com/MafLabs38/ivey-poker-bot",
+        "demo": null
+      },
+      "images": [],
+      "featured": true,
+      "tags": ["IA", "Vision", "YOLOv8", "OCR", "Python", "Docker", "Poker"]
+    },
+    {
+      "id": "project-oter-iptv",
+      "name": "Oter IPTV",
+      "type": "Projet personnel",
+      "status": "En développement",
+      "startDate": "2026-02",
+      "endDate": null,
+      "description": "Modern IPTV player for Windows (Microsoft Store). Supports M3U and Xtream Codes API, automatic metadata enrichment via TMDb, smart playback resume, offline downloads, and adaptive buffering for optimal streaming performance with limited bandwidth providers.",
+      "role": "Développeur",
+      "team": "Solo",
+      "achievements": [
+        "Modern Fluent Design interface with WinUI 3",
+        "M3U and Xtream Codes API support",
+        "Automatic metadata enrichment via TMDb API",
+        "Adaptive buffering for optimal streaming"
+      ],
+      "challenges": [
+        "Video playback performance optimization with LibVLCSharp",
+        "MVVM architecture with CommunityToolkit.Mvvm",
+        "Microsoft Store packaging with MSIX"
+      ],
+      "technologies": [
+        "C# 12",
+        "WinUI 3",
+        ".NET 9",
+        "MVVM",
+        "SQLite",
+        "EF Core",
+        "LibVLCSharp",
+        "TMDb API",
+        "MSIX"
+      ],
+      "metrics": null,
+      "links": {
+        "github": "https://github.com/MafLabs38/oter-iptv",
+        "demo": null
+      },
+      "images": [],
+      "featured": false,
+      "tags": ["WinUI 3", ".NET 9", "IPTV", "MVVM", "Desktop"]
+    },
+    {
+      "id": "project-claude-visual-code",
+      "name": "Claude Visual Code",
+      "type": "Projet personnel",
+      "status": "En développement",
+      "startDate": "2026-02",
+      "endDate": null,
+      "description": "Voice-first mobile client for Claude Code. Talk to Claude Code from your phone: dictate your intent, watch Claude work in real-time, browse files, and use the terminal — all from your Android device. Includes a companion VS Code extension (CVC Voice Injector) for bridging voice input to Claude Code.",
+      "role": "Développeur",
+      "team": "Solo",
+      "achievements": [
+        "WebView integration with CSS/JS injection for mobile-optimized code-server",
+        "Voice input with STT transcription sent to Claude Code",
+        "Real-time notifications when Claude finishes tasks",
+        "Companion VS Code extension for voice injection bridge"
+      ],
+      "challenges": [
+        "Mobile-optimized interface for code-server via WebView injection",
+        "Voice-to-code pipeline with STT integration",
+        "Multi-device simultaneous connection support"
+      ],
+      "technologies": [
+        "Flutter",
+        "Dart",
+        "code-server",
+        "JavaScript",
+        "WebView",
+        "STT",
+        "SSH",
+        "VS Code API"
+      ],
+      "metrics": null,
+      "links": {
+        "github": "https://github.com/MafLabs38/claude-visual-code",
+        "demo": null
+      },
+      "images": [],
+      "featured": false,
+      "tags": ["Flutter", "Mobile", "AI", "Voice", "VS Code"]
+    },
+    {
+      "id": "project-portfolio",
+      "name": "Portfolio CV Angular",
+      "type": "Projet personnel",
+      "status": "En développement",
+      "startDate": "2025-11",
+      "endDate": null,
+      "description": "Portfolio professionnel moderne développé en Angular 17+ avec Tailwind CSS. Design minimaliste inspiré du portfolio de Brittany Chiang (https://brittanychiang.com), démontrant un équilibre entre respect des principes de design fonctionnel et créativité personnelle. Intègre un système de CV éditable via JSON et export PDF.",
+      "role": "Développeur Full-Stack",
+      "team": "Solo",
+      "achievements": [
+        "Architecture Angular 17+ avec Standalone Components",
+        "Design system Tailwind CSS responsive et accessible",
+        "Pipeline CI/CD avec GitHub Actions et SonarQube",
+        "Tests E2E avec Playwright et visual regression",
+        "Export PDF conservant le design web"
+      ],
+      "challenges": [
+        "Adaptation créative d'un design existant tout en respectant l'identité visuelle",
+        "Architecture modulaire et maintenable pour évolution future",
+        "Qualité de code avec Quality Gates SonarQube",
+        "Performance web >95 (Lighthouse)"
+      ],
+      "technologies": [
+        "Angular 17+",
+        "TypeScript",
+        "Tailwind CSS",
+        "GitHub Actions",
+        "SonarQube",
+        "Playwright",
+        "GitHub Pages"
+      ],
+      "metrics": {
+        "lighthouse": ">95",
+        "coverage": ">80%",
+        "components": "~15"
+      },
+      "links": {
+        "github": "https://github.com/Maf38/portfolio-cv",
+        "demo": null,
+        "inspiration": "https://brittanychiang.com"
+      },
+      "images": [],
+      "featured": false,
+      "tags": ["Angular", "Tailwind CSS", "Design System", "CI/CD", "Testing"]
+    }
+  ],
+  "certifications": [],
+  "hobbies": [
+    {
+      "name": "Ski",
+      "category": "Sport",
+      "icon": "ski"
+    },
+    {
+      "name": "VTT Descente & Enduro",
+      "category": "Sport",
+      "icon": "bike"
+    },
+    {
+      "name": "Randonnée",
+      "category": "Sport",
+      "icon": "hiking"
+    },
+    {
+      "name": "Jeux Vidéo FPS",
+      "category": "Loisir",
+      "icon": "gaming"
+    }
+  ],
+  "softSkills": [
+    {
+      "name": "Rigueur",
+      "level": 5,
+      "description": "15 ans d'expérience industrielle appliquée au développement"
+    },
+    {
+      "name": "Travail en équipe",
+      "level": 5,
+      "description": "Collaboration Scrum, code review, partage de connaissances"
+    },
+    {
+      "name": "Capacité d'apprentissage",
+      "level": 5,
+      "description": "Reconversion réussie, montée en compétence rapide sur nouvelles technologies"
+    },
+    {
+      "name": "Autonomie",
+      "level": 4,
+      "description": "Référent technique, prise de décisions, gestion de projets"
+    },
+    {
+      "name": "Communication",
+      "level": 4,
+      "description": "Rédaction technique, documentation, échanges avec éditeurs"
+    },
+    {
+      "name": "Résolution de problèmes",
+      "level": 5,
+      "description": "Debugging, optimisation, analyse de performance"
+    }
+  ],
+  "meta": {
+    "version": "2.0.0",
+    "lastUpdated": "2026-03-07",
+    "source": "Extraction exacte de app.html",
+    "totalExperience": {
+      "industry": 13,
+      "development": 6,
+      "total": 19
+    }
+  }
+}

@@ -1,0 +1,53 @@
+---
+import { lemniscatePath } from '../lib/loop';
+const pkgVersion = '2.0.0';
+const built = new Date().toLocaleDateString('en-US', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+});
+const loop = lemniscatePath(14, 1.1, 100);
+---
+
+<footer class="footer">
+  <svg viewBox="-17 -9 34 18" aria-hidden="true">
+    <path d={loop}></path>
+  </svg>
+  <p>
+    <span class="mono">
+      v{pkgVersion} • {built}
+    </span>
+    <span class="sep">—</span>
+    Built with Astro &amp; Tailwind, deployed by GitHub Actions.
+  </p>
+</footer>
+
+<style>
+  .footer {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 3rem 1rem 3.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--text-faint);
+  }
+  svg {
+    width: 40px;
+    height: 20px;
+  }
+  path {
+    fill: none;
+    stroke: var(--text-faint);
+    stroke-width: 1.4;
+  }
+  .mono {
+    font-family: var(--font-mono);
+  }
+  .sep {
+    margin: 0 0.35rem;
+  }
+</style>

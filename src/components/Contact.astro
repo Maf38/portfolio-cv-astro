@@ -1,0 +1,190 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import Icon from './Icon.astro';
+import site from '../data/site.json';
+
+const email = site.contact.items.find((i) => i.type === 'email')!;
+const phone = site.contact.items.find((i) => i.type === 'phone')!;
+const socials = site.header.socials.filter((s) => s.external && s.iconType !== 'img');
+---
+
+<section id="contact" class="section" aria-labelledby="contact-title">
+  <SectionHeader index={6} stage="monitor" title={site.contact.title} id="contact" />
+
+  <div class="card contact reveal" data-glow>
+    <div class="contact-orbit" aria-hidden="true">
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="rows">
+      <div class="row">
+        <span class="ico">
+          <Icon name="mail" size={20} />
+        </span>
+        <div class="row-body">
+          <p class="lbl">{email.label}</p>
+          <a href={email.href} class="value">
+            {email.value}
+          </a>
+        </div>
+        <button
+          type="button"
+          class="btn btn-tonal copy"
+          data-copy={email.copyValue}
+          data-copied-label={email.copiedLabel}
+          aria-label={email.copyLabel}
+          data-ripple
+        >
+          <Icon name="copy" size={16} />
+          <span class="copy-label">{email.copyLabel}</span>
+        </button>
+      </div>
+
+      <div class="row">
+        <span class="ico">
+          <Icon name="phone" size={20} />
+        </span>
+        <div class="row-body">
+          <p class="lbl">{phone.label}</p>
+          <p class="value muted">{phone.maskedText}</p>
+        </div>
+      </div>
+    </div>
+
+    <ul class="socials">
+      {socials.map((s) => (
+        <li>
+          <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.ariaLabel}>
+            <Icon name={s.icon} size={18} />
+            <span>{s.label}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .contact {
+    overflow: hidden;
+    padding: 1.5rem;
+    border-radius: 2rem;
+  }
+  @media (min-width: 768px) {
+    .contact {
+      padding: 2.4rem;
+    }
+  }
+  .contact-orbit {
+    position: absolute;
+    left: 50%;
+    bottom: -260px;
+    width: 520px;
+    height: 520px;
+    translate: -50% 0;
+    pointer-events: none;
+  }
+  .contact-orbit span {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid var(--orbit);
+  }
+  .contact-orbit span:last-child {
+    inset: 70px;
+    border-style: dashed;
+    border-color: var(--orbit-2);
+    animation: spin 60s linear infinite;
+  }
+  @keyframes spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+  .rows {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 1.25rem;
+    background: var(--surface-2);
+    border: 1px solid var(--outline);
+  }
+  .ico {
+    width: 2.8rem;
+    height: 2.8rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--on-primary);
+    background: var(--grad);
+    flex-shrink: 0;
+  }
+  .row-body {
+    flex: 1;
+    min-width: 12rem;
+  }
+  .lbl {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    text-transform: lowercase;
+  }
+  .value {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.05rem, 2.6vw, 1.35rem);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  a.value:hover {
+    color: var(--primary);
+  }
+  .value.muted {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--text-muted);
+    word-break: normal;
+  }
+  .copy.copied {
+    color: var(--ok);
+  }
+  .socials {
+    position: relative;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+  }
+  .socials a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.95rem;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--text-muted);
+    border: 1px solid var(--outline);
+    transition:
+      color 0.25s ease,
+      border-color 0.25s ease,
+      transform 0.3s ease;
+  }
+  .socials a:hover {
+    color: var(--primary);
+    border-color: color-mix(in oklab, var(--primary) 40%, transparent);
+    transform: translateY(-2px);
+  }
+</style>

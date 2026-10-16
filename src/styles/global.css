@@ -1,0 +1,342 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@theme {
+  --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+}
+
+/* ------------------------------------------------------------------
+   Design tokens — Material 3 inspired tonal surfaces
+   ------------------------------------------------------------------ */
+:root {
+  color-scheme: light;
+  --bg: #f4f6fb;
+  --bg-deep: #e9edf6;
+  --surface: #ffffff;
+  --surface-2: #f0f3fa;
+  --surface-3: #e5eaf4;
+  --outline: rgb(15 23 42 / 0.09);
+  --outline-strong: rgb(15 23 42 / 0.16);
+  --text: #0d1526;
+  --text-muted: #4a5873;
+  --text-faint: #7b88a1;
+  --primary: #0e8fa8;
+  --secondary: #6d4ae6;
+  --tertiary: #d9467a;
+  --ok: #12a26b;
+  --on-primary: #ffffff;
+  --logo: #6b7a94;
+  --logo-hover: var(--primary);
+  --orbit: rgb(14 143 168 / 0.16);
+  --orbit-2: rgb(109 74 230 / 0.12);
+  --grid-dot: rgb(15 23 42 / 0.07);
+  --spotlight: rgb(14 143 168 / 0.1);
+  --shadow-1: 0 1px 2px rgb(15 23 42 / 0.06), 0 1px 3px rgb(15 23 42 / 0.05);
+  --shadow-2: 0 2px 6px rgb(15 23 42 / 0.06), 0 10px 30px -8px rgb(15 23 42 / 0.14);
+  --shadow-3: 0 6px 16px rgb(15 23 42 / 0.08), 0 24px 60px -12px rgb(14 143 168 / 0.25);
+  --glass: rgb(255 255 255 / 0.72);
+  --grad: linear-gradient(110deg, var(--primary), var(--secondary) 55%, var(--tertiary));
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #060a13;
+  --bg-deep: #03060c;
+  --surface: #0c1220;
+  --surface-2: #111a2c;
+  --surface-3: #18233a;
+  --outline: rgb(148 163 184 / 0.1);
+  --outline-strong: rgb(148 163 184 / 0.2);
+  --text: #e7eef9;
+  --text-muted: #9aa9c2;
+  --text-faint: #64748b;
+  --primary: #4fd8eb;
+  --secondary: #a48bff;
+  --tertiary: #ff7aa8;
+  --ok: #3ee59a;
+  --on-primary: #03141a;
+  --logo: #94a3b8;
+  --orbit: rgb(79 216 235 / 0.14);
+  --orbit-2: rgb(164 139 255 / 0.12);
+  --grid-dot: rgb(148 163 184 / 0.08);
+  --spotlight: rgb(79 216 235 / 0.07);
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-2: 0 2px 8px rgb(0 0 0 / 0.35), 0 12px 32px -10px rgb(0 0 0 / 0.6);
+  --shadow-3: 0 8px 24px rgb(0 0 0 / 0.4), 0 24px 70px -16px rgb(79 216 235 / 0.28);
+  --glass: rgb(8 13 24 / 0.7);
+}
+
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+html {
+  overflow-x: clip;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
+  overflow-x: clip;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--primary) 30%, transparent);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+a {
+  color: inherit;
+}
+
+.prose-link {
+  color: var(--primary);
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s ease;
+}
+.prose-link:hover {
+  background-size: 100% 1px;
+}
+
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Monochrome logos recoloured through CSS masks (theme-aware) */
+.logo-mask {
+  display: block;
+  background-color: var(--logo);
+  -webkit-mask: var(--src) center / contain no-repeat;
+  mask: var(--src) center / contain no-repeat;
+  transition: background-color 0.3s ease;
+}
+
+/* ------------------------------------------------------------------
+   Material-ish components
+   ------------------------------------------------------------------ */
+.card {
+  position: relative;
+  background: color-mix(in oklab, var(--surface) 88%, transparent);
+  border: 1px solid var(--outline);
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-1);
+  transition:
+    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.45s ease,
+    border-color 0.45s ease;
+  backdrop-filter: blur(6px);
+}
+
+/* Cursor-following glow inside cards (driven by --mx / --my) */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in oklab, var(--primary) 12%, transparent),
+    transparent 60%
+  );
+}
+.card:hover::before {
+  opacity: 1;
+}
+
+/* Gradient hairline border on hover */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--grad);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-3);
+  border-color: transparent;
+}
+.card-hover:hover::after {
+  opacity: 0.9;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  padding: 0.42rem 0.7rem;
+  border-radius: 999px;
+  color: var(--primary);
+  background: color-mix(in oklab, var(--primary) 10%, transparent);
+  border: 1px solid color-mix(in oklab, var(--primary) 18%, transparent);
+  white-space: nowrap;
+}
+
+.btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0.8rem 1.35rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+  isolation: isolate;
+  cursor: pointer;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-filled {
+  color: var(--on-primary);
+  background: var(--grad);
+  background-size: 160% 100%;
+  box-shadow: 0 8px 24px -8px color-mix(in oklab, var(--primary) 60%, transparent);
+  transition:
+    background-position 0.6s ease,
+    transform 0.25s ease,
+    box-shadow 0.3s ease;
+}
+.btn-filled:hover {
+  background-position: 100% 0;
+  box-shadow: 0 12px 30px -8px color-mix(in oklab, var(--secondary) 60%, transparent);
+}
+.btn-tonal {
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--outline);
+}
+.btn-tonal:hover {
+  background: var(--surface-3);
+}
+
+/* Material ripple (spawned by JS) */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  background: currentColor;
+  opacity: 0.25;
+  pointer-events: none;
+  animation: ripple 0.65s ease-out forwards;
+  z-index: -1;
+}
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Section eyebrow (pipeline stage)
+   ------------------------------------------------------------------ */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-transform: lowercase;
+  color: var(--text-muted);
+}
+.eyebrow .dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--primary) 18%, transparent);
+}
+.eyebrow .num {
+  color: var(--primary);
+}
+
+/* ------------------------------------------------------------------
+   Reveal on scroll
+   ------------------------------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px) scale(0.985);
+  filter: blur(4px);
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 0.9s ease;
+  transition-delay: var(--delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+html:not(.js) .reveal {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}

@@ -1,0 +1,135 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import { asset, inlineMd } from '../lib/utils';
+import site from '../data/site.json';
+
+// Tech "satellites" orbiting the portrait — taken from the current role's stack.
+const satellites = ['.NET', 'SQL', 'Docker', 'Azure', 'TS', 'Linux'];
+---
+
+<section id="about" class="section" aria-labelledby="about-title">
+  <SectionHeader index={1} stage="plan" title={site.about.heading} id="about" />
+
+  <div class="grid">
+    <div class="text">
+      {site.about.paragraphs.map((p, i) => (
+        <p class="reveal" style={`--delay:${i * 90}ms`} set:html={inlineMd(p)} />
+      ))}
+    </div>
+
+    <div class="portrait reveal" style="--delay:150ms" aria-hidden="true">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="sat-track">
+        {satellites.map((s, i) => (
+          <span class="sat" style={`--a:${(360 / satellites.length) * i}deg`}>
+            <span>{s}</span>
+          </span>
+        ))}
+      </div>
+      <div class="photo">
+        <img src={asset(site.assets.profilePhoto)} alt="" width="320" height="320" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .grid {
+      grid-template-columns: 1.35fr 1fr;
+      gap: 4rem;
+    }
+  }
+  .text p {
+    color: var(--text-muted);
+    font-size: 1.04rem;
+  }
+  .text p + p {
+    margin-top: 1.1rem;
+  }
+  .text p:first-child {
+    color: var(--text);
+    font-size: 1.12rem;
+  }
+
+  .portrait {
+    position: relative;
+    width: min(100%, 340px);
+    aspect-ratio: 1;
+    justify-self: center;
+    display: grid;
+    place-items: center;
+  }
+  .ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid var(--outline-strong);
+  }
+  .r1 {
+    inset: 0;
+    border-style: dashed;
+    animation: spin 60s linear infinite;
+  }
+  .r2 {
+    inset: 12%;
+    border-color: color-mix(in oklab, var(--primary) 35%, transparent);
+  }
+  .photo {
+    position: relative;
+    width: 62%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    padding: 4px;
+    background: var(--grad);
+    box-shadow: var(--shadow-3);
+  }
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--bg);
+    filter: grayscale(0.25) contrast(1.05);
+    transition: filter 0.5s ease;
+  }
+  .portrait:hover .photo img {
+    filter: none;
+  }
+
+  .sat-track {
+    position: absolute;
+    inset: 0;
+    animation: spin 40s linear infinite;
+  }
+  .sat {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: rotate(var(--a)) translateX(min(170px, 50vw - 2rem)) rotate(calc(-1 * var(--a)));
+  }
+  .sat span {
+    display: block;
+    translate: -50% -50%;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--outline);
+    box-shadow: var(--shadow-2);
+    color: var(--text);
+    animation: spin 40s linear infinite reverse;
+  }
+  @keyframes spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+</style>

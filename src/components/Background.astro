@@ -1,0 +1,158 @@
+---
+// Fixed decorative backdrop: dot grid, aurora glows, orbital ellipses with
+// travelling "packets", and a cursor spotlight. Purely decorative.
+const orbits = [
+  { rx: 260, ry: 96, tilt: -18, dur: 22, dash: '2 7', node: true },
+  { rx: 420, ry: 150, tilt: -18, dur: 34, dash: '', node: true },
+  { rx: 600, ry: 214, tilt: -18, dur: 48, dash: '1 10', node: false },
+  { rx: 800, ry: 290, tilt: -18, dur: 64, dash: '', node: true },
+  { rx: 1020, ry: 370, tilt: -18, dur: 80, dash: '3 12', node: false },
+];
+const ellipse = (rx: number, ry: number) =>
+  `M${-rx} 0 A${rx} ${ry} 0 1 0 ${rx} 0 A${rx} ${ry} 0 1 0 ${-rx} 0`;
+---
+
+<div class="bg" aria-hidden="true">
+  <div class="bg-grid"></div>
+  <div class="aurora a1"></div>
+  <div class="aurora a2"></div>
+  <div class="aurora a3"></div>
+
+  <svg class="orbits" viewBox="-1100 -700 2200 1400" preserveAspectRatio="xMidYMid slice">
+    <g class="orbits-inner">
+      {orbits.map((o, i) => (
+        <g transform={`rotate(${o.tilt})`}>
+          <path
+            d={ellipse(o.rx, o.ry)}
+            fill="none"
+            stroke={i % 2 ? 'var(--orbit-2)' : 'var(--orbit)'}
+            stroke-width="1"
+            stroke-dasharray={o.dash || undefined}
+            vector-effect="non-scaling-stroke"
+          />
+          {o.node && (
+            <circle r="3.2" fill={i % 2 ? 'var(--secondary)' : 'var(--primary)'} class="orbit-node">
+              <animateMotion
+                dur={`${o.dur}s`}
+                repeatCount="indefinite"
+                path={ellipse(o.rx, o.ry)}
+                begin={`-${i * 5}s`}
+              />
+            </circle>
+          )}
+        </g>
+      ))}
+      <circle r="4" fill="var(--primary)" opacity="0.5" />
+      <circle r="18" fill="none" stroke="var(--orbit)" />
+    </g>
+  </svg>
+
+  <div class="spotlight"></div>
+  <div class="vignette"></div>
+</div>
+
+<style>
+  .bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background: radial-gradient(120% 80% at 50% -10%, var(--bg) 40%, var(--bg-deep) 100%);
+  }
+
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(var(--grid-dot) 1px, transparent 1.2px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 85%);
+  }
+
+  .aurora {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.35;
+    will-change: transform;
+  }
+  .a1 {
+    width: 46vmax;
+    height: 46vmax;
+    top: -18vmax;
+    right: -10vmax;
+    background: var(--primary);
+    opacity: 0.16;
+    animation: drift 26s ease-in-out infinite alternate;
+  }
+  .a2 {
+    width: 40vmax;
+    height: 40vmax;
+    top: 30vh;
+    left: -18vmax;
+    background: var(--secondary);
+    opacity: 0.13;
+    animation: drift 32s ease-in-out infinite alternate-reverse;
+  }
+  .a3 {
+    width: 28vmax;
+    height: 28vmax;
+    bottom: -12vmax;
+    right: 12vmax;
+    background: var(--tertiary);
+    opacity: 0.07;
+    animation: drift 38s ease-in-out infinite alternate;
+  }
+  :global([data-theme='light']) .aurora {
+    filter: blur(110px);
+  }
+
+  .orbits {
+    position: absolute;
+    width: 150vmax;
+    height: 100vmax;
+    top: 50%;
+    left: 50%;
+    translate: calc(-50% + var(--px, 0px)) calc(-50% + var(--py, 0px));
+    transition: translate 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    opacity: 0.9;
+  }
+  .orbits-inner {
+    transform-origin: 0 0;
+    animation: spin 240s linear infinite;
+  }
+  .orbit-node {
+    filter: drop-shadow(0 0 6px currentColor);
+  }
+
+  .spotlight {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      600px circle at var(--sx, -999px) var(--sy, -999px),
+      var(--spotlight),
+      transparent 70%
+    );
+  }
+
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 100% 100% at 50% 40%, transparent 55%, var(--bg-deep) 100%);
+    opacity: 0.6;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes drift {
+    from {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    to {
+      transform: translate3d(6vmax, 4vmax, 0) scale(1.12);
+    }
+  }
+</style>

@@ -1,0 +1,1169 @@
+{
+  "_notes": [
+    "Site content is English only (html lang=en). No i18n/language switch on the page; the only FR/EN switch is the two CV download buttons, which generate a PDF client-side (pdfMake via PdfExportService) from cv-full-data.json (.fr / .en). The 'View Full Résumé' button triggers the EN PDF. Astro must reimplement or replace this (e.g. pre-generated PDFs).",
+    "Experience and education are rendered by @for loops over cv-data.json (experience: 10 entries, education: 6) in JSON order; values here are copied verbatim from that file. Displayed: period (=duration), position + company, description, technologies. Fields via/location/type/startDate/endDate/current are in the data but NOT displayed on the page.",
+    "Experience title: if companyUrl is set, position+company are wrapped in a link to companyUrl (company span text is ' '+company); otherwise plain text. Company strings already include a leading '· ' for some entries (Cerberis, ST Microelectronics, Canalog, 68ème RAA) but not for Inetum/Capgemini ones — inconsistent separator, rendered as-is.",
+    "Experience logos are chosen in app.html by exact company string match. Three entries share company 'Capgemini - EDF' (exp-2..4) so all three show Capgemini+EDF logos. 'Capgemini (EDF / Rio Tinto)' uses a stacked layout (row 1: Capgemini; row 2: EDF + Rio Tinto). '· Cerberis' has no logo. Logo 'size' is the CSS class (large/small/medium/x-small/null=default).",
+    "Education subtitle is displayed as '· {school}, {location}' (see displayedSubtitle); level/grade/dates are not displayed.",
+    "Projects section is hard-coded in app.html (NOT from cv-data.json, whose 'projects' array has 5 different entries partly in French and is unused on the page). Order: 1 featured (IFTTT-Trading with 6 sub-projects) then 8 project cards. The featured card has no icon links of its own; its title links to Notion.",
+    "Project 'private' = uses github-private-mono icon with title 'Private Repository'. Status badge 'In Progress' shown on Ivey Poker Bot, Oter IPTV, Claude Visual Code. Note GitHub org differs: Maf38 vs MafLabs38.",
+    "Header version line is computed: 'v{VERSION_INFO.version} • {buildDate | date:'MMM d, y'}' from src/environments/version.ts (auto-generated at build; currently 1.0.0 / 2025-11-30, while package.json is 1.1.0).",
+    "Header social icons for GitHub, LinkedIn, Contact (phone) and JIRA are inline SVG paths in header.component.html (not files); SonarQube uses an <img>. Contact icon opens the contact modal (no href).",
+    "There is no footer in the Angular site (footer: null).",
+    "Hidden off-screen <app-cv-printable> component exists only for PDF export; its content comes from cv-full-data.json (copied alongside). Not user-visible on the page.",
+    "Mouse-following spotlight radial gradient on desktop (>=1024px) is a visual effect only (ui.spotlight).",
+    "meta.og.description differs from meta.description and contains typos (kept verbatim). jsonLd jobTitle 'Senior Full-Stack Developer' differs from the header title 'Senior Software Engineer'.",
+    "sitemap.xml lists https://mafalgai.com/cv, which is not an actual separate page in the current app.",
+    "Images in public/assets/images/ifttt-trading/*.png and non-mono logo variants are present but not referenced by the page (listed in assets.unusedImages). src/assets/images (photo-profile.jpg, pdf-file-type.svg) is not served by Angular (only public/ is) and was not copied.",
+    "Inline links in text are written as markdown [text](url) (only in the Portfolio CV project description). '@' entities (&#64;) in setup items decoded to '@'."
+  ],
+  "meta": {
+    "lang": "en",
+    "title": "Mafal Gai - Full-Stack Developer | Angular, .NET, TypeScript",
+    "metaTitle": "Mafal Gai - Full-Stack Developer",
+    "description": "Full-Stack Developer with 6 years of experience. Expertise in Angular, .NET Core, TypeScript, Azure and Docker. Open to new opportunities.",
+    "keywords": "Mafal Gai, full-stack developer, Angular, .NET, TypeScript, Azure, Docker, Grenoble",
+    "author": "Mafal Gai",
+    "robots": "index, follow",
+    "canonical": "https://mafalgai.com/",
+    "siteUrl": "https://mafalgai.com",
+    "og": {
+      "type": "website",
+      "url": "https://mafalgai.com/",
+      "title": "Mafal Gai - Full-Stack Developer",
+      "description": "Full-Stack Developer with 6 years of experience. Expertise .NET, .NET Core, TypeScript,and SQL.I also train my vibe coding skill during my free time exploring many stacks with Claude Code in an agnostic mindset. My objective is to build solid integration infrastructure to create quality code with 0% code produce by myself (use of template,context memory, rules of code, linting, sonarqube audit, unit testing, UI testing with playwright,retro control agentic workflow with pupetter etc...)",
+      "image": "https://mafalgai.com/assets/images/og-image.png",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "url": "https://mafalgai.com/",
+      "title": "Mafal Gai - Full-Stack Developer",
+      "description": "Full-Stack Developer with 6 years of experience. Expertise in Angular, .NET Core, TypeScript, Azure and Docker.",
+      "image": "https://mafalgai.com/assets/images/og-image.png"
+    },
+    "favicon": "/favicon.svg",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Mafal Gai",
+      "url": "https://mafalgai.com",
+      "image": "https://mafalgai.com/assets/images/cv/photo-cv.png",
+      "jobTitle": "Senior Full-Stack Developer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Open to opportunities"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/mafal-gai-7a456817a/",
+        "https://github.com/Maf38"
+      ],
+      "knowsAbout": [
+        "Angular",
+        ".NET Core",
+        "TypeScript",
+        "Azure",
+        "Docker",
+        "NestJS",
+        "SQL Server"
+      ]
+    },
+    "robotsTxt": "User-agent: *\nAllow: /\n\nSitemap: https://mafalgai.com/sitemap.xml\n",
+    "sitemapUrls": [
+      {
+        "loc": "https://mafalgai.com/",
+        "lastmod": "2025-01-29",
+        "changefreq": "monthly",
+        "priority": "1.0"
+      },
+      {
+        "loc": "https://mafalgai.com/cv",
+        "lastmod": "2025-01-29",
+        "changefreq": "monthly",
+        "priority": "0.9"
+      }
+    ]
+  },
+  "header": {
+    "name": "Mafal Gai",
+    "nameHref": "/",
+    "title": "Senior Software Engineer",
+    "tagline": "I build automated and robust digital experiences with a lean mindset and modern web technologies.",
+    "navAriaLabel": "In-page jump links",
+    "nav": [
+      {
+        "label": "About",
+        "href": "#about"
+      },
+      {
+        "label": "Experience",
+        "href": "#experience"
+      },
+      {
+        "label": "Projects",
+        "href": "#projects"
+      },
+      {
+        "label": "Education",
+        "href": "#education"
+      },
+      {
+        "label": "Setup",
+        "href": "#setup"
+      }
+    ],
+    "socialsAriaLabel": "Social media",
+    "socials": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/Maf38",
+        "icon": "github",
+        "iconType": "inline-svg",
+        "ariaLabel": "GitHub (opens in a new tab)",
+        "external": true
+      },
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/in/mafal-gai-7a456817a/",
+        "icon": "linkedin",
+        "iconType": "inline-svg",
+        "ariaLabel": "LinkedIn (opens in a new tab)",
+        "external": true
+      },
+      {
+        "label": "Contact",
+        "href": "#",
+        "icon": "phone",
+        "iconType": "inline-svg",
+        "ariaLabel": "Contact",
+        "action": "openContactModal",
+        "external": false
+      },
+      {
+        "label": "JIRA",
+        "href": "https://maflabs.atlassian.net",
+        "icon": "jira",
+        "iconType": "inline-svg",
+        "ariaLabel": "JIRA (opens in a new tab)",
+        "external": true
+      },
+      {
+        "label": "SonarQube",
+        "href": "https://sonarqube.maflabs.fr",
+        "icon": "sonarqube",
+        "iconType": "img",
+        "iconSrc": "/assets/images/logos/sonarqube-logo-mono.svg",
+        "alt": "SonarQube",
+        "ariaLabel": "SonarQube (opens in a new tab)",
+        "external": true
+      }
+    ],
+    "cvButtonsAriaLabel": "CV Downloads",
+    "cvButtons": [
+      {
+        "lang": "fr",
+        "title": "Download CV (FR)",
+        "ariaLabel": "Download CV in French",
+        "iconSrc": "/assets/images/logos/cv-fr-badge.svg",
+        "alt": "Download CV FR",
+        "action": "downloadCv('fr')"
+      },
+      {
+        "lang": "en",
+        "title": "Download CV (EN)",
+        "ariaLabel": "Download CV in English",
+        "iconSrc": "/assets/images/logos/cv-en-badge.svg",
+        "alt": "Download CV EN",
+        "action": "downloadCv('en')"
+      }
+    ],
+    "versionInfo": {
+      "template": "v{version} • {buildDate:MMM d, y}",
+      "version": "1.0.0",
+      "packageVersion": "1.1.0",
+      "buildDate": "2025-11-30T00:00:00.000Z",
+      "renderedExample": "v1.0.0 • Nov 30, 2025"
+    }
+  },
+  "about": {
+    "heading": "About",
+    "paragraphs": [
+      "Currently working as a .NET Developer on a multi-application maintenance team managing 70+ applications, I split my time between build and run operations across a web-focused application portfolio. My daily environment revolves around Microsoft technologies: Windows Server, IIS, Azure DevOps for CI/CD pipelines, and SQL Server 2014/2019 for database management.",
+      "I'm a versatile developer who has experimented with various technologies throughout my career. I have a real passion for web technologies and I'm thrilled to have made a professional shift that allows me to practice them daily. However, I remain fundamentally a backend-oriented developer. My industrial background naturally exposed me to Lean concepts, and I deeply appreciate Agile work organization. Over time, I've also been increasingly drawn to Linux systems, containerization, and Node.js ecosystem, as these perfectly align with the projects I build on a daily basis. My goal is naturally to evolve professionally within these technologies to further enhance my skills.",
+      "My objective is to build robust, maintainable, and automated software systems, anticipating the evolution of development practices toward more artificial intelligence and automation. I don't just aim to write code that works, but to create professional architectures that will stand the test of time and team changes."
+    ]
+  },
+  "experience": [
+    {
+      "id": "exp-0",
+      "period": "Jan 2026 — Present",
+      "position": ".NET Developer",
+      "company": "Inetum - ANR",
+      "companyUrl": "https://anr.fr",
+      "via": "Inetum",
+      "location": "Lille",
+      "type": "Mission",
+      "startDate": "2026-01",
+      "endDate": null,
+      "current": true,
+      "description": "Application maintenance (TMA) on the SIM platform, a tool for managing calls for proposals (appels à projets). Performing evolution and corrective maintenance on a legacy ASP.NET WebForms application within the Microsoft ecosystem.",
+      "technologies": [
+        "ASP.NET WebForms",
+        ".NET Framework",
+        "SharePoint",
+        "JavaScript",
+        "SQL Server",
+        "Dapper",
+        "GitHub Copilot",
+        "Jira"
+      ],
+      "logoLayout": "row",
+      "logos": [
+        {
+          "src": "/assets/images/logos/inetum-logo-mono.svg",
+          "alt": "Inetum",
+          "href": "https://inetum.com",
+          "label": "Inetum",
+          "size": "large"
+        },
+        {
+          "src": "/assets/images/logos/anr-logo-mono.svg",
+          "alt": "ANR",
+          "href": "https://anr.fr",
+          "label": "Agence Nationale de la Recherche",
+          "size": "small"
+        }
+      ]
+    },
+    {
+      "id": "exp-1",
+      "period": "Apr 2023 — Dec 2025",
+      "position": ".NET Developer",
+      "company": "Inetum - CEA",
+      "companyUrl": "https://www.cea.fr",
+      "via": "Inetum",
+      "location": "Grenoble",
+      "type": "CDI via ESN",
+      "startDate": "2023-04",
+      "endDate": "2025-12",
+      "current": false,
+      "description": "Managing a multi-application maintenance portfolio of 70+ applications, balancing build and run operations across a web-focused Microsoft ecosystem. Working in a modern development environment using CI/CD with Azure DevOps, SonarQube quality gates, and comprehensive unit testing. Working with both legacy (.NET 4.8, Razor, Kendo UI) and modern (.NET 8) stacks. Participating in the SI modernization: SQL Server migration from 2014 to 2019 Cluster, SeriLog/ELK.",
+      "technologies": [
+        ".NET 4.8 / .NET 8",
+        "C#",
+        "LINQ",
+        "Entity Framework",
+        "ADO.NET",
+        "VB.NET",
+        "Azure DevOps",
+        "SQL Server 2014/2019",
+        "Windows Server",
+        "IIS",
+        "SonarQube",
+        "Keycloak",
+        "Serilog",
+        "ELK",
+        "Razor",
+        "Kendo UI"
+      ],
+      "logoLayout": "row",
+      "logos": [
+        {
+          "src": "/assets/images/logos/inetum-logo-mono.svg",
+          "alt": "Inetum",
+          "href": "https://inetum.com",
+          "label": "Inetum",
+          "size": "large"
+        },
+        {
+          "src": "/assets/images/logos/cea-logo-mono.svg",
+          "alt": "CEA",
+          "href": "https://www.cea.fr",
+          "label": "CEA",
+          "size": "large"
+        }
+      ]
+    },
+    {
+      "id": "exp-2",
+      "period": "Apr 2022 — Mar 2023",
+      "position": "Backend Developer",
+      "company": "Capgemini - EDF",
+      "companyUrl": "https://www.edf.fr",
+      "via": "Capgemini",
+      "location": "Lyon",
+      "type": "Mission via ESN",
+      "startDate": "2022-04",
+      "endDate": "2023-03",
+      "current": false,
+      "description": "Developed backend solutions for the GEMODO project using Java and KornShell scripting on RedHat Linux. Implemented ETL processes with Informatica for data integration workflows, and maintained SharePoint collaboration systems. Focused on automation and data processing pipelines in an enterprise Linux environment.",
+      "technologies": [
+        "Java",
+        "KornShell",
+        "ETL Informatica",
+        "Oracle DB",
+        "Jenkins",
+        "SAFe",
+        "RedHat Linux",
+        "SharePoint"
+      ],
+      "logoLayout": "row",
+      "logos": [
+        {
+          "src": "/assets/images/logos/capgemini-logo-mono.svg",
+          "alt": "Capgemini",
+          "href": "https://www.capgemini.com",
+          "label": "Capgemini",
+          "size": "small"
+        },
+        {
+          "src": "/assets/images/logos/edf-logo-mono.svg",
+          "alt": "EDF",
+          "href": "https://www.edf.fr",
+          "label": "EDF",
+          "size": null
+        }
+      ]
+    },
+    {
+      "id": "exp-3",
+      "period": "Jun 2021 — Mar 2023",
+      "position": "PL/SQL Developer & Test Automation",
+      "company": "Capgemini - EDF",
+      "companyUrl": "https://www.edf.fr",
+      "via": "Capgemini",
+      "location": "Lyon",
+      "type": "Mission via ESN",
+      "startDate": "2021-06",
+      "endDate": "2023-03",
+      "current": false,
+      "description": "Developed and maintained services for the GEMODO application. Repurposed UFT (Unified Functional Testing), an end-to-end testing tool, to automate data injection through VBScript-based form filling. Developed PL/SQL queries and procedures to validate syntactic and semantic data conformity against business rules, ensuring data quality and integrity. Maintained ETL processes through Informatica on Linux infrastructure.",
+      "technologies": [
+        "PL/SQL",
+        "Oracle Database",
+        "UFT (Unified Functional Testing)",
+        "VBScript",
+        "Informatica",
+        "Control-M",
+        "Linux",
+        "SharePoint"
+      ],
+      "logoLayout": "row",
+      "logos": [
+        {
+          "src": "/assets/images/logos/capgemini-logo-mono.svg",
+          "alt": "Capgemini",
+          "href": "https://www.capgemini.com",
+          "label": "Capgemini",
+          "size": "small"
+        },
+        {
+          "src": "/assets/images/logos/edf-logo-mono.svg",
+          "alt": "EDF",
+          "href": "https://www.edf.fr",
+          "label": "EDF",
+          "size": null
+        }
+      ]
+    },
+    {
+      "id": "exp-4",
+      "period": "Jun 2020 — Jun 2021",
+      "position": "Architecture Migration, Performance Testing & End-to-End Testing — DPA",
+      "company": "Capgemini - EDF",
+      "companyUrl": "https://www.edf.fr",
+      "via": "Capgemini",
+      "location": "Montbonnot",
+      "type": "Mission via ESN",
+      "startDate": "2020-06",
+      "endDate": "2021-06",
+      "current": false,
+      "description": "Led the architecture upgrade of the DPA application, a MES system using data models to prevent SPC (Statistical Process Control) drifts. Managed the migration from a 4-server to a 5-server architecture, and orchestrated the data source transition from legacy ODBC connections to a modern MES managing Hadoop Espadon. Conducted comprehensive load testing to validate system performance with the new technology stack and NRT (Near Real-Time) mode.",
+      "technologies": [
+        "Hadoop",
+        "Espadon API",
+        "Windows Server",
+        "SQL Server",
+        "PowerShell",
+        "HP ALM",
+        "eDNA",
+        "Aspentech"
+      ],
+      "logoLayout": "row",
+      "logos": [
+        {
+          "src": "/assets/images/logos/capgemini-logo-mono.svg",
+          "alt": "Capgemini",
+          "href": "https://www.capgemini.com",
+          "label": "Capgemini",
+          "size": "small"
+        },
+        {
+          "src": "/assets/images/logos/edf-logo-mono.svg",
+          "alt": "EDF",
+          "href": "https://www.edf.fr",
+          "label": "EDF",
+          "size": null
+        }
+      ]
+    },
+    {
+      "id": "exp-5",
+      "period": "Nov 2019 — May 2020",
+      "position": "Software Developer",
+      "company": "Capgemini (EDF / Rio Tinto)",
+      "companyUrl": "https://www.capgemini.com",
+      "via": "Capgemini",
+      "location": "Montbonnot",
+      "type": "Intégration ESN",
+      "startDate": "2019-11",
+      "endDate": "2020-05",
+      "current": false,
+      "description": "Contributed to proof-of-concept development for Manufacturing Execution Systems (MES) team working on EDF and Rio Tinto projects. Refreshed the Rio Tinto interface using Angular 6 and Ionic 3 for mobile development. Gained hands-on experience managing the Rio Tinto MES. Implemented CI/CD test automation pipelines (GitLab, Jenkins, Selenium) on hybrid Linux/Windows Server environments. First professional experience with enterprise consulting and cross-platform development.",
+      "technologies": [
+        "Angular 6",
+        "Ionic 3",
+        "Linux",
+        "Windows Server",
+        "GitLab",
+        "Jenkins",
+        "Selenium",
+        "MES Management"
+      ],
+      "logoLayout": "stacked",
+      "logos": [
+        {
+          "src": "/assets/images/logos/capgemini-logo-mono.svg",
+          "alt": "Capgemini",
+          "href": "https://www.capgemini.com",
+          "label": "Capgemini",
+          "size": "small",
+          "row": 1
+        },
+        {
+          "src": "/assets/images/logos/edf-logo-mono.svg",
+          "alt": "EDF",
+          "href": "https://www.edf.fr",
+          "label": "EDF",
+          "size": null,
+          "row": 2
+        },
+        {
+          "src": "/assets/images/logos/rio-tinto-logo-mono.svg",
+          "alt": "Rio Tinto",
+          "href": "https://www.riotinto.com",
+          "label": "Rio Tinto",
+          "size": "x-small",
+          "row": 2
+        }
+      ]
+    },
+    {
+      "id": "exp-6",
+      "period": "Apr 2019 — Sep 2019",
+      "position": "Software Developer Intern",
+      "company": "· Cerberis",
+      "companyUrl": null,
+      "via": null,
+      "location": "Grenoble",
+      "type": "Stage de fin d'étude",
+      "startDate": "2019-04",
+      "endDate": "2019-09",
+      "current": false,
+      "description": "Developed a SaaS daemon service for Microsoft Exchange integration as first professional software development experience. Built .NET applications interfacing with Office 365 APIs and deployed on Azure cloud infrastructure. Learned modern software engineering practices and cloud-based architecture.",
+      "technologies": [
+        ".NET Framework",
+        "Entity Framework",
+        "Office 365 API",
+        "OpenID Connect",
+        "OAuth 2.0",
+        "Azure",
+        "Cosmos DB",
+        "Exchange"
+      ],
+      "logoLayout": "none",
+      "logos": []
+    },
+    {
+      "id": "exp-7",
+      "period": "2005 — 2018",
+      "position": "Maintenance Technician",
+      "company": "· ST Microelectronics",
+      "companyUrl": "https://www.st.com",
+      "via": null,
+      "location": "Crolles",
+      "type": "CDI",
+      "startDate": "2005-01",
+      "endDate": "2018-12",
+      "current": false,
+      "description": "Started as Process Technician (quality technician) and evolved to Maintenance Technician role. Specialized in dry etching machines (oxide and metal) from LAM Research and TEL equipment suppliers. Worked within TPM (Total Productive Maintenance) framework developed by Toyota, with strong acculturation to Lean methodology. During the 2008 crisis, contributed to productivity improvements to maintain competitiveness in the 200mm wafer fabrication environment.",
+      "technologies": [
+        "TPM",
+        "Lean",
+        "Lam Research",
+        "TEL",
+        "Etch 200mm"
+      ],
+      "logoLayout": "row",
+      "logos": [
+        {
+          "src": "/assets/images/logos/st-microelectronics-mono.svg",
+          "alt": "ST Microelectronics",
+          "href": "https://www.st.com",
+          "label": "ST Microelectronics",
+          "size": null
+        }
+      ]
+    },
+    {
+      "id": "exp-8",
+      "period": "2005",
+      "position": "Wiring Assembler",
+      "company": "· Canalog",
+      "companyUrl": null,
+      "via": null,
+      "location": "France",
+      "type": "Contract",
+      "startDate": "2005-01",
+      "endDate": "2005-12",
+      "current": false,
+      "description": "Worked as a wiring assembler (monteur câbleur) for machines manufacturing glass syringes. Assembled and wired precision equipment components for pharmaceutical manufacturing industry.",
+      "technologies": [
+        "Wiring Assembly",
+        "Manufacturing",
+        "Medical Equipment"
+      ],
+      "logoLayout": "row",
+      "logos": [
+        {
+          "src": "/assets/images/logos/becton-dickinson-mono.svg",
+          "alt": "Becton Dickinson",
+          "href": "https://www.bd.com",
+          "label": "Becton Dickinson",
+          "size": "large"
+        }
+      ]
+    },
+    {
+      "id": "exp-9",
+      "period": "2001",
+      "position": "IT Support Specialist",
+      "company": "· 68ème Régiment d'Artillerie d'Afrique",
+      "companyUrl": null,
+      "via": null,
+      "location": "La Valbonne",
+      "type": "Service Militaire",
+      "startDate": "2001-01",
+      "endDate": "2001-12",
+      "current": false,
+      "description": "Military service in the Command and Logistics Battery. Digitized vehicle maintenance logbooks and developed VBA macros to format these records according to military standards. Contributed to the modernization of administrative processes through office automation.",
+      "technologies": [
+        "VBA",
+        "Excel",
+        "Office Automation",
+        "Data Entry",
+        "Military Service"
+      ],
+      "logoLayout": "row",
+      "logos": [
+        {
+          "src": "/assets/images/logos/armee-de-terre-mono.svg",
+          "alt": "Armée de Terre",
+          "href": "https://www.defense.gouv.fr/terre",
+          "label": "Armée de Terre",
+          "size": "medium"
+        }
+      ]
+    }
+  ],
+  "projects": {
+    "featured": [
+      {
+        "id": "ifttt-trading",
+        "name": "IFTTT-Trading - Automated Trading Platform",
+        "titleHref": "https://www.notion.so/IFTTT-Trading-specifications-2aa97b29932581fdb0cbc79236eb530f",
+        "description": "Trading automation tool on Solana for executing swaps in a non-custodial environment with sophisticated conditional rules beyond simple limit orders.",
+        "example": "Example: IF BTC > $100,000 AND RSI 14 (1h) > 30 THEN swap USDT to MOODENG",
+        "context": "Personal tool rapidly developed as MVP, now in consolidation phase with DevOps ecosystem (Ansible provisioning, GitLab CI/CD, Prometheus monitoring, Vault secrets, S3 backups).",
+        "subProjectsTitle": "Sub-projects:",
+        "links": [],
+        "statusBadge": null,
+        "images": [],
+        "subProjects": [
+          {
+            "name": "devops-ifttt-trading",
+            "private": true,
+            "links": [
+              {
+                "icon": "github-private-mono",
+                "iconSrc": "/assets/images/logos/github-private-mono.svg",
+                "href": "https://github.com/Maf38/devops-ifttt-trading",
+                "ariaLabel": "GitHub (Private)",
+                "title": "Private Repository",
+                "alt": "GitHub Private"
+              },
+              {
+                "icon": "notion-mono",
+                "iconSrc": "/assets/images/logos/notion-mono.svg",
+                "href": "https://www.notion.so/IFTT-Trading-Vue-d-ensemble-du-projet-2a997b29932581ec9bd7fe7f37428c84",
+                "ariaLabel": "Notion",
+                "alt": "Notion"
+              }
+            ],
+            "description": "Complete DevOps ecosystem with Ansible provisioning for automated VM setup, GitLab CI/CD pipelines, Prometheus/Grafana monitoring stack, Traefik reverse proxy, and S3 backup automation. Comprehensive documentation and infrastructure-as-code for the entire platform.",
+            "technologies": [
+              "Docker Compose",
+              "Ansible",
+              "GitLab CI/CD",
+              "Prometheus",
+              "Grafana",
+              "Traefik",
+              "S3"
+            ]
+          },
+          {
+            "name": "iftt-trading-automation",
+            "private": true,
+            "links": [
+              {
+                "icon": "github-private-mono",
+                "iconSrc": "/assets/images/logos/github-private-mono.svg",
+                "href": "https://github.com/Maf38/iftt-trading-automation",
+                "ariaLabel": "GitHub (Private)",
+                "title": "Private Repository",
+                "alt": "GitHub Private"
+              }
+            ],
+            "description": "Full-stack monorepo combining Angular 18 retro-gaming frontend with NestJS backend. Real-time WebSocket updates, JWT authentication, Phantom wallet integration, PostgreSQL with TypeORM, and comprehensive rule engine for conditional trading logic.",
+            "technologies": [
+              "Angular 18",
+              "NestJS",
+              "PostgreSQL",
+              "TypeScript",
+              "WebSocket",
+              "OAuth2/OIDC",
+              "Wallet Adapter",
+              "Docker Compose"
+            ]
+          },
+          {
+            "name": "solana-swap-api",
+            "private": true,
+            "links": [
+              {
+                "icon": "github-private-mono",
+                "iconSrc": "/assets/images/logos/github-private-mono.svg",
+                "href": "https://github.com/Maf38/solana-swap-api",
+                "ariaLabel": "GitHub (Private)",
+                "title": "Private Repository",
+                "alt": "GitHub Private"
+              }
+            ],
+            "description": "Dedicated microservice for executing Solana token swaps via Jupiter aggregator. Integrates with HashiCorp Vault for secure private key management, handles transaction signing, and provides REST API endpoints for swap operations with slippage control.",
+            "technologies": [
+              "Node.js",
+              "Solana Web3.js",
+              "Jupiter API",
+              "HashiCorp Vault",
+              "Docker Compose"
+            ]
+          },
+          {
+            "name": "hashicorp-vault",
+            "private": true,
+            "links": [
+              {
+                "icon": "github-private-mono",
+                "iconSrc": "/assets/images/logos/github-private-mono.svg",
+                "href": "https://github.com/Maf38/hashicorp-vault",
+                "ariaLabel": "GitHub (Private)",
+                "title": "Private Repository",
+                "alt": "GitHub Private"
+              }
+            ],
+            "description": "Production-ready HashiCorp Vault deployment with automated SSL certificate management via Certbot DNS challenge. Nginx reverse proxy configuration, secure secrets storage for Solana private keys, and integration with all platform microservices.",
+            "technologies": [
+              "Docker Compose",
+              "Vault",
+              "Certbot",
+              "Nginx"
+            ]
+          },
+          {
+            "name": "custom-solcrates-ohlcv-api",
+            "private": false,
+            "links": [
+              {
+                "icon": "github-mono",
+                "iconSrc": "/assets/images/logos/github-mono.svg",
+                "href": "https://github.com/Maf38/custom-solcrates-ohlcv-api",
+                "ariaLabel": "GitHub",
+                "alt": "GitHub"
+              }
+            ],
+            "description": "Custom fork of solcrates-ohlcv-api adding dual persistence layer (InfluxDB time-series + SQLite metadata), historical data backfill capabilities, and daemon mode for continuous candle data collection from GeckoTerminal API for technical analysis.",
+            "technologies": [
+              "Node.js",
+              "InfluxDB",
+              "SQLite",
+              "GeckoTerminal API",
+              "Docker Compose"
+            ]
+          },
+          {
+            "name": "n8n",
+            "private": true,
+            "links": [
+              {
+                "icon": "github-private-mono",
+                "iconSrc": "/assets/images/logos/github-private-mono.svg",
+                "href": "https://github.com/Maf38/n8n",
+                "ariaLabel": "GitHub (Private)",
+                "title": "Private Repository",
+                "alt": "GitHub Private"
+              }
+            ],
+            "description": "Core business logic orchestrator connecting to iftt-trading-automation backend via OAuth2. Handles trading decision-making with native multi-processing of market data streams. Strategic choice enabling integration with Telegram notifications, external APIs, and extensible workflow automation for future enhancements.",
+            "technologies": [
+              "n8n",
+              "Workflows",
+              "Automation",
+              "OAuth2"
+            ]
+          }
+        ]
+      }
+    ],
+    "others": [
+      {
+        "id": "portfolio-cv",
+        "name": "Portfolio CV",
+        "titleHref": "https://github.com/Maf38/portfolio-cv",
+        "statusBadge": null,
+        "private": false,
+        "links": [
+          {
+            "icon": "github-mono",
+            "iconSrc": "/assets/images/logos/github-mono.svg",
+            "href": "https://github.com/Maf38/portfolio-cv",
+            "ariaLabel": "GitHub",
+            "alt": "GitHub"
+          }
+        ],
+        "description": "This portfolio website built with Angular 17 standalone components and Tailwind CSS. Design inspired by [brittanychiang.com](https://brittanychiang.com) (MIT License) — a good exercise in respecting design principles while adding my personal touch.",
+        "technologies": [
+          "Angular 17",
+          "Tailwind CSS",
+          "TypeScript",
+          "GitHub Pages",
+          "GitHub Actions",
+          "SonarQube",
+          "Jira"
+        ],
+        "images": []
+      },
+      {
+        "id": "voice-in-terminal",
+        "name": "Voice in Terminal",
+        "titleHref": "https://github.com/Maf38/voice-in-terminal",
+        "statusBadge": null,
+        "private": false,
+        "links": [
+          {
+            "icon": "github-mono",
+            "iconSrc": "/assets/images/logos/github-mono.svg",
+            "href": "https://github.com/Maf38/voice-in-terminal",
+            "ariaLabel": "GitHub",
+            "alt": "GitHub"
+          }
+        ],
+        "description": "VSCode extension for voice commands using local Whisper.cpp or OpenAI API. Cross-platform support with SoX integration.",
+        "technologies": [
+          "TypeScript",
+          "VSCode API",
+          "Whisper.cpp",
+          "Node.js"
+        ],
+        "images": []
+      },
+      {
+        "id": "wednesday-memecoin",
+        "name": "Wednesday Memecoin",
+        "titleHref": "https://wednesdaysolana.art/",
+        "statusBadge": null,
+        "private": false,
+        "links": [
+          {
+            "icon": "github-mono",
+            "iconSrc": "/assets/images/logos/github-mono.svg",
+            "href": "https://github.com/Maf38/wednesday-app",
+            "ariaLabel": "GitHub",
+            "alt": "GitHub"
+          },
+          {
+            "icon": "www-mono",
+            "iconSrc": "/assets/images/logos/www-mono.svg",
+            "href": "https://wednesdaysolana.art/",
+            "ariaLabel": "Live Site",
+            "alt": "Website"
+          }
+        ],
+        "description": "Memecoin website 100% AI-assisted POC. Gothic horror theme with GSAP animations, EmulatorJS game integration, and Docker deployment.",
+        "technologies": [
+          "Angular 19",
+          "GSAP",
+          "Docker",
+          "Solana"
+        ],
+        "images": []
+      },
+      {
+        "id": "miawallacebot",
+        "name": "MiaWallaceBot",
+        "titleHref": "https://github.com/Maf38/MiaWallaceBot",
+        "statusBadge": null,
+        "private": true,
+        "links": [
+          {
+            "icon": "github-private-mono",
+            "iconSrc": "/assets/images/logos/github-private-mono.svg",
+            "href": "https://github.com/Maf38/MiaWallaceBot",
+            "ariaLabel": "GitHub (Private)",
+            "title": "Private Repository",
+            "alt": "GitHub Private"
+          }
+        ],
+        "description": "AI-powered Telegram user-bot automation with ASP.NET Core 8. Simulates human-like interactions using OpenAI GPT models and WTelegram MTProto client. 100% handcrafted without AI assistance.",
+        "technologies": [
+          ".NET 8",
+          "C#",
+          "OpenAI API",
+          "WTelegram",
+          "MySQL",
+          "Docker"
+        ],
+        "images": []
+      },
+      {
+        "id": "botcrypto",
+        "name": "BotCrypto (WPF)",
+        "titleHref": "https://github.com/Maf38/BotCrypto",
+        "statusBadge": null,
+        "private": true,
+        "links": [
+          {
+            "icon": "github-private-mono",
+            "iconSrc": "/assets/images/logos/github-private-mono.svg",
+            "href": "https://github.com/Maf38/BotCrypto",
+            "ariaLabel": "GitHub (Private)",
+            "title": "Private Repository",
+            "alt": "GitHub Private"
+          }
+        ],
+        "description": "Crypto trading bot prototype in WPF with OxyPlot charting and backtesting capabilities. Built for WPF job interview preparation.",
+        "technologies": [
+          ".NET Core 3.1",
+          "WPF",
+          "OxyPlot",
+          "Binance.Net",
+          "MVVM"
+        ],
+        "images": []
+      },
+      {
+        "id": "ivey-poker-bot",
+        "name": "Ivey Poker Bot",
+        "titleHref": "https://github.com/MafLabs38/ivey-poker-bot",
+        "statusBadge": "In Progress",
+        "private": true,
+        "links": [
+          {
+            "icon": "github-private-mono",
+            "iconSrc": "/assets/images/logos/github-private-mono.svg",
+            "href": "https://github.com/MafLabs38/ivey-poker-bot",
+            "ariaLabel": "GitHub (Private)",
+            "title": "Private Repository",
+            "alt": "GitHub Private"
+          }
+        ],
+        "description": "AI-powered autonomous poker bot with universal vision (OCR/YOLO). Captures the screen, detects cards via YOLOv8, calculates probabilities and recommends (or executes) optimal actions. Three modes: observer (HUD), semi-auto, and fully autonomous. Built-in player tracker with VPIP/PFR/AF/3Bet stats.",
+        "technologies": [
+          "Python",
+          "YOLOv8",
+          "Tesseract OCR",
+          "FastAPI",
+          "SQLite",
+          "Docker",
+          "Tkinter HUD",
+          "uv"
+        ],
+        "images": []
+      },
+      {
+        "id": "oter-iptv",
+        "name": "Oter IPTV",
+        "titleHref": "https://github.com/MafLabs38/oter-iptv",
+        "statusBadge": "In Progress",
+        "private": true,
+        "links": [
+          {
+            "icon": "github-private-mono",
+            "iconSrc": "/assets/images/logos/github-private-mono.svg",
+            "href": "https://github.com/MafLabs38/oter-iptv",
+            "ariaLabel": "GitHub (Private)",
+            "title": "Private Repository",
+            "alt": "GitHub Private"
+          }
+        ],
+        "description": "Modern IPTV player for Windows with Fluent Design. Supports M3U and Xtream Codes API, automatic metadata enrichment via TMDb, smart playback resume, offline downloads, and adaptive buffering for optimal streaming performance.",
+        "technologies": [
+          "C# 12",
+          "WinUI 3",
+          ".NET 9",
+          "MVVM",
+          "SQLite",
+          "EF Core",
+          "LibVLCSharp",
+          "TMDb API",
+          "MSIX"
+        ],
+        "images": []
+      },
+      {
+        "id": "claude-visual-code",
+        "name": "Claude Visual Code",
+        "titleHref": "https://github.com/MafLabs38/claude-visual-code",
+        "statusBadge": "In Progress",
+        "private": true,
+        "links": [
+          {
+            "icon": "github-private-mono",
+            "iconSrc": "/assets/images/logos/github-private-mono.svg",
+            "href": "https://github.com/MafLabs38/claude-visual-code",
+            "ariaLabel": "GitHub (Private)",
+            "title": "Private Repository",
+            "alt": "GitHub Private"
+          }
+        ],
+        "description": "Voice-first mobile client for Claude Code. Dictate your intent from your Android phone, watch Claude work in real-time, browse files, and use the terminal. Includes a companion VS Code extension (CVC Voice Injector) for bridging voice input to Claude Code in code-server.",
+        "technologies": [
+          "Flutter",
+          "Dart",
+          "code-server",
+          "WebView",
+          "STT",
+          "VS Code API",
+          "JavaScript",
+          "SSH"
+        ],
+        "images": []
+      }
+    ]
+  },
+  "education": [
+    {
+      "id": "edu-1",
+      "period": "2019",
+      "degree": "Titre professionnel Concepteur Développeur Informatique",
+      "school": "AFPA",
+      "location": "Grenoble",
+      "displayedSubtitle": "· AFPA, Grenoble",
+      "description": "Professional certification in software development and design.",
+      "level": "Bac+3/4 (Niveau 6)",
+      "grade": null,
+      "startDate": "2018-09",
+      "endDate": "2019-06"
+    },
+    {
+      "id": "edu-2",
+      "period": "2003",
+      "degree": "DUT GEII (Génie Électrique et Informatique Industrielle)",
+      "school": "Université Joseph Fourier",
+      "location": "Grenoble",
+      "displayedSubtitle": "· Université Joseph Fourier, Grenoble",
+      "description": "Two-year technical degree in Electrical Engineering and Industrial Computer Science.",
+      "level": "Bac+2",
+      "grade": null,
+      "startDate": "2002-09",
+      "endDate": "2003-06"
+    },
+    {
+      "id": "edu-3",
+      "period": "1999",
+      "degree": "IUP MAI (Mathématiques Appliquées et Industrielles)",
+      "school": "Université Joseph Fourier",
+      "location": "Grenoble",
+      "displayedSubtitle": "· Université Joseph Fourier, Grenoble",
+      "description": "University Institute of Engineering - Applied and Industrial Mathematics.",
+      "level": "Bac+3 (Licence)",
+      "grade": null,
+      "startDate": "1998-09",
+      "endDate": "1999-06"
+    },
+    {
+      "id": "edu-4",
+      "period": "1998",
+      "degree": "DEUG SMb (Sciences de la Matière)",
+      "school": "Université Joseph Fourier",
+      "location": "Grenoble",
+      "displayedSubtitle": "· Université Joseph Fourier, Grenoble",
+      "description": "Two-year undergraduate degree in Material Sciences with focus on Biology, Chemistry, and Physics.",
+      "level": "Bac+2",
+      "grade": null,
+      "startDate": "1997-09",
+      "endDate": "1998-06"
+    },
+    {
+      "id": "edu-5",
+      "period": "1997",
+      "degree": "Math Sup PC-SI",
+      "school": "Lycée Berthollet",
+      "location": "Annecy",
+      "displayedSubtitle": "· Lycée Berthollet, Annecy",
+      "description": "Preparatory class for engineering schools (Physics, Chemistry, and Engineering Sciences).",
+      "level": "Classe préparatoire",
+      "grade": null,
+      "startDate": "1996-09",
+      "endDate": "1997-06"
+    },
+    {
+      "id": "edu-6",
+      "period": "1996",
+      "degree": "BAC S mention bien (Scientific Baccalaureate)",
+      "school": "Lycée Sainte Marie",
+      "location": "La Roche-sur-Foron",
+      "displayedSubtitle": "· Lycée Sainte Marie, La Roche-sur-Foron",
+      "description": "French high school diploma in Sciences with honors.",
+      "level": "Bac",
+      "grade": "Mention Bien",
+      "startDate": "1995-09",
+      "endDate": "1996-06"
+    }
+  ],
+  "setup": {
+    "heading": "Setup",
+    "screenshot": {
+      "src": "/assets/images/setup/unraid.png",
+      "alt": "Unraid Server"
+    },
+    "columns": [
+      [
+        {
+          "title": "Homelab Server",
+          "label": "Unraid OS Plus",
+          "items": [
+            "Intel Xeon E31270 @ 3.40GHz",
+            "32 GB DDR3 @ 3333 MHz",
+            "Array: 5 disks (1 parity + 4 data)",
+            "Cache: 2x SSD RAID 0 (BTRFS)",
+            "33.64 TB Total (6 TB used)",
+            "2x Ubuntu VMs (Dev + INFRA)",
+            "RTX 2070 + Ollama"
+          ]
+        },
+        {
+          "title": "Desktop PC",
+          "label": "Windows 10 Pro",
+          "items": [
+            "Intel Core i7-9700K",
+            "32 GB DDR4",
+            "NVIDIA RTX 4070 (12 GB)",
+            "28+ TB Multi-drive"
+          ]
+        }
+      ],
+      [
+        {
+          "title": "Development Laptop",
+          "label": "Dell Precision 7540",
+          "items": [
+            "Intel Core i9 (9th Gen)",
+            "32 GB DDR4",
+            "NVIDIA Quadro RTX 4000",
+            "1 TB NVMe SSD",
+            "Ubuntu 22.04 LTS"
+          ]
+        },
+        {
+          "title": "Self-Hosted",
+          "label": "Infrastructure",
+          "items": [
+            "SonarQube",
+            "N8N",
+            "Airsonic",
+            "Plex Media Server"
+          ]
+        }
+      ]
+    ]
+  },
+  "footer": null,
+  "contact": {
+    "title": "Contact Info",
+    "closeAriaLabel": "Close",
+    "items": [
+      {
+        "type": "email",
+        "label": "Email",
+        "value": "gaimafal@gmail.com",
+        "href": "mailto:Mafal Gai <gaimafal@gmail.com>",
+        "copyValue": "Mafal Gai <gaimafal@gmail.com>",
+        "copyLabel": "Copy email",
+        "copiedLabel": "Copied!",
+        "icon": "email"
+      },
+      {
+        "type": "phone",
+        "label": "Phone",
+        "value": null,
+        "maskedText": "Ask me by email with a brief introduction",
+        "icon": "phone"
+      }
+    ],
+    "behavior": "Opened by the header 'Contact' social icon; closes on overlay click, close button, or Escape."
+  },
+  "ui": {
+    "sectionHeadings": {
+      "about": "About",
+      "experience": "Experience",
+      "projects": "Projects",
+      "education": "Education",
+      "setup": "Setup"
+    },
+    "experienceTitleAriaLabelTemplate": "{position} at {company}",
+    "resumeLink": {
+      "label": "View Full Résumé",
+      "ariaLabel": "Download Full Résumé (EN)",
+      "action": "downloadCv('en')",
+      "icon": "arrow-up-right"
+    },
+    "subProjectsTitle": "Sub-projects:",
+    "statusBadges": [
+      "In Progress"
+    ],
+    "privateRepoTitle": "Private Repository",
+    "spotlight": {
+      "enabledMinWidth": 1024,
+      "gradient": "radial-gradient(600px circle at {x}px {y}px, rgba(29, 78, 216, 0.15), transparent 80%)"
+    }
+  },
+  "assets": {
+    "profilePhoto": "/assets/images/cv/photo-cv.png",
+    "ogImage": "/assets/images/og-image.png",
+    "unusedImages": [
+      "/assets/images/ifttt-trading/private-key-modal.png",
+      "/assets/images/ifttt-trading/trading-charts.png",
+      "/assets/images/ifttt-trading/orders-management.png",
+      "/assets/images/ifttt-trading/token-watchlist.png",
+      "/assets/images/ifttt-trading/liquidity-pools.png",
+      "/assets/images/logos/inetum-logo.svg",
+      "/assets/images/logos/rio-tinto-logo.svg",
+      "/assets/images/logos/edf-logo.svg",
+      "/assets/images/logos/cea-logo.svg",
+      "/assets/images/logos/capgemini-logo.svg",
+      "/assets/images/logos/sonarqube-logo.svg",
+      "/assets/images/logos/st-microelectronics-1.svg",
+      "/assets/images/logos/lock-mono.svg"
+    ]
+  }
+}

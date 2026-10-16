@@ -1,0 +1,396 @@
+{
+  "en": {
+    "personal": {
+      "name": "Mafal Gai",
+      "title": "Software Developer",
+      "birthDate": "March 11, 1978",
+      "address": "rue Pierre Semard 38000 Grenoble",
+      "phone": "06 XX XX XX X7",
+      "email": "gaimafal@gmail.com",
+      "driverLicense": "Driving license B and vehicle"
+    },
+    "about": [
+      "Currently working as a .NET Developer on a multi-application maintenance team managing 70+ applications, I split my time between build and run operations across a web-focused application portfolio. My daily environment revolves around Microsoft technologies: Windows Server, IIS, Azure DevOps for CI/CD pipelines, and SQL Server 2014/2019 for database management.",
+      "I'm a versatile developer who has experimented with various technologies throughout my career. I have a real passion for web technologies and I'm thrilled to have made a professional shift that allows me to practice them daily. However, I remain fundamentally a backend-oriented developer. My industrial background naturally exposed me to Lean concepts, and I deeply appreciate Agile work organization. Over time, I've also been increasingly drawn to Linux systems, containerization, and Node.js ecosystem, as these perfectly align with the projects I build on a daily basis. My goal is naturally to evolve professionally within these technologies to further enhance my skills.",
+      "My objective is to build robust, maintainable, and automated software systems, anticipating the evolution of development practices toward more artificial intelligence and automation. I don't just aim to write code that works, but to create professional architectures that will stand the test of time and team changes."
+    ],
+    "experience": [
+      {
+        "period": "Jan 2026 — Present",
+        "company": "Inetum - ANR",
+        "title": ".NET Developer",
+        "description": "Application maintenance on the SIM platform, a tool for managing calls for proposals (appels à projets). Performing evolution and corrective maintenance on a legacy ASP.NET WebForms application within the Microsoft ecosystem.",
+        "skills": [
+          "ASP.NET WebForms",
+          ".NET Framework",
+          "SharePoint",
+          "JavaScript",
+          "SQL Server",
+          "Dapper",
+          "GitHub Copilot",
+          "Jira"
+        ]
+      },
+      {
+        "period": "Apr 2023 — Dec 2025",
+        "company": "Inetum - CEA",
+        "title": ".NET Developer",
+        "description": "Managing a multi-application maintenance portfolio of 70+ applications, balancing build and run operations across a web-focused Microsoft ecosystem. Working in a modern development environment using CI/CD with Azure DevOps, SonarQube quality gates, and comprehensive unit testing. Working with both legacy (.NET 4.8, Razor, Kendo UI) and modern (.NET 8) stacks. Participating in the SI modernization: SQL Server migration from 2014 to 2019 Cluster, SeriLog/ELK.",
+        "skills": [
+          ".NET 4.8 / .NET 8",
+          "C#",
+          "LINQ",
+          "Entity Framework",
+          "ADO.NET",
+          "VB.NET",
+          "Azure DevOps",
+          "SQL Server 2014/2019",
+          "Windows Server",
+          "IIS",
+          "SonarQube",
+          "Keycloak",
+          "Serilog",
+          "ELK",
+          "Razor",
+          "Kendo UI"
+        ]
+      },
+      {
+        "period": "Apr 2022 — Mar 2023",
+        "company": "Capgemini - EDF",
+        "title": "Backend Developer",
+        "description": "Developed backend solutions for the GEMODO project using Java and KornShell scripting on RedHat Linux. Implemented ETL processes with Informatica for data integration workflows, and maintained SharePoint collaboration systems. Focused on automation and data processing pipelines in an enterprise Linux environment.",
+        "skills": [
+          "Java",
+          "KornShell",
+          "ETL Informatica",
+          "Oracle DB",
+          "Jenkins",
+          "SAFe",
+          "RedHat Linux",
+          "SharePoint"
+        ]
+      },
+      {
+        "period": "Jun 2021 — Mar 2023",
+        "company": "Capgemini - EDF",
+        "title": "PL/SQL Developer & Test Automation",
+        "description": "Developed and maintained services for the GEMODO application. Repurposed UFT (Unified Functional Testing), an end-to-end testing tool, to automate data injection through VBScript-based form filling. Developed PL/SQL queries and procedures to validate syntactic and semantic data conformity against business rules, ensuring data quality and integrity. Maintained ETL processes through Informatica on Linux infrastructure.",
+        "skills": [
+          "PL/SQL",
+          "Oracle Database",
+          "UFT (Unified Functional Testing)",
+          "VBScript",
+          "Informatica",
+          "Control-M",
+          "Linux",
+          "SharePoint"
+        ]
+      },
+      {
+        "period": "Jun 2020 — Jun 2021",
+        "company": "Capgemini - EDF",
+        "title": "Architecture Migration, Performance Testing & End-to-End Testing — DPA",
+        "description": "Led the architecture upgrade of the DPA application, a MES system using data models to prevent SPC (Statistical Process Control) drifts. Managed the migration from a 4-server to a 5-server architecture, and orchestrated the data source transition from legacy ODBC connections to a modern MES managing Hadoop Espadon. Conducted comprehensive load testing to validate system performance with the new technology stack and NRT (Near Real-Time) mode.",
+        "skills": [
+          "Hadoop",
+          "Espadon API",
+          "Windows Server",
+          "SQL Server",
+          "PowerShell",
+          "HP ALM",
+          "eDNA",
+          "Aspentech"
+        ]
+      },
+      {
+        "period": "Nov 2019 — May 2020",
+        "company": "Capgemini (EDF / Rio Tinto)",
+        "title": "Software Developer",
+        "description": "Contributed to proof-of-concept development for Manufacturing Execution Systems (MES) team working on EDF and Rio Tinto projects. Refreshed the Rio Tinto interface using Angular 6 and Ionic 3 for mobile development. Gained hands-on experience managing the Rio Tinto MES. Implemented CI/CD test automation pipelines (GitLab, Jenkins, Selenium) on hybrid Linux/Windows Server environments. First professional experience with enterprise consulting and cross-platform development.",
+        "skills": [
+          "Angular 6",
+          "Ionic 3",
+          "Linux",
+          "Windows Server",
+          "GitLab",
+          "Jenkins",
+          "Selenium",
+          "MES Management"
+        ]
+      },
+      {
+        "period": "Apr 2019 — Sep 2019",
+        "company": "Cerberis",
+        "title": "Software Developer Intern",
+        "description": "Developed a SaaS daemon service for Microsoft Exchange integration as first professional software development experience. Built .NET applications interfacing with Office 365 APIs and deployed on Azure cloud infrastructure. Learned modern software engineering practices and cloud-based architecture.",
+        "skills": [
+          ".NET Framework",
+          "Entity Framework",
+          "Office 365 API",
+          "OpenID Connect",
+          "OAuth 2.0",
+          "Azure",
+          "Cosmos DB",
+          "Exchange"
+        ]
+      },
+      {
+        "period": "2005 — 2018",
+        "company": "ST Microelectronics",
+        "title": "Maintenance Technician",
+        "description": "Started as Process Technician (quality technician) and evolved to Maintenance Technician role. Specialized in dry etching machines (oxide and metal) from LAM Research and TEL equipment suppliers. Worked within TPM (Total Productive Maintenance) framework developed by Toyota, with strong acculturation to Lean methodology. During the 2008 crisis, contributed to productivity improvements to maintain competitiveness in the 200mm wafer fabrication environment.",
+        "skills": ["TPM", "Lean", "Lam Research", "TEL", "Etch 200mm"]
+      },
+      {
+        "period": "2005",
+        "company": "Canalog",
+        "title": "Wiring Assembler",
+        "description": "Worked as a wiring assembler (monteur câbleur) for machines manufacturing glass syringes. Assembled and wired precision equipment components for pharmaceutical manufacturing industry.",
+        "skills": ["Wiring Assembly", "Manufacturing", "Medical Equipment"]
+      },
+      {
+        "period": "2001",
+        "company": "68ème Régiment d'Artillerie d'Afrique",
+        "title": "IT Support Specialist",
+        "description": "Military service in the Command and Logistics Battery. Digitized vehicle maintenance logbooks and developed VBA macros to format these records according to military standards. Contributed to the modernization of administrative processes through office automation.",
+        "skills": ["VBA", "Excel", "Office Automation", "Data Entry", "Military Service"]
+      }
+    ],
+    "education": [
+      {
+        "year": "2019",
+        "title": "Professional certification in Software Development",
+        "institution": "AFPA, Grenoble",
+        "description": "Titre professionnel Concepteur Développeur Informatique"
+      },
+      {
+        "year": "2003",
+        "title": "DUT GEII (Electrical Engineering and Industrial Computer Science)",
+        "institution": "Université Joseph Fourier, Grenoble",
+        "description": "Two-year technical degree in Electrical Engineering and Industrial Computer Science"
+      },
+      {
+        "year": "1999",
+        "title": "IUP MAI (Applied and Industrial Mathematics)",
+        "institution": "Université Joseph Fourier, Grenoble",
+        "description": "University Institute of Engineering - Applied and Industrial Mathematics"
+      },
+      {
+        "year": "1998",
+        "title": "DEUG SMb (Material Sciences)",
+        "institution": "Université Joseph Fourier, Grenoble",
+        "description": "Two-year undergraduate degree in Material Sciences with focus on Biology, Chemistry, and Physics"
+      },
+      {
+        "year": "1997",
+        "title": "Math Sup PC-SI",
+        "institution": "Lycée Berthollet, Annecy",
+        "description": "Preparatory class for engineering schools (Physics, Chemistry, and Engineering Sciences)"
+      },
+      {
+        "year": "1996",
+        "title": "BAC S (Scientific Baccalaureate) with honors",
+        "institution": "Lycée Sainte Marie, La Roche-sur-Foron",
+        "description": "French high school diploma in Sciences with honors"
+      }
+    ]
+  },
+  "fr": {
+    "personal": {
+      "name": "Mafal Gai",
+      "title": "Concepteur Développeur Informatique",
+      "birthDate": "né le 11 mars 1978",
+      "address": "rue Pierre Semard 38000 Grenoble",
+      "phone": "06 XX XX XX X7",
+      "email": "gaimafal@gmail.com",
+      "driverLicense": "Permis B et véhicule"
+    },
+    "about": [
+      "Actuellement Développeur .NET au sein d'une équipe de maintenance multi-applications gérant plus de 70 applications, je partage mon temps entre les opérations de build et de run sur un portefeuille applicatif orienté web. Mon environnement quotidien s'articule autour des technologies Microsoft : Windows Server, IIS, Azure DevOps pour les pipelines CI/CD, et SQL Server 2014/2019 pour la gestion des bases de données.",
+      "Je suis un développeur polyvalent qui a expérimenté diverses technologies tout au long de ma carrière. J'ai une réelle passion pour les technologies web et je suis ravi d'avoir effectué une transition professionnelle qui me permet de les pratiquer quotidiennement. Cependant, je reste fondamentalement un développeur orienté backend. Mon parcours industriel m'a naturellement exposé aux concepts Lean, et j'apprécie profondément l'organisation de travail Agile. Au fil du temps, je me suis également de plus en plus tourné vers les systèmes Linux, la conteneurisation et l'écosystème Node.js, car ces technologies s'alignent parfaitement avec les projets que je construis au quotidien.",
+      "Je m'efforce de construire des systèmes logiciels robustes, maintenables et automatisés, en anticipant l'évolution des pratiques de développement vers plus d'intelligence artificielle et d'automatisation. Au-delà d'écrire du code qui fonctionne, je cherche à créer des architectures professionnelles qui résisteront à l'épreuve du temps et aux changements d'équipes — tout en continuant à progresser au sein de ces technologies qui me passionnent."
+    ],
+    "experience": [
+      {
+        "period": "Jan 2026 — Aujourd'hui",
+        "company": "Inetum - ANR",
+        "title": "Développeur .NET",
+        "description": "Maintenance applicative sur la plateforme SIM, un outil de gestion des appels à projets. Réalisation de maintenance évolutive et corrective sur une application legacy ASP.NET WebForms dans l'écosystème Microsoft.",
+        "skills": [
+          "ASP.NET WebForms",
+          ".NET Framework",
+          "SharePoint",
+          "JavaScript",
+          "SQL Server",
+          "Dapper",
+          "GitHub Copilot",
+          "Jira"
+        ]
+      },
+      {
+        "period": "Avr 2023 — Déc 2025",
+        "company": "Inetum - CEA",
+        "title": "Développeur .NET",
+        "description": "Gestion d'un portefeuille de maintenance multi-applications de plus de 70 applications, équilibrant les opérations de build et de run dans un écosystème Microsoft orienté web. Travail dans un environnement de développement moderne utilisant CI/CD avec Azure DevOps, quality gates SonarQube et tests unitaires complets. Travail avec des stacks legacy (.NET 4.8, Razor, Kendo UI) et modernes (.NET 8). Participation à la modernisation du SI : migration SQL Server de 2014 vers 2019 Cluster, SeriLog/ELK.",
+        "skills": [
+          ".NET 4.8 / .NET 8",
+          "C#",
+          "LINQ",
+          "Entity Framework",
+          "ADO.NET",
+          "VB.NET",
+          "Azure DevOps",
+          "SQL Server 2014/2019",
+          "Windows Server",
+          "IIS",
+          "SonarQube",
+          "Keycloak",
+          "Serilog",
+          "ELK",
+          "Razor",
+          "Kendo UI"
+        ]
+      },
+      {
+        "period": "Avr 2022 — Mars 2023",
+        "company": "Capgemini - EDF",
+        "title": "Développeur Backend",
+        "description": "Développement de solutions backend pour le projet GEMODO en utilisant Java et KornShell sur RedHat Linux. Mise en œuvre de processus ETL avec Informatica pour les workflows d'intégration de données, et maintenance des systèmes de collaboration SharePoint. Focus sur l'automatisation et les pipelines de traitement de données dans un environnement Linux d'entreprise.",
+        "skills": [
+          "Java",
+          "KornShell",
+          "ETL Informatica",
+          "Oracle DB",
+          "Jenkins",
+          "SAFe",
+          "RedHat Linux",
+          "SharePoint"
+        ]
+      },
+      {
+        "period": "Juin 2021 — Mars 2023",
+        "company": "Capgemini - EDF",
+        "title": "Développeur PL/SQL & Automatisation des Tests",
+        "description": "Développement et maintenance des services pour l'application GEMODO. Réutilisation d'UFT (Unified Functional Testing), un outil de test end-to-end, pour automatiser l'injection de données via le remplissage de formulaires basé sur VBScript. Développement de requêtes et procédures PL/SQL pour valider la conformité syntaxique et sémantique des données par rapport aux règles métier, assurant la qualité et l'intégrité des données. Maintenance des processus ETL via Informatica sur infrastructure Linux.",
+        "skills": [
+          "PL/SQL",
+          "Oracle Database",
+          "UFT (Unified Functional Testing)",
+          "VBScript",
+          "Informatica",
+          "Control-M",
+          "Linux",
+          "SharePoint"
+        ]
+      },
+      {
+        "period": "Juin 2020 — Juin 2021",
+        "company": "Capgemini - EDF",
+        "title": "Migration d'Architecture, Tests de Performance & Tests End-to-End — DPA",
+        "description": "Direction de la mise à niveau architecturale de l'application DPA, un système MES utilisant des modèles de données pour prévenir les dérives SPC (Statistical Process Control). Gestion de la migration d'une architecture 4 serveurs vers 5 serveurs, et orchestration de la transition des sources de données depuis des connexions ODBC legacy vers un MES moderne gérant Hadoop Espadon. Réalisation de tests de charge complets pour valider les performances du système avec la nouvelle stack technologique et le mode NRT (Near Real-Time).",
+        "skills": [
+          "Hadoop",
+          "Espadon API",
+          "Windows Server",
+          "SQL Server",
+          "PowerShell",
+          "HP ALM",
+          "eDNA",
+          "Aspentech"
+        ]
+      },
+      {
+        "period": "Nov 2019 — Mai 2020",
+        "company": "Capgemini (EDF / Rio Tinto)",
+        "title": "Développeur Logiciel",
+        "description": "Contribution au développement de preuves de concept pour l'équipe Manufacturing Execution Systems (MES) travaillant sur les projets EDF et Rio Tinto. Refonte de l'interface Rio Tinto en utilisant Angular 6 et Ionic 3 pour le développement mobile. Acquisition d'expérience pratique dans la gestion du MES Rio Tinto. Mise en œuvre de pipelines d'automatisation de tests CI/CD (GitLab, Jenkins, Selenium) sur des environnements hybrides Linux/Windows Server. Première expérience professionnelle en conseil d'entreprise et développement multi-plateforme.",
+        "skills": [
+          "Angular 6",
+          "Ionic 3",
+          "Linux",
+          "Windows Server",
+          "GitLab",
+          "Jenkins",
+          "Selenium",
+          "Gestion MES"
+        ]
+      },
+      {
+        "period": "Avr 2019 — Sep 2019",
+        "company": "Cerberis",
+        "title": "Développeur Logiciel Stagiaire",
+        "description": "Développement d'un service daemon SaaS pour l'intégration Microsoft Exchange comme première expérience professionnelle de développement logiciel. Construction d'applications .NET interfaçant avec les API Office 365 et déployées sur l'infrastructure cloud Azure. Apprentissage des pratiques modernes d'ingénierie logicielle et d'architecture cloud.",
+        "skills": [
+          ".NET Framework",
+          "Entity Framework",
+          "Office 365 API",
+          "OpenID Connect",
+          "OAuth 2.0",
+          "Azure",
+          "Cosmos DB",
+          "Exchange"
+        ]
+      },
+      {
+        "period": "2005 — 2018",
+        "company": "ST Microelectronics",
+        "title": "Technicien de Maintenance",
+        "description": "Démarré comme Technicien Process (technicien qualité) puis évolution vers le rôle de Technicien de Maintenance. Spécialisé dans les machines de gravure sèche (oxyde et métal) des fournisseurs d'équipements LAM Research et TEL. Travail dans le cadre TPM (Total Productive Maintenance) développé par Toyota, avec une forte acculturation à la méthodologie Lean. Durant la crise de 2008, contribution aux améliorations de productivité pour maintenir la compétitivité dans l'environnement de fabrication de wafers 200mm.",
+        "skills": ["TPM", "Lean", "Lam Research", "TEL", "Gravure 200mm"]
+      },
+      {
+        "period": "2005",
+        "company": "Canalog",
+        "title": "Monteur Câbleur",
+        "description": "Travail comme monteur câbleur pour des machines de fabrication de seringues en verre. Assemblage et câblage de composants d'équipements de précision pour l'industrie pharmaceutique.",
+        "skills": ["Montage Câblage", "Fabrication", "Équipement Médical"]
+      },
+      {
+        "period": "2001",
+        "company": "68ème Régiment d'Artillerie d'Afrique",
+        "title": "Assistant Informatique",
+        "description": "Service militaire au sein de la Batterie Commandement et Logistique. Numérisation des carnets de maintenance des véhicules et développement de macros VBA pour formater ces documents selon les standards militaires. Contribution à la modernisation des processus administratifs par l'automatisation bureautique.",
+        "skills": ["VBA", "Excel", "Bureautique", "Saisie de Données", "Service Militaire"]
+      }
+    ],
+    "education": [
+      {
+        "year": "2019",
+        "title": "Titre professionnel Concepteur Développeur Informatique",
+        "institution": "AFPA, Grenoble",
+        "description": "Certification professionnelle en développement et conception logicielle"
+      },
+      {
+        "year": "2003",
+        "title": "DUT GEII (Génie Électrique et Informatique Industrielle)",
+        "institution": "Université Joseph Fourier, Grenoble",
+        "description": "Diplôme universitaire de technologie de deux ans en Génie Électrique et Informatique Industrielle"
+      },
+      {
+        "year": "1999",
+        "title": "IUP MAI (Mathématiques Appliquées et Industrielles)",
+        "institution": "Université Joseph Fourier, Grenoble",
+        "description": "Institut Universitaire Professionnalisé - Mathématiques Appliquées et Industrielles"
+      },
+      {
+        "year": "1998",
+        "title": "DEUG SMb (Sciences de la Matière)",
+        "institution": "Université Joseph Fourier, Grenoble",
+        "description": "Diplôme d'études universitaires générales de deux ans en Sciences de la Matière avec orientation Biologie, Chimie et Physique"
+      },
+      {
+        "year": "1997",
+        "title": "Math Sup PC-SI",
+        "institution": "Lycée Berthollet, Annecy",
+        "description": "Classe préparatoire aux grandes écoles (Physique, Chimie et Sciences de l'Ingénieur)"
+      },
+      {
+        "year": "1996",
+        "title": "BAC S mention bien",
+        "institution": "Lycée Sainte Marie, La Roche-sur-Foron",
+        "description": "Baccalauréat scientifique avec mention bien"
+      }
+    ]
+  }
+}

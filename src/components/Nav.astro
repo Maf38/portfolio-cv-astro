@@ -1,0 +1,368 @@
+---
+import Icon from './Icon.astro';
+import { lemniscatePath } from '../lib/loop';
+import { asset } from '../lib/utils';
+import site from '../data/site.json';
+
+const loop = lemniscatePath(17, 1.15, 120);
+const links = site.header.nav;
+---
+
+<header class="nav-wrap">
+  <nav class="nav" aria-label={site.header.navAriaLabel}>
+    <a href="#top" class="brand" aria-label={`${site.header.name} — home`}>
+      <svg class="brand-loop" viewBox="-20 -10 40 20" aria-hidden="true">
+        <defs>
+          <linearGradient
+            id="nav-grad"
+            x1="-17"
+            x2="17"
+            y1="0"
+            y2="0"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" stop-color="var(--primary)"></stop>
+            <stop offset="1" stop-color="var(--secondary)"></stop>
+          </linearGradient>
+        </defs>
+        <path d={loop} class="track" pathLength="100"></path>
+        <path d={loop} class="progress" pathLength="100"></path>
+        <circle r="1.9" class="runner" style={`offset-path: path('${loop}')`}></circle>
+      </svg>
+      <span class="brand-text">
+        mafal<span class="brand-dot">.</span>gai
+      </span>
+    </a>
+
+    <ul class="links">
+      {links.map((l) => (
+        <li>
+          <a href={l.href} data-nav-link={l.href.slice(1)}>
+            {l.label}
+          </a>
+        </li>
+      ))}
+      <li>
+        <a href="#contact" data-nav-link="contact">
+          Contact
+        </a>
+      </li>
+    </ul>
+
+    <div class="actions">
+      <div class="cv-group" role="group" aria-label={site.header.cvButtonsAriaLabel}>
+        <Icon name="download" size={16} />
+        {site.header.cvButtons.map((b) => (
+          <a
+            href={asset(`/cv/mafal-gai-cv-${b.lang}.pdf`)}
+            class="cv-btn"
+            aria-label={b.ariaLabel}
+            title={b.title}
+            download
+          >
+            {b.lang.toUpperCase()}
+          </a>
+        ))}
+      </div>
+
+      <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark / light theme">
+        <span class="sun">
+          <Icon name="sun" size={18} />
+        </span>
+        <span class="moon">
+          <Icon name="moon" size={18} />
+        </span>
+      </button>
+
+      <button class="icon-btn menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+        <span class="bars">
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-sheet" hidden>
+    <ul>
+      {links.map((l, i) => (
+        <li style={`--i:${i}`}>
+          <a href={l.href}>{l.label}</a>
+        </li>
+      ))}
+      <li style={`--i:${links.length}`}>
+        <a href="#contact">Contact</a>
+      </li>
+    </ul>
+    <div class="sheet-cv" style={`--i:${links.length + 1}`}>
+      {site.header.cvButtons.map((b) => (
+        <a
+          href={asset(`/cv/mafal-gai-cv-${b.lang}.pdf`)}
+          class="btn btn-tonal"
+          aria-label={b.ariaLabel}
+          download
+        >
+          <Icon name="download" size={16} />
+          CV {b.lang.toUpperCase()}
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav-wrap {
+    position: fixed;
+    top: 0.75rem;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 0 1rem;
+    pointer-events: none;
+  }
+  .nav {
+    pointer-events: auto;
+    max-width: 72rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0.6rem 0.5rem 1rem;
+    border-radius: 999px;
+    background: var(--glass);
+    border: 1px solid var(--outline);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    box-shadow: var(--shadow-2);
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  :global(.nav-hidden) .nav {
+    transform: translateY(-140%);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .brand-loop {
+    width: 44px;
+    height: 22px;
+    overflow: visible;
+  }
+  .brand-loop .track {
+    fill: none;
+    stroke: var(--outline-strong);
+    stroke-width: 1.6;
+  }
+  .brand-loop .progress {
+    fill: none;
+    stroke: url(#nav-grad);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-dasharray: calc(var(--scroll, 0) * 100) 100;
+  }
+  .brand-loop .runner {
+    fill: var(--text);
+    offset-distance: calc(var(--scroll, 0) * 100%);
+    offset-rotate: 0deg;
+    filter: drop-shadow(0 0 3px var(--primary));
+  }
+  .brand-text {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+  }
+  .brand-dot {
+    color: var(--primary);
+  }
+
+  .links {
+    display: none;
+    margin: 0 auto;
+    gap: 0.15rem;
+    list-style: none;
+    padding: 0;
+  }
+  .links a {
+    position: relative;
+    display: block;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition:
+      color 0.25s ease,
+      background-color 0.25s ease;
+  }
+  .links a:hover {
+    color: var(--text);
+    background: var(--surface-2);
+  }
+  .links a:global(.active) {
+    color: var(--text);
+    background: color-mix(in oklab, var(--primary) 14%, transparent);
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: auto;
+  }
+  @media (min-width: 900px) {
+    .links {
+      display: flex;
+    }
+    .actions {
+      margin-left: 0;
+    }
+    .menu-btn {
+      display: none !important;
+    }
+  }
+
+  .cv-group {
+    display: none;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.2rem 0.2rem 0.2rem 0.65rem;
+    border-radius: 999px;
+    background: var(--surface-2);
+    border: 1px solid var(--outline);
+    color: var(--text-muted);
+  }
+  @media (min-width: 560px) {
+    .cv-group {
+      display: inline-flex;
+    }
+  }
+  .cv-btn {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.38rem 0.6rem;
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--text);
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease;
+  }
+  .cv-btn:hover {
+    background: var(--grad);
+    color: var(--on-primary);
+  }
+
+  .icon-btn {
+    position: relative;
+    width: 2.4rem;
+    height: 2.4rem;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--surface-2);
+    border: 1px solid var(--outline);
+    color: var(--text);
+    cursor: pointer;
+    overflow: hidden;
+    transition: background-color 0.25s ease;
+  }
+  .icon-btn:hover {
+    background: var(--surface-3);
+  }
+  .theme-toggle span {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    transition:
+      transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+      opacity 0.4s ease;
+  }
+  .theme-toggle .moon {
+    transform: translateY(120%) rotate(-90deg);
+    opacity: 0;
+  }
+  :global([data-theme='dark']) .theme-toggle .sun {
+    transform: translateY(-120%) rotate(90deg);
+    opacity: 0;
+  }
+  :global([data-theme='dark']) .theme-toggle .moon {
+    transform: none;
+    opacity: 1;
+  }
+
+  .bars {
+    display: grid;
+    gap: 5px;
+  }
+  .bars span {
+    display: block;
+    width: 16px;
+    height: 1.8px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform 0.35s ease;
+  }
+  .menu-btn[aria-expanded='true'] .bars span:first-child {
+    transform: translateY(3.4px) rotate(45deg);
+  }
+  .menu-btn[aria-expanded='true'] .bars span:last-child {
+    transform: translateY(-3.4px) rotate(-45deg);
+  }
+
+  .mobile-sheet {
+    pointer-events: auto;
+    max-width: 72rem;
+    margin: 0.5rem auto 0;
+    padding: 0.6rem;
+    border-radius: 1.5rem;
+    background: var(--glass);
+    border: 1px solid var(--outline);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: var(--shadow-2);
+  }
+  .mobile-sheet ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .mobile-sheet ul a {
+    display: block;
+    padding: 0.8rem 1rem;
+    border-radius: 1rem;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 500;
+    text-decoration: none;
+    animation: sheet-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation-delay: calc(var(--i) * 40ms);
+  }
+  .sheet-cv {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.5rem 0.4rem 0.3rem;
+  }
+  .sheet-cv .btn {
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+  }
+  .mobile-sheet ul a:hover {
+    background: var(--surface-2);
+  }
+  @keyframes sheet-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+</style>

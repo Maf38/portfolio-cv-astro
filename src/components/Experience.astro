@@ -1,0 +1,424 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import Icon from './Icon.astro';
+import { asset } from '../lib/utils';
+import { logoBox } from '../lib/logos';
+
+const logoStyle = (src: string) => {
+  const b = logoBox(src);
+  return `--src:url('${asset(src)}'); width:${b.w}; height:${b.h}`;
+};
+import site from '../data/site.json';
+
+const clean = (s: string) => s.replace(/^·\s*/, '');
+const resume = site.ui.resumeLink;
+---
+
+<section id="experience" class="section" aria-labelledby="experience-title">
+  <SectionHeader
+    index={2}
+    stage="build"
+    title={site.ui.sectionHeadings.experience}
+    id="experience"
+  />
+
+  <ol class="pipeline">
+    {site.experience.map((e, i) => {
+      const [first, ...rest] = e.logos;
+      return (
+        <li
+          class={`job reveal ${e.current ? 'current' : ''}`}
+          style={`--delay:${Math.min(i, 3) * 60}ms`}
+        >
+          <div class="when">
+            <span class="period">{e.period}</span>
+            <span class="job-id">job #{String(site.experience.length - i).padStart(2, '0')}</span>
+          </div>
+
+          <div class="node" aria-hidden="true">
+            {e.current ? (
+              <span class="node-dot running" />
+            ) : (
+              <span class="node-dot">
+                <Icon name="check" size={11} />
+              </span>
+            )}
+          </div>
+
+          <article class="card card-hover job-card" data-glow>
+            <div class="job-head">
+              <div>
+                <p class="period-inline">{e.period}</p>
+                <h3>
+                  {e.companyUrl ? (
+                    <a
+                      href={e.companyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${e.position} at ${clean(e.company)} (opens in a new tab)`}
+                    >
+                      {e.position}
+                      <span class="company"> · {clean(e.company)}</span>
+                      <Icon name="arrowUpRight" size={15} class="ext" />
+                    </a>
+                  ) : (
+                    <>
+                      {e.position}
+                      <span class="company"> · {clean(e.company)}</span>
+                    </>
+                  )}
+                </h3>
+                {e.current && (
+                  <span class="running-chip">
+                    <span class="pulse" /> running
+                  </span>
+                )}
+              </div>
+
+              {first && (
+                <div class={`logo-plate ${e.logoLayout}`}>
+                  <a
+                    href={first.href ?? undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class={`lg sz-${first.size ?? 'default'}`}
+                    title={first.label ?? first.alt}
+                    aria-label={first.alt}
+                  >
+                    <span class="logo-mask" style={logoStyle(first.src)} />
+                  </a>
+                  {rest.length > 0 && (
+                    <span class="arrow" aria-hidden="true">
+                      →
+                    </span>
+                  )}
+                  {rest.length > 0 && (
+                    <span class="clients">
+                      {rest.map((l) => (
+                        <a
+                          href={l.href ?? undefined}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class={`lg sz-${l.size ?? 'default'}`}
+                          title={l.label ?? l.alt}
+                          aria-label={l.alt}
+                        >
+                          <span class="logo-mask" style={logoStyle(l.src)} />
+                        </a>
+                      ))}
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <p class="desc">{e.description}</p>
+
+            <ul class="chips" aria-label="Technologies used">
+              {e.technologies.map((t) => (
+                <li class="chip">{t}</li>
+              ))}
+            </ul>
+          </article>
+        </li>
+      );
+    })}
+  </ol>
+
+  <div class="resume reveal">
+    <a
+      href={asset('/cv/mafal-gai-cv-en.pdf')}
+      class="btn btn-tonal"
+      aria-label={resume.ariaLabel}
+      data-ripple
+      download
+    >
+      {resume.label}
+      <Icon name="arrowUpRight" size={16} />
+    </a>
+  </div>
+</section>
+
+<style>
+  .pipeline {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+    --node-col: 2.25rem;
+  }
+  /* the pipeline rail */
+  .pipeline::before,
+  .pipeline::after {
+    content: '';
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    left: calc(var(--node-col) / 2 - 1px);
+    width: 2px;
+    border-radius: 2px;
+  }
+  .pipeline::before {
+    background: linear-gradient(var(--primary), var(--secondary) 60%, transparent);
+    opacity: 0.35;
+  }
+  /* travelling light pulse */
+  .pipeline::after {
+    background: linear-gradient(transparent, var(--primary), transparent);
+    height: 140px;
+    bottom: auto;
+    animation: flow 6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    filter: drop-shadow(0 0 6px var(--primary));
+  }
+  @keyframes flow {
+    from {
+      transform: translateY(-140px);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    to {
+      transform: translateY(calc(var(--rail, 2400px)));
+      opacity: 0;
+    }
+  }
+
+  .job {
+    display: grid;
+    grid-template-columns: var(--node-col) 1fr;
+    gap: 0.9rem;
+  }
+  .when {
+    display: none;
+  }
+  .node {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+    padding-top: 1.6rem;
+  }
+  .job-card {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  @media (min-width: 900px) {
+    .pipeline {
+      --node-col: 3rem;
+    }
+    .pipeline::before,
+    .pipeline::after {
+      left: calc(9.5rem + 1.2rem + var(--node-col) / 2 - 1px);
+    }
+    .job {
+      grid-template-columns: 9.5rem var(--node-col) 1fr;
+      gap: 1.2rem;
+    }
+    .when {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.3rem;
+      padding-top: 1.55rem;
+      text-align: right;
+    }
+    .node {
+      grid-column: 2;
+    }
+    .job-card {
+      grid-column: 3;
+    }
+    .period-inline {
+      display: none;
+    }
+  }
+
+  .period,
+  .period-inline {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .period-inline {
+    margin-bottom: 0.35rem;
+  }
+  .job-id {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-faint);
+  }
+
+  .node-dot {
+    position: relative;
+    z-index: 1;
+    width: 1.35rem;
+    height: 1.35rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid color-mix(in oklab, var(--primary) 70%, transparent);
+    color: var(--primary);
+    box-shadow: 0 0 0 5px var(--bg);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .job:hover .node-dot {
+    transform: scale(1.2);
+  }
+  .node-dot.running {
+    border-color: var(--ok);
+    background: var(--ok);
+    animation: ring 2s infinite;
+  }
+  @keyframes ring {
+    0% {
+      box-shadow:
+        0 0 0 5px var(--bg),
+        0 0 0 5px color-mix(in oklab, var(--ok) 50%, transparent);
+    }
+    100% {
+      box-shadow:
+        0 0 0 5px var(--bg),
+        0 0 0 16px transparent;
+    }
+  }
+
+  .job-card {
+    padding: 1.4rem 1.4rem 1.3rem;
+  }
+  @media (min-width: 640px) {
+    .job-card {
+      padding: 1.6rem 1.75rem 1.5rem;
+    }
+  }
+  .job-head {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.9rem 1.25rem;
+  }
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.18rem;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+  }
+  h3 a {
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+  h3 a:hover {
+    color: var(--primary);
+  }
+  .company {
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  h3 :global(.ext) {
+    display: inline;
+    vertical-align: -2px;
+    margin-left: 0.2rem;
+    opacity: 0.5;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+  }
+  h3 a:hover :global(.ext) {
+    transform: translate(2px, -2px);
+    opacity: 1;
+  }
+
+  .running-chip {
+    margin-top: 0.55rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    color: var(--ok);
+    background: color-mix(in oklab, var(--ok) 12%, transparent);
+  }
+  .running-chip .pulse {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--ok);
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0.25;
+    }
+  }
+
+  /* ----- logos plate ----- */
+  .logo-plate {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.55rem 0.85rem;
+    border-radius: 1rem;
+    background: var(--surface-2);
+    border: 1px solid var(--outline);
+    flex-shrink: 0;
+    transition:
+      background-color 0.4s ease,
+      border-color 0.4s ease;
+  }
+  .job-card:hover .logo-plate {
+    border-color: color-mix(in oklab, var(--primary) 30%, transparent);
+  }
+  .logo-plate.stacked .clients {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+  .clients {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .arrow {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-faint);
+  }
+  .lg {
+    display: block;
+  }
+  .job-card:hover .lg .logo-mask {
+    background: var(--grad);
+  }
+
+  .desc {
+    margin-top: 1rem;
+    color: var(--text-muted);
+    font-size: 0.96rem;
+  }
+  .chips {
+    margin-top: 1.1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .resume {
+    margin-top: 2.5rem;
+    display: flex;
+    justify-content: center;
+  }
+</style>

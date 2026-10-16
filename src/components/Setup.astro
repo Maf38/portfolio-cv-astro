@@ -1,0 +1,165 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import Icon from './Icon.astro';
+import { asset } from '../lib/utils';
+import site from '../data/site.json';
+
+const icons = ['server', 'monitor', 'laptop', 'cloud'];
+const blocks = site.setup.columns.flat();
+---
+
+<section id="setup" class="section" aria-labelledby="setup-title">
+  <SectionHeader index={5} stage="operate" title={site.setup.heading} id="setup" />
+
+  <figure class="window reveal">
+    <div class="win-bar" aria-hidden="true">
+      <i></i>
+      <i></i>
+      <i></i>
+      <span>unraid · dashboard</span>
+    </div>
+    <img
+      src={asset(site.setup.screenshot.src)}
+      alt={site.setup.screenshot.alt}
+      loading="lazy"
+      decoding="async"
+    />
+  </figure>
+
+  <ul class="specs">
+    {blocks.map((b, i) => (
+      <li class="reveal" style={`--delay:${i * 80}ms`}>
+        <article class="card card-hover spec" data-glow>
+          <div class="spec-head">
+            <span class="spec-icon" aria-hidden="true">
+              <Icon name={icons[i] ?? 'server'} size={20} />
+            </span>
+            <div>
+              <h3>{b.title}</h3>
+              <p class="label">{b.label}</p>
+            </div>
+          </div>
+          <ul class="items">
+            {b.items.map((it) => (
+              <li>{it}</li>
+            ))}
+          </ul>
+        </article>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .window {
+    margin: 0;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 1px solid var(--outline);
+    background: var(--surface);
+    box-shadow: var(--shadow-3);
+    transform: perspective(1400px) rotateX(4deg);
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .window:hover {
+    transform: none;
+  }
+  .win-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid var(--outline);
+    background: var(--surface-2);
+  }
+  .win-bar i {
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 50%;
+    background: #ff5f57;
+  }
+  .win-bar i:nth-child(2) {
+    background: #febc2e;
+  }
+  .win-bar i:nth-child(3) {
+    background: #28c840;
+  }
+  .win-bar span {
+    margin-left: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-faint);
+  }
+  .window img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .specs {
+    margin-top: 1.5rem;
+    display: grid;
+    gap: 1.1rem;
+    list-style: none;
+    padding: 0;
+  }
+  @media (min-width: 700px) {
+    .specs {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .specs > li {
+    display: flex;
+  }
+  .spec {
+    flex: 1;
+    padding: 1.4rem;
+  }
+  .spec-head {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+  .spec-icon {
+    width: 2.7rem;
+    height: 2.7rem;
+    display: grid;
+    place-items: center;
+    border-radius: 0.95rem;
+    color: var(--secondary);
+    background: color-mix(in oklab, var(--secondary) 12%, transparent);
+  }
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.08rem;
+  }
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .items {
+    margin-top: 1.1rem;
+    display: grid;
+    gap: 0.45rem;
+    list-style: none;
+    padding: 0;
+  }
+  .items li {
+    position: relative;
+    padding-left: 1.2rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .items li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    border: 1.5px solid var(--primary);
+  }
+</style>
