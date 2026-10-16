@@ -23,6 +23,8 @@ const ogImage = new URL(asset(site.assets.ogImage), Astro.site).href;
     <meta name="robots" content={meta.robots} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href={asset('/favicon.svg')} />
+    <link rel="icon" type="image/png" sizes="32x32" href={asset('/favicon-32.png')} />
+    <link rel="apple-touch-icon" href={asset('/apple-touch-icon.png')} />
     <meta name="theme-color" content="#060a13" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#f4f6fb" media="(prefers-color-scheme: light)" />
 

@@ -552,17 +552,16 @@ const en: CvContent = {
     },
     {
       year: '2019',
-      title: 'Software Designer & Developer (French professional title)',
+      title: 'Software Designer & Developer (professional title)',
       school: 'AFPA, Grenoble',
     },
     {
       year: '2003',
-      title: 'DUT GEII — Electrical Eng. & Industrial Computing',
+      title: 'DUT GEII — Electrical & Industrial Eng.',
       school: 'Université Joseph Fourier, Grenoble',
     },
   ],
-  earlyEducation:
-    '1996 — 1999 · Scientific Baccalaureate (with honours), preparatory class PCSI, DEUG, IUP MAI',
+  earlyEducation: '1996 — 1999 · Scientific Baccalaureate (honours), PCSI, DEUG, IUP MAI',
   languages: [
     { name: 'French', level: 'native' },
     { name: 'English', level: 'B2' },
