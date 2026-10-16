@@ -57,6 +57,32 @@ const ogImage = new URL(asset(site.assets.ogImage), Astro.site).href;
     <a href="#about" class="skip">
       Skip to content
     </a>
+    <!-- shared paint servers (brass & copper) used by gears across the page -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <linearGradient id="brass-fill" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#f3d58f"></stop>
+          <stop offset="0.45" stop-color="#c99a45"></stop>
+          <stop offset="1" stop-color="#7d5419"></stop>
+        </linearGradient>
+        <linearGradient id="copper-fill" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#f0a77a"></stop>
+          <stop offset="0.5" stop-color="#c0612f"></stop>
+          <stop offset="1" stop-color="#6e2e12"></stop>
+        </linearGradient>
+        <marker
+          id="sk-arrow"
+          viewBox="0 0 10 10"
+          refX="9"
+          refY="5"
+          markerWidth="5"
+          markerHeight="5"
+          orient="auto-start-reverse"
+        >
+          <path d="M0 1 L10 5 L0 9 Z" fill="var(--ink)"></path>
+        </marker>
+      </defs>
+    </svg>
     <Background />
     <Nav />
     <main>

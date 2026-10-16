@@ -1,46 +1,158 @@
 ---
+/**
+ * Section header styled as a detail callout on an engineering drawing:
+ * "DETAIL B — station: build", with the zone letter repeated in the sheet margin.
+ */
 interface Props {
   index: number;
   stage: string;
   title: string;
   id: string;
+  scale?: string;
 }
-const { index, stage, title, id } = Astro.props;
+const { index, stage, title, id, scale = '1:1' } = Astro.props;
+const letter = String.fromCharCode(64 + index);
 ---
 
 <header class="sh reveal">
-  <p class="eyebrow">
-    <span class="dot"></span>
-    <span class="num">{String(index).padStart(2, '0')}</span>
-    <span>/</span>
-    <span>stage: {stage}</span>
+  <span class="zone" aria-hidden="true">
+    {letter}
+  </span>
+  <p class="detail">
+    <span class="bubble" aria-hidden="true">
+      {letter}
+    </span>
+    <span class="d-label">Detail {letter}</span>
+    <span class="d-sep">—</span>
+    <span>station: {stage}</span>
+    <span class="d-scale">scale {scale}</span>
   </p>
   <h2 id={`${id}-title`}>{title}</h2>
-  <span class="rule"></span>
+  <span class="rule" aria-hidden="true">
+    <i></i>
+  </span>
 </header>
 
 <style>
   .sh {
+    position: relative;
     margin-bottom: 2.75rem;
   }
-  h2 {
-    margin-top: 0.6rem;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(2.1rem, 5vw, 3.2rem);
-    letter-spacing: -0.035em;
-    line-height: 1.05;
+
+  /* Zone letter in the left margin of the drawing frame (desktop) */
+  .zone {
+    display: none;
+    position: absolute;
+    top: 0.2rem;
+    left: calc(50% - 50vw + 10px);
+    width: 16px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-accent);
   }
+  .zone::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 1.4em;
+    height: 3.2rem;
+    border-top: 1px solid var(--ink-faint);
+  }
+  @media (min-width: 1280px) {
+    .zone {
+      display: block;
+    }
+  }
+
+  .detail {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+  .bubble {
+    width: 1.9rem;
+    height: 1.9rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink-accent);
+    color: var(--ink-accent);
+    font-weight: 600;
+    font-size: 0.85rem;
+    position: relative;
+  }
+  /* leader line from the bubble */
+  .bubble::after {
+    content: '';
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--ink-accent);
+  }
+  .d-label {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .d-sep {
+    color: var(--text-faint);
+  }
+  .d-scale {
+    margin-left: auto;
+    color: var(--text-faint);
+    font-size: 0.68rem;
+  }
+
+  h2 {
+    margin-top: 0.7rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.6rem, 6.5vw, 4.2rem);
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    line-height: 0.95;
+  }
+
+  /* Dimension-line style rule */
   .rule {
+    position: relative;
     display: block;
-    margin-top: 1.1rem;
-    width: 4.5rem;
-    height: 3px;
-    border-radius: 3px;
-    background: var(--grad);
+    margin-top: 1rem;
+    height: 9px;
+    width: 100%;
+    max-width: 14rem;
     transform-origin: left;
     transform: scaleX(0);
-    transition: transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s;
+    transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s;
+    border-left: 1px solid var(--ink);
+    border-right: 1px solid var(--ink);
+  }
+  .rule i {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 4px;
+    height: 1px;
+    background: var(--ink);
+  }
+  .rule::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 4.5rem;
+    top: 3px;
+    height: 3px;
+    background: var(--grad);
   }
   :global(.is-visible) .rule {
     transform: scaleX(1);

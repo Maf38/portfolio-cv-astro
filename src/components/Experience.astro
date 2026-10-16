@@ -9,6 +9,11 @@ const logoStyle = (src: string) => {
   return `--src:url('${asset(src)}'); width:${b.w}; height:${b.h}`;
 };
 import site from '../data/site.json';
+import Gear from './Gear.astro';
+import JobSketch from './JobSketch.astro';
+import { train } from '../lib/gears';
+
+const [nodeGear] = train([{ teeth: 11, spokes: 3 }], 2.2, { x: 0, y: 0 });
 
 const clean = (s: string) => s.replace(/^·\s*/, '');
 const resume = site.ui.resumeLink;
@@ -36,13 +41,10 @@ const resume = site.ui.resumeLink;
           </div>
 
           <div class="node" aria-hidden="true">
-            {e.current ? (
-              <span class="node-dot running" />
-            ) : (
-              <span class="node-dot">
-                <Icon name="check" size={11} />
-              </span>
-            )}
+            <svg class={`node-gear ${e.current ? 'running' : ''}`} viewBox="-15 -15 30 30">
+              <Gear g={nodeGear} class={e.current ? 'brass' : 'brass idle'} />
+              <circle r="2" class="node-axle" />
+            </svg>
           </div>
 
           <article class="card card-hover job-card" data-glow>
@@ -119,6 +121,9 @@ const resume = site.ui.resumeLink;
                 <li class="chip">{t}</li>
               ))}
             </ul>
+            <div class="job-sketch">
+              <JobSketch id={e.id} fig={i + 1} />
+            </div>
           </article>
         </li>
       );
@@ -150,44 +155,23 @@ const resume = site.ui.resumeLink;
     gap: 1.25rem;
     --node-col: 2.25rem;
   }
-  /* the pipeline rail */
-  .pipeline::before,
-  .pipeline::after {
+  /* the rail is a drive chain, moved by the same engine as every gear */
+  .pipeline::before {
     content: '';
     position: absolute;
     top: 0.5rem;
     bottom: 0.5rem;
-    left: calc(var(--node-col) / 2 - 1px);
-    width: 2px;
-    border-radius: 2px;
-  }
-  .pipeline::before {
-    background: linear-gradient(var(--primary), var(--secondary) 60%, transparent);
-    opacity: 0.35;
-  }
-  /* travelling light pulse */
-  .pipeline::after {
-    background: linear-gradient(transparent, var(--primary), transparent);
-    height: 140px;
-    bottom: auto;
-    animation: flow 6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-    filter: drop-shadow(0 0 6px var(--primary));
-  }
-  @keyframes flow {
-    from {
-      transform: translateY(-140px);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    to {
-      transform: translateY(calc(var(--rail, 2400px)));
-      opacity: 0;
-    }
+    left: calc(var(--node-col) / 2 - 3px);
+    width: 6px;
+    border-left: 1px solid var(--ink);
+    border-right: 1px solid var(--ink);
+    background: repeating-linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--primary) 55%, transparent) 0 6px,
+      transparent 6px 10px
+    );
+    background-position-y: calc(var(--spin, 0) * 0.35px);
+    opacity: 0.75;
   }
 
   .job {
@@ -214,9 +198,8 @@ const resume = site.ui.resumeLink;
     .pipeline {
       --node-col: 3rem;
     }
-    .pipeline::before,
-    .pipeline::after {
-      left: calc(9.5rem + 1.2rem + var(--node-col) / 2 - 1px);
+    .pipeline::before {
+      left: calc(9.5rem + 1.2rem + var(--node-col) / 2 - 3px);
     }
     .job {
       grid-template-columns: 9.5rem var(--node-col) 1fr;
@@ -309,10 +292,10 @@ const resume = site.ui.resumeLink;
   }
   h3 {
     font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 1.18rem;
-    line-height: 1.35;
-    letter-spacing: -0.015em;
+    font-weight: 700;
+    font-size: 1.55rem;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
   }
   h3 a {
     text-decoration: none;
@@ -421,5 +404,47 @@ const resume = site.ui.resumeLink;
     margin-top: 2.5rem;
     display: flex;
     justify-content: center;
+  }
+
+  /* ----- gear nodes on the chain ----- */
+  .node-gear {
+    position: relative;
+    z-index: 1;
+    width: 2.1rem;
+    height: 2.1rem;
+    overflow: visible;
+    filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.2));
+  }
+  .node-gear :global(.gear.idle) {
+    transform: rotate(calc(var(--p) * 1deg));
+  }
+  .node-gear.running {
+    filter: drop-shadow(0 0 8px color-mix(in oklab, var(--ok) 70%, transparent));
+  }
+  .node-axle {
+    fill: var(--surface);
+    stroke: var(--ink);
+  }
+  .node {
+    padding-top: 1.35rem;
+  }
+
+  /* ----- technical figure in the card margin ----- */
+  .job-sketch {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .job-card {
+      padding-right: 13.5rem;
+    }
+    .job-sketch {
+      display: block;
+      position: absolute;
+      right: 1.6rem;
+      top: 50%;
+      translate: 0 -46%;
+      padding-left: 1.4rem;
+      border-left: 1px dashed var(--ink-faint);
+    }
   }
 </style>
