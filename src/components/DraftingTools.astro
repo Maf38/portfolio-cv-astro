@@ -1,0 +1,185 @@
+---
+// Drafting instruments lying on the drawing sheet: a millimetre ruler,
+// a 45° set square and a pencil. Decorative, part of the fixed backdrop.
+const RULER_MM = 200;
+const MM = 4; // px per millimetre in the ruler's own coordinates
+const rulerTicks = Array.from({ length: RULER_MM + 1 }, (_, i) => ({
+  x: 14 + i * MM,
+  h: i % 10 === 0 ? 18 : i % 5 === 0 ? 12 : 7,
+  n: i % 10 === 0 ? i / 10 : null,
+}));
+
+const SQ = 300; // set-square leg length
+const sqTicks = Array.from({ length: 27 }, (_, i) => ({
+  y: 22 + i * 10,
+  w: i % 5 === 0 ? 12 : 6,
+  n: i % 5 === 0 && i > 0 ? i : null,
+}));
+---
+
+<div class="tools" aria-hidden="true">
+  <!-- Ruler -->
+  <svg class="ruler" viewBox={`0 0 ${RULER_MM * MM + 28} 64`}>
+    <rect x="0.5" y="0.5" width={RULER_MM * MM + 27} height="63" rx="6" class="ruler-body"></rect>
+    <rect x="0.5" y="0.5" width={RULER_MM * MM + 27} height="10" rx="6" class="ruler-shine"></rect>
+    {rulerTicks.map((t) => (
+      <g>
+        <line x1={t.x} x2={t.x} y1="64" y2={64 - t.h} class="tick" />
+        {t.n !== null && (
+          <text x={t.x} y={64 - t.h - 5} class="num">
+            {t.n}
+          </text>
+        )}
+      </g>
+    ))}
+    <text x="18" y="18" class="brand">
+      MAFLABS · 20 cm · ISO 1:1
+    </text>
+  </svg>
+
+  <!-- 45° set square with its inner cut-out -->
+  <svg class="square" viewBox={`-4 -4 ${SQ + 8} ${SQ + 8}`}>
+    <path
+      d={`M0 0 L0 ${SQ} L${SQ} ${SQ} Z M44 ${SQ - 34} L44 ${116} L${SQ - 116} ${SQ - 34} Z`}
+      fill-rule="evenodd"
+      class="sq-body"
+    ></path>
+    {sqTicks.map((t) => (
+      <g>
+        <line x1="0" x2={t.w} y1={t.y} y2={t.y} class="tick" />
+        {t.n !== null && (
+          <text x={t.w + 4} y={t.y + 3} class="num left">
+            {t.n}
+          </text>
+        )}
+      </g>
+    ))}
+    <text x="58" y={SQ - 44} class="brand">
+      45°
+    </text>
+  </svg>
+
+  <!-- Pencil -->
+  <svg class="pencil" viewBox="0 0 420 26">
+    <path d="M0 4 H330 V22 H0 Z" class="p-wood"></path>
+    <path d="M0 4 H330 V9 H0 Z" class="p-shine"></path>
+    <path d="M330 4 L392 13 L330 22 Z" class="p-tip"></path>
+    <path d="M378 11 L392 13 L378 15 Z" class="p-lead"></path>
+    <path d="M0 4 H26 V22 H0 Z" class="p-ferrule"></path>
+    <text x="60" y="17" class="p-label">
+      HB · MAFLABS
+    </text>
+  </svg>
+</div>
+
+<style>
+  .tools {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .tools svg {
+    position: absolute;
+    overflow: visible;
+    filter: drop-shadow(0 6px 10px rgb(40 25 10 / 0.12));
+  }
+
+  .ruler {
+    width: min(64vw, 720px);
+    right: -8vw;
+    bottom: -1.5rem;
+    rotate: -4deg;
+  }
+  .ruler-body {
+    fill: color-mix(in oklab, var(--surface) 55%, transparent);
+    stroke: var(--ink);
+    stroke-width: 1;
+  }
+  :global([data-theme='dark']) .ruler-body {
+    fill: rgb(200 205 210 / 0.05);
+  }
+  .ruler-shine {
+    fill: rgb(255 255 255 / 0.18);
+    stroke: none;
+  }
+  .tick {
+    stroke: var(--ink);
+    stroke-width: 1;
+  }
+  .num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--ink);
+    text-anchor: middle;
+  }
+  .num.left {
+    text-anchor: start;
+    font-size: 9px;
+  }
+  .brand {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    fill: var(--ink-accent);
+  }
+
+  .square {
+    width: min(26vw, 260px);
+    left: -6vw;
+    bottom: 3rem;
+    rotate: -12deg;
+    opacity: 0.85;
+  }
+  .sq-body {
+    fill: color-mix(in oklab, var(--primary) 7%, transparent);
+    stroke: var(--ink);
+    stroke-width: 1;
+  }
+
+  .pencil {
+    width: min(26vw, 300px);
+    left: 34%;
+    bottom: 1.2rem;
+    rotate: 6deg;
+  }
+  .p-wood {
+    fill: #c98b2b;
+    opacity: 0.55;
+  }
+  :global([data-theme='dark']) .p-wood {
+    opacity: 0.35;
+  }
+  .p-shine {
+    fill: rgb(255 255 255 / 0.2);
+  }
+  .p-tip {
+    fill: #e8cfa5;
+    opacity: 0.6;
+  }
+  .p-lead {
+    fill: #3a3a3a;
+    opacity: 0.7;
+  }
+  .p-ferrule {
+    fill: #9aa0a6;
+    opacity: 0.55;
+  }
+  .p-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    fill: rgb(40 25 10 / 0.55);
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 767px) {
+    .square,
+    .pencil {
+      display: none;
+    }
+    .ruler {
+      width: 120vw;
+      bottom: 4vh;
+      opacity: 0.6;
+    }
+  }
+</style>

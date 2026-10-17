@@ -1,10 +1,11 @@
 ---
 import Icon from './Icon.astro';
-import { lemniscatePath } from '../lib/loop';
+import Gear from './Gear.astro';
+import { train } from '../lib/gears';
 import { asset } from '../lib/utils';
 import site from '../data/site.json';
 
-const loop = lemniscatePath(17, 1.15, 120);
+const [brandGear] = train([{ teeth: 12, spokes: 4 }], 2.8, { x: 0, y: 0 });
 const links = site.header.nav;
 const cvFiles = [
   { code: 'FR', label: 'Français', aria: 'Download résumé in French (PDF)' },
@@ -19,23 +20,9 @@ const cvFiles = [
 <header class="nav-wrap">
   <nav class="nav" aria-label={site.header.navAriaLabel}>
     <a href="#top" class="brand" aria-label={`${site.header.name} — home`}>
-      <svg class="brand-loop" viewBox="-20 -10 40 20" aria-hidden="true">
-        <defs>
-          <linearGradient
-            id="nav-grad"
-            x1="-17"
-            x2="17"
-            y1="0"
-            y2="0"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop offset="0" stop-color="var(--primary)"></stop>
-            <stop offset="1" stop-color="var(--secondary)"></stop>
-          </linearGradient>
-        </defs>
-        <path d={loop} class="track" pathLength="100"></path>
-        <path d={loop} class="progress" pathLength="100"></path>
-        <circle r="1.9" class="runner" style={`offset-path: path('${loop}')`}></circle>
+      <svg class="brand-gear" viewBox="-20 -20 40 40" aria-hidden="true">
+        <Gear g={brandGear} class="brass" />
+        <circle r="2.2" class="brand-axle"></circle>
       </svg>
       <span class="brand-text">
         mafal<span class="brand-dot">.</span>gai
@@ -156,28 +143,17 @@ const cvFiles = [
     text-decoration: none;
     flex-shrink: 0;
   }
-  .brand-loop {
-    width: 44px;
-    height: 22px;
+  .brand-gear {
+    width: 30px;
+    height: 30px;
     overflow: visible;
   }
-  .brand-loop .track {
-    fill: none;
-    stroke: var(--outline-strong);
-    stroke-width: 1.6;
+  .brand-axle {
+    fill: var(--surface);
+    stroke: var(--text-faint);
   }
-  .brand-loop .progress {
-    fill: none;
-    stroke: url(#nav-grad);
-    stroke-width: 2.2;
-    stroke-linecap: round;
-    stroke-dasharray: calc(var(--scroll, 0) * 100) 100;
-  }
-  .brand-loop .runner {
-    fill: var(--text);
-    offset-distance: calc(var(--scroll, 0) * 100%);
-    offset-rotate: 0deg;
-    filter: drop-shadow(0 0 3px var(--primary));
+  .brand:hover .brand-gear {
+    filter: drop-shadow(0 0 6px color-mix(in oklab, var(--primary) 60%, transparent));
   }
   .brand-text {
     font-family: var(--font-mono);

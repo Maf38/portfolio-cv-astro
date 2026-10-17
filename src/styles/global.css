@@ -1,75 +1,115 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/big-shoulders-display';
 @import '@fontsource-variable/inter';
-@import '@fontsource-variable/jetbrains-mono';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+@import '@fontsource/ibm-plex-mono/600.css';
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 @theme {
-  --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Big Shoulders Display Variable', 'Oswald', ui-sans-serif, sans-serif;
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
 /* ------------------------------------------------------------------
-   Design tokens — Material 3 inspired tonal surfaces
+   Design tokens — "Machinerie": iron, brass, copper, verdigris.
+   Light = workshop paper / blueprint, dark = forge.
    ------------------------------------------------------------------ */
 :root {
   color-scheme: light;
-  --bg: #f4f6fb;
-  --bg-deep: #e9edf6;
-  --surface: #ffffff;
-  --surface-2: #f0f3fa;
-  --surface-3: #e5eaf4;
-  --outline: rgb(15 23 42 / 0.09);
-  --outline-strong: rgb(15 23 42 / 0.16);
-  --text: #0d1526;
-  --text-muted: #4a5873;
-  --text-faint: #7b88a1;
-  --primary: #0e8fa8;
-  --secondary: #0f9f6e;
-  --tertiary: #d98a06;
-  --ok: #12a26b;
-  --on-primary: #ffffff;
-  --logo: #6b7a94;
+  --bg: #efe7d8;
+  --bg-deep: #e4d9c4;
+  --surface: #f9f4ea;
+  --surface-2: #f1e9da;
+  --surface-3: #e8dcc6;
+  --outline: rgb(74 52 26 / 0.14);
+  --outline-strong: rgb(74 52 26 / 0.26);
+  --text: #261c12;
+  --text-muted: #5f4f3b;
+  --text-faint: #8d7b62;
+  --primary: #9a6a22;
+  --secondary: #a14a22;
+  --tertiary: #2f7f70;
+  --ok: #2f7f70;
+  --on-primary: #fff8ec;
+  --logo: #7a6850;
   --logo-hover: var(--primary);
-  --orbit: rgb(14 143 168 / 0.16);
-  --orbit-2: rgb(15 159 110 / 0.12);
-  --grid-dot: rgb(15 23 42 / 0.07);
-  --spotlight: rgb(14 143 168 / 0.1);
-  --shadow-1: 0 1px 2px rgb(15 23 42 / 0.06), 0 1px 3px rgb(15 23 42 / 0.05);
-  --shadow-2: 0 2px 6px rgb(15 23 42 / 0.06), 0 10px 30px -8px rgb(15 23 42 / 0.14);
-  --shadow-3: 0 6px 16px rgb(15 23 42 / 0.08), 0 24px 60px -12px rgb(14 143 168 / 0.25);
-  --glass: rgb(255 255 255 / 0.72);
-  --grad: linear-gradient(110deg, var(--primary), var(--secondary));
+  --orbit: rgb(154 106 34 / 0.22);
+  --orbit-2: rgb(161 74 34 / 0.16);
+  --grid-dot: rgb(74 52 26 / 0.07);
+  --grid-line: rgb(196 120 58 / 0.07);
+  --grid-line-mid: rgb(196 120 58 / 0.13);
+  --grid-line-major: rgb(196 120 58 / 0.22);
+  --ink: rgb(70 52 32 / 0.42);
+  --ink-faint: rgb(70 52 32 / 0.22);
+  --ink-accent: rgb(161 74 34 / 0.6);
+  --spotlight: rgb(255 214 140 / 0.22);
+  --gear: rgb(120 84 36 / 0.16);
+  --gear-stroke: rgb(120 84 36 / 0.34);
+  --steam: rgb(110 96 80 / 0.22);
+  --rivet: radial-gradient(
+    circle closest-side,
+    #fff7e3 0,
+    #c99a4e 40%,
+    #6d4c1c 85%,
+    transparent 100%
+  );
+  --plate: linear-gradient(180deg, #f8efdd, #ecdcbc);
+  --shadow-1: 0 1px 2px rgb(60 40 15 / 0.08), 0 1px 3px rgb(60 40 15 / 0.06);
+  --shadow-2: 0 2px 6px rgb(60 40 15 / 0.08), 0 12px 30px -10px rgb(60 40 15 / 0.22);
+  --shadow-3: 0 6px 16px rgb(60 40 15 / 0.1), 0 24px 60px -14px rgb(154 106 34 / 0.38);
+  --glass: rgb(249 244 234 / 0.8);
+  --grad: linear-gradient(110deg, #c48a2e, #a14a22);
+  --brass: linear-gradient(160deg, #f3d58f 0%, #c99a45 38%, #8a5d1d 70%, #c99a45 100%);
 }
 
 [data-theme='dark'] {
+  /* "Blueprint": cyanotype prussian blue, white linework, brass & copper parts */
   color-scheme: dark;
-  --bg: #060a13;
-  --bg-deep: #03060c;
-  --surface: #0c1220;
-  --surface-2: #111a2c;
-  --surface-3: #18233a;
-  --outline: rgb(148 163 184 / 0.1);
-  --outline-strong: rgb(148 163 184 / 0.2);
-  --text: #e7eef9;
-  --text-muted: #9aa9c2;
-  --text-faint: #64748b;
-  --primary: #4fd8eb;
-  --secondary: #3ddc97;
-  --tertiary: #f5b445;
-  --ok: #3ee59a;
-  --on-primary: #03141a;
-  --logo: #94a3b8;
-  --orbit: rgb(79 216 235 / 0.14);
-  --orbit-2: rgb(61 220 151 / 0.1);
-  --grid-dot: rgb(148 163 184 / 0.08);
-  --spotlight: rgb(79 216 235 / 0.07);
-  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
-  --shadow-2: 0 2px 8px rgb(0 0 0 / 0.35), 0 12px 32px -10px rgb(0 0 0 / 0.6);
-  --shadow-3: 0 8px 24px rgb(0 0 0 / 0.4), 0 24px 70px -16px rgb(79 216 235 / 0.28);
-  --glass: rgb(8 13 24 / 0.7);
+  --bg: #0b2240;
+  --bg-deep: #061529;
+  --surface: #0f2a4b;
+  --surface-2: #133356;
+  --surface-3: #193f68;
+  --outline: rgb(190 215 255 / 0.14);
+  --outline-strong: rgb(190 215 255 / 0.28);
+  --text: #eef4ff;
+  --text-muted: #b0c4e0;
+  --text-faint: #7590b6;
+  --primary: #eab765;
+  --secondary: #e8875a;
+  --tertiary: #66d6bb;
+  --ok: #66d6bb;
+  --on-primary: #1a1206;
+  --logo: #b7c8e2;
+  --orbit: rgb(234 183 101 / 0.18);
+  --orbit-2: rgb(232 135 90 / 0.14);
+  --grid-dot: rgb(200 225 255 / 0.06);
+  --grid-line: rgb(200 225 255 / 0.05);
+  --grid-line-mid: rgb(200 225 255 / 0.09);
+  --grid-line-major: rgb(200 225 255 / 0.16);
+  --ink: rgb(225 238 255 / 0.5);
+  --ink-faint: rgb(225 238 255 / 0.22);
+  --ink-accent: rgb(234 183 101 / 0.85);
+  --spotlight: rgb(150 200 255 / 0.08);
+  --gear: rgb(225 238 255 / 0.05);
+  --gear-stroke: rgb(225 238 255 / 0.3);
+  --steam: rgb(235 243 255 / 0.2);
+  --rivet: radial-gradient(
+    circle closest-side,
+    #ffe7b0 0,
+    #c08c40 40%,
+    #4a3112 85%,
+    transparent 100%
+  );
+  --plate: linear-gradient(180deg, #16385f, #102c4d);
+  --shadow-1: 0 1px 2px rgb(0 8 20 / 0.5);
+  --shadow-2: 0 2px 8px rgb(0 8 20 / 0.45), 0 12px 32px -10px rgb(0 8 20 / 0.7);
+  --shadow-3: 0 8px 24px rgb(0 8 20 / 0.5), 0 24px 70px -18px rgb(234 183 101 / 0.28);
+  --glass: rgb(9 28 52 / 0.8);
+  --grad: linear-gradient(110deg, #f3c977, #e8875a);
 }
 
 /* ------------------------------------------------------------------
@@ -152,6 +192,31 @@ a {
     box-shadow 0.45s ease,
     border-color 0.45s ease;
   backdrop-filter: blur(6px);
+}
+
+/* Rivets in the four corners of every plate */
+.card {
+  background-image:
+    var(--rivet), var(--rivet), var(--rivet), var(--rivet),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--surface) 92%, transparent),
+      color-mix(in oklab, var(--surface-2) 92%, transparent)
+    );
+  background-size:
+    7px 7px,
+    7px 7px,
+    7px 7px,
+    7px 7px,
+    100% 100%;
+  background-position:
+    11px 11px,
+    calc(100% - 11px) 11px,
+    11px calc(100% - 11px),
+    calc(100% - 11px) calc(100% - 11px),
+    0 0;
+  background-repeat: no-repeat;
+  border-radius: 0.9rem;
 }
 
 /* Cursor-following glow inside cards (driven by --mx / --my) */

@@ -9,7 +9,7 @@ import { readFile, mkdir, copyFile } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import { chromium } from 'playwright';
 
-const BASE = '/portfolio-cv-astro';
+const BASE = process.env.BASE_PATH ?? '/portfolio-cv-astro';
 const DIST = join(process.cwd(), 'dist');
 const LANGS = ['fr', 'en'];
 const toPublic = process.argv.includes('--public');

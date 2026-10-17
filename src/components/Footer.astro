@@ -1,53 +1,193 @@
 ---
-import { lemniscatePath } from '../lib/loop';
-const pkgVersion = '2.0.0';
-const built = new Date().toLocaleDateString('en-US', {
+/**
+ * Footer = the title block ("cartouche") of the drawing, with a revision
+ * table that tells the real history of this site.
+ */
+import Gear from './Gear.astro';
+import { train } from '../lib/gears';
+
+const built = new Date().toLocaleDateString('en-GB', {
+  day: '2-digit',
   month: 'short',
-  day: 'numeric',
   year: 'numeric',
 });
-const loop = lemniscatePath(14, 1.1, 100);
+const [mark] = train([{ teeth: 16, spokes: 5 }], 3, { x: 0, y: 0 });
+
+const revisions = [
+  { rev: 'A', date: 'Nov 2025', what: 'Angular 17 + Tailwind — inspired by brittanychiang.com' },
+  { rev: 'B', date: 'Oct 2026', what: 'Rebuilt with Astro — "The Loop" (orbits)' },
+  {
+    rev: 'C',
+    date: 'Oct 2026',
+    what: 'Astro — "Machinerie": drawing sheet, gears & production line',
+  },
+];
 ---
 
 <footer class="footer">
-  <svg viewBox="-17 -9 34 18" aria-hidden="true">
-    <path d={loop}></path>
-  </svg>
-  <p>
-    <span class="mono">
-      v{pkgVersion} • {built}
-    </span>
-    <span class="sep">—</span>
-    Built with Astro &amp; Tailwind, deployed by GitHub Actions.
-  </p>
+  <div class="block">
+    <table class="revs" aria-label="Revision history">
+      <thead>
+        <tr>
+          <th>Rev.</th>
+          <th>Date</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {revisions.map((r) => (
+          <tr class={r.rev === 'C' ? 'cur' : ''}>
+            <td class="mono">{r.rev}</td>
+            <td class="mono">{r.date}</td>
+            <td>{r.what}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <div class="title-block">
+      <div class="tb-mark" aria-hidden="true">
+        <svg viewBox="-28 -28 56 56">
+          <Gear g={mark} class="brass" />
+          <circle r="3" class="axle"></circle>
+        </svg>
+      </div>
+      <div class="tb-cell tb-title">
+        <span class="k">Title</span>
+        <span class="v big">Portfolio — Mafal Gai</span>
+      </div>
+      <div class="tb-cell">
+        <span class="k">Drawn by</span>
+        <span class="v">M. Gai · with Claude Code</span>
+      </div>
+      <div class="tb-cell">
+        <span class="k">Stack</span>
+        <span class="v">Astro · Tailwind · GitHub Actions</span>
+      </div>
+      <div class="tb-cell">
+        <span class="k">Scale</span>
+        <span class="v">1:1</span>
+      </div>
+      <div class="tb-cell">
+        <span class="k">Date</span>
+        <span class="v">{built}</span>
+      </div>
+      <div class="tb-cell">
+        <span class="k">Rev.</span>
+        <span class="v">C</span>
+      </div>
+      <div class="tb-cell">
+        <span class="k">Sheet</span>
+        <span class="v">01 / 01</span>
+      </div>
+    </div>
+  </div>
 </footer>
 
 <style>
   .footer {
     max-width: 72rem;
     margin: 0 auto;
-    padding: 3rem 1rem 3.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.8rem;
-    text-align: center;
-    font-size: 0.82rem;
-    color: var(--text-faint);
+    padding: 2rem 1rem 3.5rem;
   }
-  svg {
-    width: 40px;
-    height: 20px;
+  .block {
+    display: grid;
+    gap: 0;
+    border: 1.5px solid var(--ink);
+    background: color-mix(in oklab, var(--surface) 70%, transparent);
+    font-size: 0.78rem;
+    color: var(--text-muted);
   }
-  path {
-    fill: none;
-    stroke: var(--text-faint);
-    stroke-width: 1.4;
+  @media (min-width: 900px) {
+    .block {
+      grid-template-columns: 1fr 1.15fr;
+    }
   }
-  .mono {
+  .mono,
+  .k {
     font-family: var(--font-mono);
   }
-  .sep {
-    margin: 0 0.35rem;
+
+  .revs {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .revs th,
+  .revs td {
+    text-align: left;
+    padding: 0.5rem 0.7rem;
+    border-bottom: 1px solid var(--ink-faint);
+    vertical-align: top;
+  }
+  .revs th {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-faint);
+    border-bottom: 1px solid var(--ink);
+  }
+  .revs tr.cur td {
+    color: var(--text);
+  }
+  .revs tr.cur td:first-child {
+    color: var(--ink-accent);
+    font-weight: 600;
+  }
+  @media (min-width: 900px) {
+    .revs {
+      border-right: 1.5px solid var(--ink);
+    }
+  }
+
+  .title-block {
+    display: grid;
+    grid-template-columns: 4.5rem repeat(3, 1fr);
+    grid-auto-rows: minmax(2.6rem, auto);
+  }
+  .tb-mark {
+    grid-row: span 3;
+    display: grid;
+    place-items: center;
+    border-right: 1px solid var(--ink);
+  }
+  .tb-mark svg {
+    width: 3rem;
+    height: 3rem;
+    overflow: visible;
+  }
+  .axle {
+    fill: var(--surface);
+    stroke: var(--ink);
+  }
+  .tb-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.1rem;
+    padding: 0.35rem 0.7rem;
+    border-bottom: 1px solid var(--ink-faint);
+    border-right: 1px solid var(--ink-faint);
+  }
+  .tb-title {
+    grid-column: span 3;
+    border-bottom: 1px solid var(--ink);
+  }
+  .k {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-faint);
+  }
+  .v {
+    color: var(--text);
+  }
+  .v.big {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    line-height: 1;
   }
 </style>

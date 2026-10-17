@@ -1,68 +1,87 @@
 ---
+/**
+ * Hero = "General assembly" of the delivery pipeline, drawn as a machine:
+ * a gear train drives a conveyor; crates (artifacts) enter raw at ① CODE,
+ * get stamped by the ② BUILD press, checked at the ③ TEST gauge, and leave
+ * for ④ DEPLOY. Every moving part is derived from one shared angle (--spin)
+ * by src/scripts/machine.ts, so the whole thing stays mechanically in sync.
+ */
 import Icon from './Icon.astro';
-import { lemniscatePoint, lemniscatePath, outward, STAGES } from '../lib/loop';
+import Gear from './Gear.astro';
+import DraftingTools from './DraftingTools.astro';
+import { train } from '../lib/gears';
 import { asset } from '../lib/utils';
 import site from '../data/site.json';
 
-const A = 300;
-const SQ = 1.25;
-const STEPS = 360;
-const d = lemniscatePath(A, SQ, STEPS);
-const LOOP_DUR = 12;
-
-// Arc-length fraction of each stage along the path (path starts at t = π),
-// so node pulses line up with the packets travelling at constant speed.
-const pts = Array.from({ length: STEPS + 1 }, (_, i) =>
-  lemniscatePoint(Math.PI + (i / STEPS) * Math.PI * 2, A, SQ),
-);
-const cum = [0];
-for (let i = 1; i < pts.length; i++)
-  cum.push(cum[i - 1] + Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y));
-const total = cum[cum.length - 1];
-const fractionOf = (t: number) => {
-  const norm = (((t - Math.PI) % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
-  return cum[Math.round((norm / (Math.PI * 2)) * STEPS)] / total;
-};
-
-const stages = STAGES.map((s) => {
-  const p = lemniscatePoint(s.t, A, SQ);
-  // Near the crossing, labels go straight above/below the curve to avoid colliding.
-  const inner = Math.abs(p.x) < A * 0.4;
-  const l = inner ? { x: p.x, y: p.y + Math.sign(p.y) * 30 } : outward(p, A, 34);
-  return {
-    ...s,
-    p,
-    l,
-    anchor: inner ? 'middle' : l.x < p.x ? 'end' : 'start',
-    delay: fractionOf(s.t) * LOOP_DUR,
-  };
-});
-
-const packets = [0, 0.25, 0.5, 0.75];
 const { header } = site;
 const resume = site.ui.resumeLink;
+
+// --- machine geometry (SVG units, viewBox 0 0 720 470) ---
+const BELT_Y = 372; // top surface of the belt
+const BELT_X0 = 64;
+const BELT_X1 = 690;
+const ST = { spec: -112, code: 112, build: 372, test: 532, deploy: 650 };
+const CRATES = 6;
+const gears = train(
+  [
+    { teeth: 28, spokes: 6 },
+    { teeth: 14, angle: 28, spokes: 4 },
+    { teeth: 20, angle: 62, spokes: 5 },
+  ],
+  5,
+  { x: 104, y: 104 },
+);
+const [g1, g2, g3] = gears;
+const midRollers = [190, 300, 440, 590];
+const marks = ['.NET', 'SQL', 'API', 'UI', 'IaC', 'CI'];
+const callouts = [
+  { n: 1, x: ST.spec + 4, y: 150, label: 'spec' },
+  { n: 2, x: ST.code, y: 222, label: 'code' },
+  { n: 3, x: ST.build, y: 156, label: 'build' },
+  { n: 4, x: ST.test + 74, y: 250, label: 'test' },
+  { n: 5, x: ST.deploy + 10, y: 296, label: 'deploy' },
+];
+// ① SPEC: drafting board (local coords, rotated) and the path a finished
+// spec sheet follows into the ② CODE hopper.
+const SPEC_LINES = [
+  { y: -10, w: 52 },
+  { y: -1, w: 60 },
+  { y: 8, w: 44 },
+  { y: 17, w: 58 },
+  { y: 26, w: 36 },
+];
+const SHEET_PATH = `M${ST.spec} 222 C ${ST.spec + 40} 120, ${ST.code - 70} 120, ${ST.code} 232`;
+const dialTicks = Array.from({ length: 9 }, (_, k) => {
+  const a = ((-210 + k * 30) * Math.PI) / 180;
+  return {
+    x1: ST.test + Math.cos(a) * 18,
+    y1: 250 + Math.sin(a) * 18,
+    x2: ST.test + Math.cos(a) * 23,
+    y2: 250 + Math.sin(a) * 23,
+    red: k > 6,
+  };
+});
 ---
 
 <section id="top" class="hero">
+  <DraftingTools />
+
   <div class="hero-text">
-    <p class="status reveal">
-      <span class="pulse"></span>
-      <span class="mono">pipeline</span>
-      <span class="mono ok">● running</span>
-      <span class="sep">/</span>
-      <span class="mono muted">v2.0</span>
+    <p class="plate reveal">
+      <span class="lamp-on"></span>
+      <span>machine running</span>
+      <span class="sep">·</span>
+      <span class="rev">rev. C</span>
     </p>
 
     <h1 class="name reveal" style="--delay:80ms">
-      {header.name.split(' ').map((w, i) => (
-        <span class={i === 0 ? 'first' : ''}>{w}</span>
+      {header.name.split(' ').map((w) => (
+        <span>{w}</span>
       ))}
     </h1>
 
     <p class="title reveal" style="--delay:160ms">
-      <span class="prompt">&gt;</span>
       {header.title}
-      <span class="caret"></span>
     </p>
 
     <p class="tagline reveal" style="--delay:240ms">
@@ -78,9 +97,9 @@ const resume = site.ui.resumeLink;
         href={asset('/cv/mafal-gai-cv-en.pdf')}
         class="btn btn-tonal"
         aria-label={resume.ariaLabel}
-        data-ripple
         target="_blank"
         rel="noopener"
+        data-ripple
       >
         {resume.label}
         <Icon name="arrowUpRight" size={16} />
@@ -107,63 +126,248 @@ const resume = site.ui.resumeLink;
     </ul>
   </div>
 
-  <div class="hero-visual reveal" style="--delay:200ms" aria-hidden="true">
-    <svg viewBox="-375 -175 750 350" class="loop">
+  <figure class="hero-visual reveal" style="--delay:200ms" aria-hidden="true">
+    <svg
+      viewBox="-200 0 920 470"
+      class="machine"
+      data-machine
+      data-x0={BELT_X0}
+      data-x1={BELT_X1}
+      data-build={ST.build}
+      data-test={ST.test}
+      data-crates={CRATES}
+    >
       <defs>
-        <linearGradient id="loop-grad" x1={-A} x2={A} y1="0" y2="0" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stop-color="var(--primary)"></stop>
-          <stop offset="1" stop-color="var(--secondary)"></stop>
+        <linearGradient id="iron" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="var(--surface-3)"></stop>
+          <stop offset="1" stop-color="var(--surface-2)"></stop>
         </linearGradient>
-        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="4" result="b"></feGaussianBlur>
-          <feMerge>
-            <feMergeNode in="b"></feMergeNode>
-            <feMergeNode in="SourceGraphic"></feMergeNode>
-          </feMerge>
-        </filter>
+        <marker
+          id="hero-arrow"
+          viewBox="0 0 10 10"
+          refX="9"
+          refY="5"
+          markerWidth="6"
+          markerHeight="6"
+          orient="auto-start-reverse"
+        >
+          <path d="M0 1 L10 5 L0 9 Z" fill="var(--ink)"></path>
+        </marker>
       </defs>
 
-      <!-- lobe labels -->
-      <text x={-A * 0.56} y="10" class="lobe">
-        DEV
-      </text>
-      <text x={A * 0.56} y="10" class="lobe">
-        OPS
-      </text>
+      <!-- construction lines: the drawing underneath the machine -->
+      <g class="construct">
+        {gears.map((g) => (
+          <g>
+            <circle cx={g.x} cy={g.y} r={g.pitchR} class="pitch" />
+            <path
+              d={`M${g.x - g.outerR - 14} ${g.y} H${g.x + g.outerR + 14} M${g.x} ${g.y - g.outerR - 14} V${g.y + g.outerR + 14}`}
+              class="axis"
+            />
+          </g>
+        ))}
+        <path d={`M-190 ${BELT_Y + 14} H705`} class="axis"></path>
+        <path
+          d={`M${g1.x} 14 L${g2.x} 14`}
+          class="dimline"
+          marker-start="url(#hero-arrow)"
+          marker-end="url(#hero-arrow)"
+        ></path>
+        <path d={`M${g2.x} ${g2.y - g2.outerR - 4} V10`} class="ext"></path>
+        <text x={(g1.x + g2.x) / 2} y="8" class="dimtxt">
+          a = {Math.hypot(g2.x - g1.x, g2.y - g1.y).toFixed(0)}
+        </text>
+        <path
+          d={`M${BELT_X0} ${BELT_Y + 62} H${BELT_X1}`}
+          class="dimline"
+          marker-start="url(#hero-arrow)"
+          marker-end="url(#hero-arrow)"
+        ></path>
+        <text x={(BELT_X0 + BELT_X1) / 2} y={BELT_Y + 56} class="dimtxt">
+          L = {BELT_X1 - BELT_X0} · v = const.
+        </text>
+      </g>
 
-      <!-- concentric rings around each lobe centre -->
-      {[-1, 1].map((side) => (
-        <g class={`rings ${side < 0 ? 'rev' : ''}`}>
-          <ellipse cx={side * A * 0.56} cy="0" rx="62" ry="62" />
-          <ellipse cx={side * A * 0.56} cy="0" rx="92" ry="92" class="dashed" />
+      <!-- ① SPEC: the drafting board where each spec is written first -->
+      <g class="spec-station">
+        <path
+          d={`M${ST.spec - 46} 258 L${ST.spec - 58} 452 M${ST.spec + 46} 246 L${ST.spec + 58} 452 M${ST.spec - 52} 360 H${ST.spec + 52}`}
+          class="iron-line legs"
+        ></path>
+        <g transform={`translate(${ST.spec} 228) rotate(-12)`}>
+          <rect x="-66" y="-36" width="132" height="76" rx="3" class="board"></rect>
+          <rect x="-66" y="34" width="132" height="6" class="board-lip"></rect>
+          <rect x="-40" y="-30" width="80" height="66" class="paper"></rect>
+          <text x="-34" y="-19" class="paper-title">
+            SPEC.md
+          </text>
+          {SPEC_LINES.map((l) => (
+            <path d={`M-34 ${l.y} h${l.w}`} pathLength="1" class="spec-line" data-spec-line />
+          ))}
+          <g data-pencil class="pencil-mini">
+            <path d="M0 0 L5 -16 L9 -15 L4 1 Z" />
+            <path d="M0 0 L1.4 -4.4 L3.6 -3.8 Z" class="tip" />
+          </g>
+        </g>
+        <!-- travelling spec sheet -->
+        <path d={SHEET_PATH} class="sheet-path" data-sheet-path></path>
+        <g data-sheet class="flying-sheet">
+          <rect x="-11" y="-14" width="22" height="28" rx="1" />
+          <path d="M-7 -8 h12 M-7 -3 h14 M-7 2 h10 M-7 7 h13" />
+        </g>
+      </g>
+
+      <!-- ② CODE: hopper fed by the spec -->
+      <g class="hopper">
+        <path
+          d={`M${ST.code - 54} 238 H${ST.code + 54} L${ST.code + 22} 318 H${ST.code - 22} Z`}
+          class="iron"
+        ></path>
+        <path d={`M${ST.code - 22} 318 V334 M${ST.code + 22} 318 V334`} class="iron-line"></path>
+        <g class="glyphs">
+          <text x={ST.code - 26} y="262">
+            {'{ }'}
+          </text>
+          <text x={ST.code + 2} y="272">
+            {'</>'}
+          </text>
+          <text x={ST.code - 10} y="290">
+            01
+          </text>
+        </g>
+      </g>
+
+      <!-- drive: gear train + chain down to the belt -->
+      <path
+        d={`M${g3.x - 6} ${g3.y} V${BELT_Y + 14} M${g3.x + 6} ${g3.y} V${BELT_Y + 14}`}
+        class="chain"
+      ></path>
+      <Gear g={g1} class="brass" />
+      <Gear g={g2} class="copper" />
+      <Gear g={g3} class="brass" />
+      {gears.map((g) => (
+        <circle cx={g.x} cy={g.y} r="4" class="axle" />
+      ))}
+
+      <!-- conveyor -->
+      <rect
+        x={BELT_X0 - 16}
+        y={BELT_Y}
+        width={BELT_X1 - BELT_X0 + 32}
+        height="28"
+        rx="14"
+        class="belt"
+      ></rect>
+      <path d={`M${BELT_X0} ${BELT_Y + 2} H${BELT_X1}`} class="belt-tread"></path>
+      {[BELT_X0, BELT_X1].map((x) => (
+        <g transform={`translate(${x} ${BELT_Y + 14})`}>
+          <g class="gear" style="--r:-2.2; --p:0">
+            <circle r="12" class="roller-body" />
+            <path d="M-12 0 H12 M0 -12 V12" class="roller-spoke" />
+          </g>
+        </g>
+      ))}
+      {midRollers.map((x) => (
+        <circle cx={x} cy={BELT_Y + 14} r="5" class="roller-body" />
+      ))}
+      <path
+        d={`M${BELT_X0 + 30} ${BELT_Y + 28} L${BELT_X0 + 10} 452 M${BELT_X1 - 30} ${BELT_Y + 28} L${BELT_X1 - 10} 452 M${(BELT_X0 + BELT_X1) / 2} ${BELT_Y + 28} V452`}
+        class="iron-line legs"
+      ></path>
+      <path d="M-190 452 H705" class="ground"></path>
+
+      <!-- crates (artifacts) — positioned every frame by the machine script -->
+      {marks.map((m, i) => (
+        <g
+          class="crate"
+          data-crate
+          transform={`translate(${BELT_X0 + i * ((BELT_X1 - BELT_X0) / CRATES)} ${BELT_Y - 34})`}
+        >
+          <rect x="-22" y="0" width="44" height="34" rx="3" class="crate-raw" />
+          <g class="crate-built">
+            <rect x="-22" y="0" width="44" height="34" rx="3" class="crate-body" />
+            <path d="M-22 11 H22 M-22 23 H22" class="crate-slat" />
+            <text x="0" y="21" class="crate-mark">
+              {m}
+            </text>
+          </g>
+          <g class="crate-ok">
+            <circle cx="17" cy="-3" r="7" />
+            <path d="M13.5 -3 l2.4 2.4 l4.4 -4.6" />
+          </g>
         </g>
       ))}
 
-      <path d={d} class="track"></path>
-      <path d={d} class="line" pathLength="1"></path>
+      <!-- ② BUILD: the press -->
+      <g class="press">
+        <rect x={ST.build - 46} y="182" width="12" height={BELT_Y - 182} class="iron"></rect>
+        <rect x={ST.build + 34} y="182" width="12" height={BELT_Y - 182} class="iron"></rect>
+        <rect x={ST.build + 24} y="134" width="14" height="38" class="iron"></rect>
+        <rect x={ST.build - 56} y="170" width="112" height="22" rx="3" class="iron"></rect>
+        <rect x={ST.build - 16} y="192" width="32" height="40" rx="3" class="cyl"></rect>
+        <g data-ram>
+          <rect x={ST.build - 4} y="226" width="8" height="58" class="rod"></rect>
+          <rect x={ST.build - 30} y="284" width="60" height="14" rx="2" class="ram"></rect>
+        </g>
+        <g class="steam">
+          <circle cx={ST.build + 31} cy="128" r="7"></circle>
+          <circle cx={ST.build + 31} cy="128" r="7"></circle>
+          <circle cx={ST.build + 31} cy="128" r="7"></circle>
+        </g>
+      </g>
 
-      {packets.map((offset, i) => (
-        <circle r={i === 0 ? 6 : 4} class={`packet p${i}`} filter="url(#glow)">
-          <animateMotion
-            dur={`${LOOP_DUR}s`}
-            repeatCount="indefinite"
-            path={d}
-            begin={`${-offset * LOOP_DUR}s`}
+      <!-- ③ TEST: pressure gauge + verdict lamp -->
+      <g class="gauge">
+        <path d={`M${ST.build + 56} 181 H${ST.test} V222`} class="pipe"></path>
+        <circle cx={ST.test} cy="250" r="30" class="dial"></circle>
+        <circle cx={ST.test} cy="250" r="24" class="dial-face"></circle>
+        {dialTicks.map((t) => (
+          <line
+            x1={t.x1}
+            y1={t.y1}
+            x2={t.x2}
+            y2={t.y2}
+            class={t.red ? 'dial-tick red' : 'dial-tick'}
           />
-        </circle>
-      ))}
+        ))}
+        <g transform={`translate(${ST.test} 250)`}>
+          <g data-needle>
+            <path d="M-2 0 L0 -21 L2 0 Z" class="needle"></path>
+          </g>
+          <circle r="3" class="axle"></circle>
+        </g>
+        <path d={`M${ST.test} 280 V314`} class="iron-line"></path>
+        <circle cx={ST.test} cy="320" r="7" class="verdict"></circle>
+      </g>
 
-      {stages.map((s) => (
-        <g class={`stage ${s.side}`} style={`--d:${s.delay.toFixed(2)}s; --dur:${LOOP_DUR / 4}s`}>
-          <circle cx={s.p.x} cy={s.p.y} r="13" class="halo" />
-          <circle cx={s.p.x} cy={s.p.y} r="5.5" class="node" />
-          <text x={s.l.x} y={s.l.y + 4} text-anchor={s.anchor} class="label">
-            {s.key}
+      <!-- ④ DEPLOY -->
+      <path
+        d={`M${ST.deploy - 20} 326 h46`}
+        class="deploy-arrow"
+        marker-end="url(#hero-arrow)"
+      ></path>
+      <text x={ST.deploy + 2} y="345" class="prod">
+        prod
+      </text>
+
+      <!-- callouts (nomenclature) -->
+      {callouts.map((c) => (
+        <g class="callout">
+          <circle cx={c.x - 34} cy={c.y} r="10" />
+          <text x={c.x - 34} y={c.y + 0.5} class="n">
+            {c.n}
+          </text>
+          <text x={c.x - 19} y={c.y + 0.5} class="lbl">
+            {c.label}
           </text>
         </g>
       ))}
     </svg>
-  </div>
+    <figcaption class="caption">
+      <span>General assembly — spec-driven delivery pipeline</span>
+      <span>scale 1:1 · rev. C</span>
+    </figcaption>
+  </figure>
 
   <a href="#about" class="scroll-hint" aria-label="Scroll to content">
     <span class="mouse">
@@ -176,7 +380,7 @@ const resume = site.ui.resumeLink;
   .hero {
     position: relative;
     min-height: 100svh;
-    max-width: 72rem;
+    max-width: 76rem;
     margin: 0 auto;
     padding: 7.5rem 1rem 5rem;
     display: grid;
@@ -185,96 +389,100 @@ const resume = site.ui.resumeLink;
   }
   @media (min-width: 1024px) {
     .hero {
-      grid-template-columns: 1.05fr 1fr;
+      grid-template-columns: 0.82fr 1.18fr;
       padding-top: 6rem;
-      gap: 1rem;
+      gap: 1.5rem;
     }
   }
+  .hero-text,
+  .hero-visual {
+    position: relative;
+    z-index: 1;
+  }
 
-  .status {
+  .plate {
     display: inline-flex;
     align-items: center;
     gap: 0.55rem;
-    padding: 0.4rem 0.85rem 0.4rem 0.65rem;
-    border-radius: 999px;
-    background: var(--surface);
-    border: 1px solid var(--outline);
-    box-shadow: var(--shadow-1);
-    font-size: 0.78rem;
-    color: var(--text-muted);
-  }
-  .mono {
+    padding: 0.38rem 1.35rem;
+    border-radius: 0.4rem;
     font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    background-image: var(--rivet), var(--rivet), var(--plate);
+    background-size:
+      6px 6px,
+      6px 6px,
+      100% 100%;
+    background-position:
+      7px 50%,
+      calc(100% - 7px) 50%,
+      0 0;
+    background-repeat: no-repeat;
+    border: 1px solid var(--outline-strong);
+    box-shadow: var(--shadow-1);
   }
-  .ok {
-    color: var(--ok);
-  }
-  .muted,
-  .sep {
-    color: var(--text-faint);
-  }
-  .pulse {
+  .lamp-on {
     width: 0.55rem;
     height: 0.55rem;
     border-radius: 50%;
     background: var(--ok);
-    box-shadow: 0 0 0 0 color-mix(in oklab, var(--ok) 60%, transparent);
-    animation: pulse 2s infinite;
+    box-shadow: 0 0 10px var(--ok);
+    animation: flicker 3s infinite;
   }
-  @keyframes pulse {
-    70% {
-      box-shadow: 0 0 0 9px transparent;
-    }
+  @keyframes flicker {
+    0%,
+    48%,
+    52%,
     100% {
-      box-shadow: 0 0 0 0 transparent;
+      opacity: 1;
     }
+    50% {
+      opacity: 0.45;
+    }
+  }
+  .sep,
+  .rev {
+    color: var(--text-faint);
   }
 
   .name {
-    margin: 1.4rem 0 0.6rem;
+    margin: 1.2rem 0 0.4rem;
     font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(3rem, 9vw, 6.2rem);
-    line-height: 0.95;
-    letter-spacing: -0.045em;
+    font-weight: 800;
+    font-size: clamp(4rem, 11vw, 7.6rem);
+    line-height: 0.86;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
   }
   .name span {
-    display: inline-block;
+    display: block;
   }
-  .name .first {
-    margin-right: 0.22em;
+  .name span:last-child {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .title {
-    font-family: var(--font-mono);
-    font-size: clamp(1rem, 2.2vw, 1.25rem);
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-  .prompt {
-    color: var(--primary);
-  }
-  .caret {
     display: inline-block;
-    width: 0.55em;
-    height: 1.1em;
-    margin-left: 0.15rem;
-    background: var(--primary);
-    animation: blink 1.1s steps(1) infinite;
-    border-radius: 1px;
-  }
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
+    margin-top: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: clamp(0.92rem, 2vw, 1.08rem);
+    font-weight: 500;
+    color: var(--text);
+    padding: 0.35rem 0.75rem;
+    border-left: 3px solid var(--primary);
+    background: color-mix(in oklab, var(--primary) 9%, transparent);
   }
 
   .tagline {
     margin-top: 1.1rem;
     max-width: 30rem;
-    font-size: 1.08rem;
+    font-size: 1.06rem;
     color: var(--text-muted);
   }
 
@@ -288,7 +496,7 @@ const resume = site.ui.resumeLink;
   .socials {
     margin-top: 2rem;
     display: flex;
-    gap: 0.4rem;
+    gap: 0.45rem;
     list-style: none;
     padding: 0;
   }
@@ -297,20 +505,21 @@ const resume = site.ui.resumeLink;
     height: 2.6rem;
     display: grid;
     place-items: center;
-    border-radius: 0.9rem;
+    border-radius: 50%;
     color: var(--text-muted);
-    border: 1px solid transparent;
+    border: 1px dashed var(--outline-strong);
     transition:
       color 0.25s ease,
       background-color 0.25s ease,
-      transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
       border-color 0.25s ease;
   }
   .socials a:hover {
     color: var(--primary);
     background: var(--surface);
-    border-color: var(--outline);
-    transform: translateY(-3px);
+    border-style: solid;
+    border-color: var(--primary);
+    transform: rotate(30deg);
   }
   .social-mask {
     width: 19px;
@@ -318,125 +527,292 @@ const resume = site.ui.resumeLink;
     background-color: currentColor;
   }
 
-  /* ---------- the loop ---------- */
+  /* ---------- the machine ---------- */
   .hero-visual {
+    margin: 0;
     width: 100%;
-    max-width: 680px;
+    max-width: 860px;
     justify-self: center;
   }
-  .loop {
+  .machine {
     width: 100%;
     height: auto;
     overflow: visible;
   }
-  .track {
-    fill: none;
-    stroke: var(--outline-strong);
-    stroke-width: 14;
-    stroke-linejoin: round;
-    opacity: 0.55;
-  }
-  .line {
-    fill: none;
-    stroke: url(#loop-grad);
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    animation: draw 2.4s cubic-bezier(0.65, 0, 0.35, 1) 0.3s forwards;
-  }
-  @keyframes draw {
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-  .packet {
-    fill: var(--text);
-  }
-  .packet.p0 {
-    fill: var(--primary);
-  }
-  .packet.p2 {
-    fill: var(--secondary);
+  .caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.4rem;
+    padding-top: 0.45rem;
+    border-top: 1px solid var(--ink-faint);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
   }
 
-  .lobe {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 30px;
-    letter-spacing: 0.2em;
-    text-anchor: middle;
-    fill: var(--text);
-    opacity: 0.08;
-  }
-  .rings ellipse {
+  .construct .pitch {
     fill: none;
-    stroke: var(--orbit);
+    stroke: var(--ink-faint);
+    stroke-dasharray: 5 4;
+  }
+  .construct .axis {
+    fill: none;
+    stroke: var(--ink-faint);
+    stroke-dasharray: 16 4 2 4;
+  }
+  .construct .ext {
+    stroke: var(--ink-faint);
+  }
+  .dimline {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 0.9;
+  }
+  .dimtxt {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--ink);
+    text-anchor: middle;
+  }
+
+  .iron {
+    fill: url(#iron);
+    stroke: var(--ink);
     stroke-width: 1;
   }
-  .rings .dashed {
-    stroke-dasharray: 2 6;
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: spin 40s linear infinite;
+  .iron-line {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.4;
   }
-  .rings.rev .dashed {
-    animation-direction: reverse;
+  .legs {
+    stroke-width: 2;
   }
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
+  .ground {
+    stroke: var(--ink);
+    stroke-width: 1;
+    stroke-dasharray: 2 4;
+  }
+  .glyphs text {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    fill: var(--primary);
+    animation: drop 2.4s ease-in infinite;
+  }
+  .glyphs text:nth-child(2) {
+    animation-delay: -0.8s;
+    fill: var(--secondary);
+  }
+  .glyphs text:nth-child(3) {
+    animation-delay: -1.6s;
+  }
+  @keyframes drop {
+    0% {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(40px);
+      opacity: 0;
     }
   }
 
-  .stage .node {
+  .chain {
+    fill: none;
+    stroke: var(--text-faint);
+    stroke-width: 2.4;
+    stroke-dasharray: 3 3;
+    stroke-dashoffset: var(--chain, 0);
+  }
+  .axle {
     fill: var(--surface);
-    stroke: var(--primary);
-    stroke-width: 2;
+    stroke: var(--ink);
   }
-  .stage.ops .node {
-    stroke: var(--secondary);
+
+  .belt {
+    fill: var(--surface-3);
+    stroke: var(--ink);
+    stroke-width: 1.2;
   }
-  .stage .halo {
-    fill: var(--primary);
+  .belt-tread {
+    fill: none;
+    stroke: var(--text-faint);
+    stroke-width: 3;
+    stroke-dasharray: 2 10;
+    stroke-dashoffset: var(--tread, 0);
+  }
+  .roller-body {
+    fill: url(#iron);
+    stroke: var(--ink);
+  }
+  .roller-spoke {
+    stroke: var(--ink);
+  }
+
+  .crate-raw {
+    fill: none;
+    stroke: var(--ink);
+    stroke-dasharray: 4 3;
+  }
+  .crate-body {
+    fill: url(#brass-fill);
+    stroke: #6d4815;
+  }
+  .crate-slat {
+    stroke: rgb(0 0 0 / 0.18);
+  }
+  .crate-mark {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 600;
+    text-anchor: middle;
+    fill: #3b2508;
+  }
+  .crate-built,
+  .crate-ok {
     opacity: 0;
+    transition: opacity 0.12s linear;
+  }
+  :global(.crate.built) .crate-built {
+    opacity: 1;
+  }
+  :global(.crate.built) .crate-raw {
+    opacity: 0;
+  }
+  :global(.crate.ok) .crate-ok {
+    opacity: 1;
+  }
+  .crate-ok circle {
+    fill: var(--ok);
+  }
+  .crate-ok path {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .cyl {
+    fill: url(#copper-fill);
+    stroke: var(--ink);
+  }
+  .rod {
+    fill: #c4c4c4;
+    stroke: var(--ink);
+    stroke-width: 0.6;
+  }
+  .ram {
+    fill: url(#brass-fill);
+    stroke: var(--ink);
+  }
+  [data-ram] {
+    transform: translateY(var(--ram, 0px));
+  }
+
+  .steam circle {
+    fill: var(--steam);
+    filter: blur(3px);
     transform-box: fill-box;
     transform-origin: center;
-    animation: hit calc(var(--dur) * 4) linear infinite;
-    animation-delay: var(--d);
+    animation: steam 3.6s ease-out infinite;
   }
-  .stage.ops .halo {
-    fill: var(--secondary);
+  .steam circle:nth-child(2) {
+    animation-delay: -1.2s;
   }
-  .stage .label {
-    font-family: var(--font-mono);
-    font-size: 17px;
-    fill: var(--text-muted);
-    animation: label-hit calc(var(--dur) * 4) linear infinite;
-    animation-delay: var(--d);
+  .steam circle:nth-child(3) {
+    animation-delay: -2.4s;
   }
-  @keyframes hit {
+  @keyframes steam {
     0% {
-      opacity: 0.45;
-      transform: scale(0.5);
-    }
-    10% {
+      transform: translate(0, 0) scale(0.6);
       opacity: 0;
-      transform: scale(1.6);
+    }
+    15% {
+      opacity: 1;
     }
     100% {
+      transform: translate(18px, -70px) scale(3.2);
       opacity: 0;
     }
   }
-  @keyframes label-hit {
-    0%,
-    6% {
-      fill: var(--text);
-    }
-    14%,
-    100% {
-      fill: var(--text-muted);
-    }
+
+  .pipe {
+    fill: none;
+    stroke: url(#copper-fill);
+    stroke-width: 6;
+    stroke-linejoin: round;
+  }
+  .dial {
+    fill: url(#brass-fill);
+    stroke: var(--ink);
+  }
+  .dial-face {
+    fill: #f6efe0;
+    stroke: rgb(0 0 0 / 0.25);
+  }
+  .dial-tick {
+    stroke: #3b2a14;
+    stroke-width: 1.4;
+  }
+  .dial-tick.red {
+    stroke: #b0361c;
+  }
+  .needle {
+    fill: #b0361c;
+  }
+  [data-needle] {
+    transform: rotate(var(--needle, -120deg));
+  }
+  .verdict {
+    fill: var(--surface-3);
+    stroke: var(--ink);
+    transition: fill 0.12s linear;
+  }
+  :global(.lamp-lit) .verdict {
+    fill: var(--ok);
+    filter: drop-shadow(0 0 6px var(--ok));
+  }
+
+  .deploy-arrow {
+    stroke: var(--ink);
+    stroke-width: 1.4;
+    fill: none;
+  }
+  .prod {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    fill: var(--ok);
+  }
+
+  .callout circle {
+    fill: var(--surface);
+    stroke: var(--ink-accent);
+    stroke-width: 1.2;
+  }
+  .callout .n {
+    dominant-baseline: central;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-anchor: middle;
+    fill: var(--ink-accent);
+  }
+  .callout .lbl {
+    dominant-baseline: central;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    fill: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
 
   .scroll-hint {
@@ -482,5 +858,58 @@ const resume = site.ui.resumeLink;
       opacity: 0;
       transform: translateY(10px);
     }
+  }
+
+  /* ① SPEC station */
+  .board {
+    fill: url(#iron);
+    stroke: var(--ink);
+  }
+  .board-lip {
+    fill: url(#brass-fill);
+    stroke: var(--ink);
+    stroke-width: 0.6;
+  }
+  .paper {
+    fill: #fbf6ea;
+    stroke: rgb(0 0 0 / 0.2);
+  }
+  .paper-title {
+    font-family: var(--font-mono);
+    font-size: 6.5px;
+    font-weight: 600;
+    fill: #9a6a22;
+  }
+  .spec-line {
+    fill: none;
+    stroke: #3b2a14;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  .pencil-mini path {
+    fill: #d9a441;
+    stroke: #5a3a10;
+    stroke-width: 0.5;
+  }
+  .pencil-mini .tip {
+    fill: #3b2a14;
+  }
+  .sheet-path {
+    fill: none;
+    stroke: var(--ink-faint);
+    stroke-dasharray: 3 5;
+  }
+  .flying-sheet {
+    opacity: 0;
+  }
+  .flying-sheet rect {
+    fill: #fbf6ea;
+    stroke: #9a6a22;
+  }
+  .flying-sheet path {
+    stroke: #3b2a14;
+    stroke-width: 1;
   }
 </style>

@@ -1,0 +1,70 @@
+---
+import type { PlacedGear } from '../lib/gears';
+
+interface Props {
+  g: PlacedGear;
+  class?: string;
+}
+const { g, class: cls = '' } = Astro.props;
+---
+
+<g transform={`translate(${g.x.toFixed(2)} ${g.y.toFixed(2)})`}>
+  <g class={`gear ${cls}`} style={`--r:${g.ratio.toFixed(5)}; --p:${g.phase.toFixed(3)}`}>
+    <path d={g.body} fill-rule="evenodd" class="g-body"></path>
+    <path d={g.spokes} class="g-spokes"></path>
+    <circle r={g.hubR.toFixed(2)} class="g-hub"></circle>
+    <circle r={g.holeR.toFixed(2)} class="g-hole"></circle>
+  </g>
+</g>
+
+<style is:global>
+  /* Driven by --spin (deg) set on :root by the client script; --r keeps the train meshed. */
+  .gear {
+    transform: rotate(calc(var(--p) * 1deg + var(--spin, 0) * var(--r) * 1deg));
+  }
+  .gear .g-body,
+  .gear .g-spokes,
+  .gear .g-hub {
+    fill: var(--gear);
+    stroke: var(--gear-stroke);
+    stroke-width: 1.2;
+    vector-effect: non-scaling-stroke;
+    stroke-linejoin: round;
+  }
+  .gear .g-hole {
+    fill: var(--bg);
+    stroke: var(--gear-stroke);
+    stroke-width: 1.2;
+    vector-effect: non-scaling-stroke;
+  }
+  /* Technical line-art (background drawings) */
+  .gear.drawing .g-body,
+  .gear.drawing .g-spokes,
+  .gear.drawing .g-hub {
+    fill: var(--gear);
+    stroke: var(--ink);
+    stroke-width: 1;
+  }
+  .gear.drawing .g-hole {
+    fill: none;
+    stroke: var(--ink);
+  }
+  .gear.brass .g-body,
+  .gear.brass .g-spokes,
+  .gear.brass .g-hub {
+    fill: url(#brass-fill);
+    stroke: color-mix(in oklab, var(--primary) 55%, #000);
+    stroke-width: 1;
+  }
+  .gear.copper .g-body,
+  .gear.copper .g-spokes,
+  .gear.copper .g-hub {
+    fill: url(#copper-fill);
+    stroke: color-mix(in oklab, var(--secondary) 55%, #000);
+    stroke-width: 1;
+  }
+  .gear.brass .g-hole,
+  .gear.copper .g-hole {
+    fill: var(--surface-3);
+  }
+</style>

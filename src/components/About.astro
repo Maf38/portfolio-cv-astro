@@ -3,8 +3,49 @@ import SectionHeader from './SectionHeader.astro';
 import { asset, inlineMd } from '../lib/utils';
 import site from '../data/site.json';
 
-// Tech "satellites" orbiting the portrait — taken from the current role's stack.
-const satellites = ['.NET', 'SQL', 'Docker', 'Azure', 'TS', 'Linux'];
+// Annotations pointing at the portrait — each one restates a fact from the About text.
+const notes = [
+  {
+    n: 1,
+    text: '13 yrs · semiconductor industry',
+    sub: 'ST Microelectronics',
+    x: 0,
+    y: 34,
+    px: 195,
+    py: 150,
+    anchor: 'start',
+  },
+  {
+    n: 2,
+    text: '.NET developer since 2019',
+    sub: 'Capgemini → Inetum',
+    x: 520,
+    y: 70,
+    px: 325,
+    py: 150,
+    anchor: 'end',
+  },
+  {
+    n: 3,
+    text: 'AI-augmented workflow',
+    sub: 'Copilot · Claude Code',
+    x: 0,
+    y: 384,
+    px: 195,
+    py: 280,
+    anchor: 'start',
+  },
+  {
+    n: 4,
+    text: 'Expert DevOps · RNCP 7',
+    sub: 'in progress',
+    x: 520,
+    y: 414,
+    px: 325,
+    py: 280,
+    anchor: 'end',
+  },
+];
 ---
 
 <section id="about" class="section" aria-labelledby="about-title">
@@ -17,20 +58,46 @@ const satellites = ['.NET', 'SQL', 'Docker', 'Azure', 'TS', 'Linux'];
       ))}
     </div>
 
-    <div class="portrait reveal" style="--delay:150ms" aria-hidden="true">
-      <div class="ring r1"></div>
-      <div class="ring r2"></div>
-      <div class="sat-track">
-        {satellites.map((s, i) => (
-          <span class="sat" style={`--a:${(360 / satellites.length) * i}deg`}>
-            <span>{s}</span>
-          </span>
+    <figure class="portrait reveal" style="--delay:150ms" aria-hidden="true">
+      <svg viewBox="0 0 520 460">
+        <defs>
+          <clipPath id="detail-clip">
+            <circle cx="260" cy="215" r="92"></circle>
+          </clipPath>
+        </defs>
+        <!-- detail circle (dash-dot) and centre lines -->
+        <circle cx="260" cy="215" r="118" class="detail-ring"></circle>
+        <path d="M125 215 H395 M260 81 V349" class="centre"></path>
+        <circle cx="260" cy="215" r="96" class="photo-ring"></circle>
+        <image
+          href={asset(site.assets.profilePhoto)}
+          x="168"
+          y="123"
+          width="184"
+          height="184"
+          clip-path="url(#detail-clip)"
+          preserveAspectRatio="xMidYMid slice"
+        />
+        <text x="260" y="452" class="detail-tag">
+          DETAIL A · scale 2:1
+        </text>
+        {notes.map((n) => (
+          <g class="note" style={`--d:${n.n * 120}ms`}>
+            <path
+              d={`M${n.px} ${n.py} L${n.anchor === 'start' ? n.x + 214 : n.x - 214} ${n.y + 6} H${n.x}`}
+              class="leader"
+            />
+            <circle cx={n.px} cy={n.py} r="3" class="dot" />
+            <text x={n.x} y={n.y} text-anchor={n.anchor} class="n-text">
+              {n.text}
+            </text>
+            <text x={n.x} y={n.y + 22} text-anchor={n.anchor} class="n-sub">
+              {n.sub}
+            </text>
+          </g>
         ))}
-      </div>
-      <div class="photo">
-        <img src={asset(site.assets.profilePhoto)} alt="" width="320" height="320" loading="lazy" />
-      </div>
-    </div>
+      </svg>
+    </figure>
   </div>
 </section>
 
@@ -59,77 +126,71 @@ const satellites = ['.NET', 'SQL', 'Docker', 'Azure', 'TS', 'Linux'];
   }
 
   .portrait {
-    position: relative;
-    width: min(100%, 340px);
-    aspect-ratio: 1;
+    margin: 0;
+    width: min(100%, 520px);
     justify-self: center;
-    display: grid;
-    place-items: center;
   }
-  .ring {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid var(--outline-strong);
-  }
-  .r1 {
-    inset: 0;
-    border-style: dashed;
-    animation: spin 60s linear infinite;
-  }
-  .r2 {
-    inset: 12%;
-    border-color: color-mix(in oklab, var(--primary) 35%, transparent);
-  }
-  .photo {
-    position: relative;
-    width: 62%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    padding: 4px;
-    background: var(--grad);
-    box-shadow: var(--shadow-3);
-  }
-  .photo img {
+  .portrait svg {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 4px solid var(--bg);
-    filter: grayscale(0.25) contrast(1.05);
-    transition: filter 0.5s ease;
+    height: auto;
+    overflow: visible;
   }
-  .portrait:hover .photo img {
+  .detail-ring {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.2;
+    stroke-dasharray: 22 5 3 5;
+  }
+  .centre {
+    stroke: var(--ink-faint);
+    stroke-dasharray: 16 4 2 4;
+  }
+  .photo-ring {
+    fill: none;
+    stroke: url(#brass-fill);
+    stroke-width: 6;
+  }
+  image {
+    filter: grayscale(0.35) sepia(0.15) contrast(1.05);
+    transition: filter 0.6s ease;
+  }
+  .portrait:hover image {
     filter: none;
   }
-
-  .sat-track {
-    position: absolute;
-    inset: 0;
-    animation: spin 40s linear infinite;
-  }
-  .sat {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: rotate(var(--a)) translateX(min(170px, 50vw - 2rem)) rotate(calc(-1 * var(--a)));
-  }
-  .sat span {
-    display: block;
-    translate: -50% -50%;
+  .detail-tag {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 0.35rem 0.6rem;
-    border-radius: 999px;
-    background: var(--surface);
-    border: 1px solid var(--outline);
-    box-shadow: var(--shadow-2);
-    color: var(--text);
-    animation: spin 40s linear infinite reverse;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-anchor: middle;
+    fill: var(--ink-accent);
   }
-  @keyframes spin {
-    to {
-      rotate: 360deg;
-    }
+  .leader {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1;
+  }
+  .dot {
+    fill: var(--ink-accent);
+  }
+  .n-text {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    fill: var(--text);
+  }
+  .n-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    fill: var(--text-muted);
+  }
+  .note {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    transition-delay: calc(0.5s + var(--d));
+  }
+  :global(.is-visible) .note {
+    opacity: 1;
   }
 </style>

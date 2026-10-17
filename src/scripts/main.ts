@@ -1,3 +1,5 @@
+import './machine';
+
 const root = document.documentElement;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer = matchMedia('(pointer: fine)').matches;
@@ -46,6 +48,8 @@ const sectionObserver = new IntersectionObserver(
   { rootMargin: '-45% 0px -50% 0px' },
 );
 document.querySelectorAll('main section[id]').forEach((s) => sectionObserver.observe(s));
+
+document.addEventListener('mouseleave', () => root.classList.remove('has-xhair'));
 
 /* ---------- Pipeline rail length (for the travelling pulse) ---------- */
 const rail = document.querySelector<HTMLElement>('.pipeline');
@@ -163,8 +167,11 @@ if (finePointer && !reduceMotion && innerWidth >= 1024) {
         if (!bg) return;
         bg.style.setProperty('--sx', `${e.clientX}px`);
         bg.style.setProperty('--sy', `${e.clientY}px`);
-        bg.style.setProperty('--px', `${(e.clientX / innerWidth - 0.5) * -30}px`);
-        bg.style.setProperty('--py', `${(e.clientY / innerHeight - 0.5) * -30}px`);
+        bg.style.setProperty(
+          '--coords',
+          `"X ${(e.clientX + scrollX).toFixed(2)}   Y ${(e.clientY + scrollY).toFixed(2)}"`,
+        );
+        root.classList.add('has-xhair');
       });
     },
     { passive: true },
