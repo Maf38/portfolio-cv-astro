@@ -1,8 +1,9 @@
 name: Deploy to GitHub Pages
 
-# Publishes two design variants side by side:
-#   main               → /portfolio-cv-astro/
-#   design/machinerie  → /portfolio-cv-astro/machinerie/
+# Publishes:
+#   main               → GitHub Pages /portfolio-cv-astro/ and Cloudflare Pages project
+#                        "mafalgai" (custom domain mafalgai.com, served at root)
+#   design/machinerie  → GitHub Pages /portfolio-cv-astro/machinerie/
 on:
   push:
     branches: [main, 'design/**']
@@ -63,3 +64,31 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  cloudflare:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci && npx playwright install --with-deps chromium
+      - name: Build for mafalgai.com (root)
+        env:
+          BASE_PATH: /
+          SITE_URL: https://mafalgai.com
+        run: npm run build
+      - name: Ensure Pages project exists
+        run: npx wrangler@4 pages project create mafalgai --production-branch=main || true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Deploy to Cloudflare Pages
+        run: npx wrangler@4 pages deploy dist --project-name=mafalgai --branch=main --commit-dirty=true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
